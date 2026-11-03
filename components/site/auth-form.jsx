@@ -17,7 +17,12 @@ export default function AuthForm({ register = false }) {
       const result = register ? await db.auth.signUp({ ...values, options: { data: { full_name: fields.full_name }, emailRedirectTo: `${location.origin}/auth/callback` } }) : await db.auth.signInWithPassword(values);
       if (result.error) throw result.error;
       if (register && !result.data.session) setSuccess('Tasdiqlash xati yuborildi. Emaildagi havolani oching, keyin hisobingizga kiring.');
-      else { router.push('/account'); router.refresh(); }
+      else {
+        const response = await fetch('/api/auth/destination', { cache: 'no-store' });
+        const destination = await response.json();
+        if (!response.ok) throw new Error(destination.error || 'Hisob vakolatini tekshirib bo‘lmadi.');
+        router.replace(destination.next); router.refresh();
+      }
     } catch (e) { setError(e instanceof z.ZodError ? e.errors[0].message : e.message === 'Invalid login credentials' ? 'Email yoki parol noto‘g‘ri.' : e.message); }
     finally { setBusy(false); }
   }

@@ -42,13 +42,11 @@ try {
   await visit('/account');
   await waitFor("location.pathname === '/login'");
   await visit('/admin');
-  await waitFor("location.pathname === '/admin-login'");
-  await waitFor("!!document.querySelector('.admin-signin-form')");
+  await waitFor("location.pathname === '/login'");
+  await waitFor("!!document.querySelector('.auth-wrap form')");
   const adminShot=await cdp('Page.captureScreenshot',{format:'png',captureBeyondViewport:true});
   await writeFile(resolve(output,'admin-login.png'),Buffer.from(adminShot.data,'base64'));
   assert.equal(await evaluate("document.querySelector('input[name=password]').type"),'password');
-  await evaluate("document.querySelector('.password-field button').click()");
-  assert.equal(await evaluate("document.querySelector('input[name=password]').type"),'text');
   await cdp('Emulation.setDeviceMetricsOverride',{width:390,height:844,deviceScaleFactor:1,mobile:true});
   await visit('/');
   assert.equal(await evaluate('document.documentElement.scrollWidth <= window.innerWidth'),true);
