@@ -1,0 +1,5 @@
+import Link from 'next/link';
+import { Ticket, ArrowUpRight } from 'lucide-react';
+export default function Footer() {
+  return <footer className="footer"><div className="container footer-main"><div><Link className="logo" href="/"><Ticket size={27} /> UZ<span>TICKET</span><i /></Link><p>Unutilmas lahzalar.<br />Birgalikda yashaladigan xotiralar.</p></div><div><h4>Kashf eting</h4><Link href="/events?category=concert">Konsertlar</Link><Link href="/events?category=theatre">Teatr va tomoshalar</Link><Link href="/events?category=sport">Sport tadbirlari</Link></div><div><h4>Sizga yordam</h4><Link href="/help">Qanday ishlaydi?</Link><Link href="/account">Mening chiptalarim</Link><Link href="/help#cash">Naqd to‘lov haqida</Link></div><div className="footer-note"><span className="eyebrow">HAYOTNI HIS QILING</span><h3>Keyingi xotirangiz<br />shu yerdan boshlanadi <ArrowUpRight size={22} /></h3></div></div><div className="container footer-bottom"><span>© {new Date().getFullYear()} UZTICKET</span><span>O‘zbekistonda, mehr bilan yaratilgan.</span><Link href="/help#privacy">Maxfiylik va shartlar</Link></div></footer>;
+}
