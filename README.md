@@ -80,7 +80,7 @@ where id = 'ADMIN_AUTH_USER_UUID';
 
 `only_one_admin` unique indeksi ikkinchi admin tayinlashga yo‘l qo‘ymaydi. Oddiy mijoz `role` ustuniga yozish vakolatiga ega emas, signup metadata ham admin yaratmaydi. Adminni almashtirish kerak bo‘lsa, ishonchli SQL Editor’da eski rolni `customer`ga tushirib, yangisini bitta tranzaksiyada belgilang.
 
-Admin ham `/login` orqali kiradi, keyin `/admin`ga o‘tadi. Server layout, har bir admin data/API kirish nuqtasi va PostgreSQL funksiyasi vakolatni qayta tekshiradi. `service_role` yordamida brauzerda admin yaratmang.
+Administrator uchun alohida `/admin-login` sahifasi mavjud. Kirgandan keyin `/admin` paneli ochiladi. Oddiy hisobga admin vakolati avtomatik berilmaydi. Server layout, har bir admin data/API kirish nuqtasi va PostgreSQL funksiyasi vakolatni qayta tekshiradi. `service_role` yordamida brauzerda admin yaratmang.
 
 ## 6. Ishlaydigan jarayonlar
 
@@ -90,6 +90,7 @@ Admin ham `/login` orqali kiradi, keyin `/admin`ga o‘tadi. Server layout, har 
 - `/login`, `/register`, `/reset-password` — haqiqiy Supabase Auth.
 - `/account` — profil, bandlar, 10 daqiqalik hisoblagich, to‘lanmagan bandni bekor qilish, QR va PNG yuklab olish. Har 30 soniyada yangilanadi.
 - `/admin` — oltita bazadan hisoblangan ko‘rsatkich.
+- `/admin-login` — email/parol orqali admin kirishi, parolni ko‘rsatish/yashirish, role tekshiruvi. `/admin` yon menyu, oxirgi buyurtmalar, yaqin tadbirlar va tezkor amallarni ham ko‘rsatadi.
 - `/admin/events` — yaratish/tahrirlash/o‘chirish, status, poster yuklash, har bir joy narxi va VIP turkumi.
 - `/admin/venues` — manzillar, qatorlar soni, qator nomi, har qatordagi joylar soni, narx va turkum shabloni.
 - `/admin/bookings` — mijoz ma’lumotlari, joylar, buyurtma raqami, naqd to‘lovni tasdiqlash, to‘lanmagan bandni bekor qilish.

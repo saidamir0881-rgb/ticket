@@ -1,4 +1,5 @@
 import './globals.css';
+import './admin.css';
 import { Toaster } from 'sonner';
 import Header from '@/components/site/header';
 import Footer from '@/components/site/footer';
@@ -10,5 +11,5 @@ export const metadata = {
   icons: { icon: '/favicon.svg' },
 };
 export default function Layout({ children }) {
-  return <html lang="uz"><body><Header />{children}<Footer /><Toaster richColors position="top-center" /></body></html>;
+  return <html lang="uz" data-scroll-behavior="smooth"><body><Header />{children}<Footer /><Toaster richColors position="top-center" /></body></html>;
 }

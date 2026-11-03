@@ -1,0 +1,1 @@
+export default function AdminLoading() {return <div aria-busy="true" aria-label="Admin ma’lumotlari yuklanmoqda"><div className="skeleton skeleton-title"/><div className="stats-grid">{[1,2,3,4,5,6].map(n=><div key={n} className="skeleton" style={{height:120}}/>)}</div><div className="skeleton" style={{height:260}}/></div>;}
