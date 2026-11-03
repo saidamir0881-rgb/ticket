@@ -15,3 +15,9 @@ test('late polls cannot revert paid or cancelled bookings',()=>{
   const updated=mergeBookingUpdate({id:'a',status:'pending',event:{title:'Demo'}},{status:'paid',tickets:[{id:'qr'}]});
   assert.equal(updated.status,'paid');assert.equal(updated.event.title,'Demo');assert.equal(updated.tickets.length,1);
 });
+test('a stale poll cannot erase a submitted receipt or its extended deadline',()=>{
+  const current={status:'pending',updated_at:'2026-11-03T12:00:00Z',payments:{status:'review'},expires_at:'2026-11-04T12:00:00Z'};
+  assert.deepEqual(mergeBookingUpdate(current,{status:'pending',updated_at:'2026-11-03T11:59:59Z',payments:{status:'pending'}}),current);
+  assert.deepEqual(mergeBookingUpdate(current,{status:'pending',payments:{status:'pending'}}),current);
+  assert.equal(mergeBookingUpdate(current,{status:'paid',updated_at:'2026-11-03T12:01:00Z',payments:{status:'paid'}}).status,'paid');
+});

@@ -10,6 +10,7 @@ const links = [
   ['/admin/venues','Manzillar va qatorlar',MapPin],
   ['/admin/bookings','Buyurtmalar',ShoppingBag],
   ['/admin/tickets','Chiptalar va QR',ScanLine],
+  ['/admin/points','Punktlar va karta',MapPin],
 ];
 export default function AdminShell({ children, name, email }) {
   const path = usePathname(), router = useRouter();

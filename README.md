@@ -88,7 +88,7 @@ Admin va mijozlar asosiy saytdagi /login formasidan kiradi. Server profildagi ro
 - `/events` — katalog, sana/narx bo‘yicha saralash, bo‘sh natija holati.
 - `/events/[id]` — tadbir, sport maydoni/sahna, narxlar, rangli joy xaritasi. Mavjudlik har 15 soniyada yangilanadi.
 - `/login`, `/register`, `/reset-password` — haqiqiy Supabase Auth.
-- `/account` — profil, bandlar, 10 daqiqalik hisoblagich, to‘lanmagan bandni bekor qilish, QR va PNG yuklab olish. Har 30 soniyada yangilanadi.
+- `/account` - profil, buyurtmalar, karta cheki, punkt xaritasi, 1 soat / 24 soat hisoblagichi va avtomatik QR.
 - `/admin` — oltita bazadan hisoblangan ko‘rsatkich.
 - `/admin-login` - eski havolalar uchun umumiy `/login` sahifasiga redirect.
 - `/admin/events` — yaratish/tahrirlash/o‘chirish, status, poster yuklash, har bir joy narxi va VIP turkumi.
@@ -99,30 +99,24 @@ Admin va mijozlar asosiy saytdagi /login formasidan kiradi. Server profildagi ro
 
 Manzil shabloni mavjud tadbirlarning joylarini o‘zgartirmaydi. Yangi tadbir yaratilganda shablon tranzaksiyada ko‘chiriladi; mavjud tadbir uchun narx/turkumni “Joylar”dan sozlang. Buyurtmali tadbirlar va joylar FK orqali o‘chirishdan himoyalangan.
 
-## Demo karta to‘lovi va avtomatik QR
+## 7. Karta otkazmasi, naqd punktlar va QR
 
-`supabase/migrations/202611030003_demo_card_payments.sql` ni mavjud bazaga bir marta qo‘llang. Bu migratsiya eski ma’lumotlarni o‘chirmaydi. Faqat `events.is_demo = true` bo‘lgan tadbirlar uchun test karta bilan to‘lov mavjud. Oddiy tadbirlar uchun kassadagi naqd to‘lov saqlanadi.
+Mavjud bazaga tartib bilan quyidagilarni bir marta qollang:
 
-Mijoz kabinetidagi to‘lanmagan demo buyurtmada “Demo karta bilan to‘lash” tugmasini bosadi. Sinov kartalari:
+1. supabase/migrations/202611030004_checkout_points.sql
+2. supabase/migrations/202611030005_card_receipt_review.sql
 
-- `4242 4242 4242 4242` — muvaffaqiyatli test.
-- `4000 0000 0000 0002` — rad etiladigan test.
+Bitta birlashtirilgan nusxa: UZTICKET-payments-update.sql. Eski migratsiyalarni boshidan qayta bajarmang.
 
-Haqiqiy pul yechilmaydi. Hech qanday bank/protsessing tizimiga ulanish yo‘q. Boshqa karta raqamlari qabul qilinmaydi; CVV va amal qilish muddati so‘ralmaydi. Serverga faqat test ssenariysi identifikatori yuboriladi, karta raqami saqlanmaydi.
+Admin /admin/points sahifasida qabul qiluvchi karta raqami, egasi va bankni kiritib karta usulini yoqadi. Bu rekvizitlar mijozga pul otkazish uchun korsatiladi. Karta orqali avtomatik pul yechilmaydi, bankka ulanish yoki haqiqiy karta tokenizatsiyasi mavjud emas. Mijoz toliq karta raqami va CVV saqlanmaydi; ixtiyoriy oxirgi 4 raqami olinadi.
 
-`pay_demo_card` egani, tadbirning demo ekanini, faol bandni va joylarni tranzaksiyada tekshiradi. To‘lov `method=demo_card` sifatida qayd qilinadi va o‘sha tranzaksiyada QR tokenli chiptalar chiqariladi. Takroriy so‘rov ortiqcha chipta chiqarmaydi. Soxta to‘lovlar admin paneldagi haqiqiy tushumga kirmaydi; demo chiptalari aniq belgilanadi.
+Karta usuli: joylar dastlab 10 daqiqa saqlanadi. Mijoz bank ilovasidan rekvizitga pul otkazib, JPG/PNG/PDF chekni (5 MB gacha) yuklaydi. Yuklashdan keyin band 24 soatga uzayadi va tolov review holatiga otadi. Shu paytda chipta berilmaydi. Admin bankdagi tushumni tekshirgach /admin/bookings ichida chekni tasdiqlaydi yoki sabab bilan rad etadi. Tasdiqda QR chiptalar bitta baza tranzaksiyasida yaratiladi. Rad etishda joylar boshatiladi. Eski soxta karta endpointi yopilgan.
 
-Demo to‘lov javobi chiptalarni darhol mijoz oynasiga qo‘shadi. Naqd to‘lovni kassir tasdiqlaganda kabinet avtomatik ravishda har 3 soniyada holatni tekshiradi. Qo‘lda refresh kerak emas. Oyna yashirilganda tekshiruv to‘xtatiladi va qayta ochilganda davom etadi. Kechikkan eski javob tasdiqlangan buyurtmani yana pending holatga qaytarmaydi.
+Naqd usuli: mijoz punktni tanlaydi va joylar 1 soatga band qilinadi. Pulni punktda qabul qilgach admin tasdiqlaydi. Keyin QR avtomatik chiqadi. 30 ta boshlangich nuqta faqat namuna: koordinatalar taxminiy, haqiqiy manzillar emas va haqiqiy mijozlar uchun yopiq. Faqat demo tadbirlarda namuna tanlovni sinash mumkin. Admin real manzil, koordinata, ish vaqti va telefonni tekshirib, namuna belgisini olib, punktni faollashtiradi. Haqiqiy kassalarni tekshirmasdan faollashtirmang.
 
-## 7. Naqd to‘lov va ma’lumotlar yaxlitligi
+Cheklar private payment-receipts bucketida; faqat egasi va admin oqiy oladi. Admin uchun chek havolasi 2 daqiqaga imzolanadi. Qayta yuklash/ochirish mijozga berilmagan. Chek yuborilgan buyurtmani mijoz bekor qila olmaydi: admin qarori kerak. Muddati tugagan otkazmada pul avtomatik qaytmaydi, uni kassaviy tartibda tekshirish kerak.
 
-Faqat naqd. Mijoz band raqami bilan 10 daqiqada jismoniy kassaga keladi. Admin naqd pulni olgandan so‘ng tasdiqlaydi. O‘sha tranzaksiyada payment `paid`ga o‘tadi va har joy uchun 256 bitli tasodifiy QR tokenli chipta yaratiladi. Takroriy tasdiq qo‘shimcha chipta chiqarmaydi.
-
-Tadbir bo‘yicha advisory lock, joylarga row lock va `one_active_claim_per_seat` partial unique indeksi qo‘llanadi. Joylar boshqa tadbirga tegishli bo‘lsa band rad etiladi; narx bazadan olinib buyurtmada saqlanadi. Frontend holatiga ishonilmaydi. Bir buyurtmada 1–8 joy, mijozda ko‘pi bilan 3 ta faol to‘lanmagan band bo‘lishi mumkin.
-
-To‘langan buyurtmalarni UI orqali bekor qilish/pul qaytarish yo‘q: naqd pulni qaytarish va ishlatilgan chiptani hisobga olish kassaviy siyosat talab qiladi. To‘lanmagan bandlar bekor qilinadi. Tadbirning `cancelled` holati yangi band, to‘lov va chipta kirishini to‘xtatadi.
-
-Chiptalar/tokenlar ommaviy event API va joy xaritasiga kiritilmaydi. Har foydalanuvchi faqat o‘z buyurtmalari va chiptalarini o‘qiydi. `ticket-assets` private bucket; hozir QR rasmlari mijoz qurilmasida yaratiladi, bucketga ortiqcha nusxa yuklanmaydi. `event-posters` public-read, faqat admin upload; JPG/PNG/WebP 5 MB gacha.
+Kabinet faol bandlarni har 3 soniyada kuzatadi. Admin tasdigidan keyin bilet va QR sahifani qolda yangilamasdan chiqadi. Kechikkan eski javob tolov yoki chek holatini orqaga qaytarmaydi. Yangi migratsiyalargacha eski kabinet ma'lumotlari moslik rejimida ochiladi.
 
 ## 8. Tekshirish
 

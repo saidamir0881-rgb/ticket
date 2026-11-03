@@ -9,9 +9,19 @@ export async function POST(request) {
   try {
     checkOrigin(request);
     const { db } = await authenticatedClient(true);
-    const body = z.object({ action:z.enum(['save_event','save_venue','delete_event','delete_venue','confirm','cancel','verify','save_seat']), id:z.string().uuid().optional(), data:z.unknown().optional() }).parse(await request.json());
+    const body = z.object({ action:z.enum(['save_event','save_venue','delete_event','delete_venue','confirm','cancel','verify','save_seat','save_point','save_payment_settings','review_receipt']), id:z.string().uuid().optional(), data:z.unknown().optional() }).parse(await request.json());
     let result;
-    if (body.action === 'save_event') {
+    if(body.action==='save_point') {
+      const values=z.object({name:z.string().trim().min(1).max(150),district:z.string().trim().min(1).max(100),address:z.string().trim().min(1).max(500),hours:z.string().max(150),phone:z.string().max(50),latitude:z.number().min(-90).max(90),longitude:z.number().min(-180).max(180),is_active:z.boolean(),is_demo:z.boolean()}).refine(v=>!v.is_active||!v.is_demo,'Faol punkt uchun haqiqiy manzilni tasdiqlang.').parse(body.data);
+      result=body.id?await db.from('cash_points').update(values).eq('id',body.id).select('id').single():await db.from('cash_points').insert(values).select('id').single();
+    } else if(body.action==='save_payment_settings') {
+      const values=z.object({recipient_name:z.string().trim().max(100),recipient_card:z.union([z.literal(''),z.string().regex(/^[0-9]{16}$/)]),bank_name:z.string().max(100),instructions:z.string().max(2000),enabled:z.boolean()}).refine(v=>!v.enabled||(v.recipient_card&&v.recipient_name),'Kartani yoqish uchun raqam va egasini kiriting.').parse(body.data);
+      result=await db.from('payment_settings').update(values).eq('id',1).select('id').single();
+    } else if(body.action==='review_receipt') {
+      if(!body.id)throw new Error('Buyurtma ID kerak.');
+      const values=z.object({approve:z.boolean(),note:z.string().max(1000)}).refine(v=>v.approve||v.note.trim().length>0,'Rad etish sababini yozing.').parse(body.data);
+      result=await db.rpc('review_card_payment',{p_booking_id:body.id,p_approve:values.approve,p_note:values.note});
+    } else if (body.action === 'save_event') {
       const values=eventSchema.parse(body.data);
       if (body.id) {
         // Venue changes after map creation would make the seating map misleading.

@@ -1,6 +1,7 @@
 import './globals.css';
 import './admin.css';
 import './payments.css';
+import 'leaflet/dist/leaflet.css';
 import { Toaster } from 'sonner';
 import Header from '@/components/site/header';
 import Footer from '@/components/site/footer';
