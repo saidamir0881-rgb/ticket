@@ -99,7 +99,22 @@ Admin va mijozlar asosiy saytdagi /login formasidan kiradi. Server profildagi ro
 
 Manzil shabloni mavjud tadbirlarning joylarini o‘zgartirmaydi. Yangi tadbir yaratilganda shablon tranzaksiyada ko‘chiriladi; mavjud tadbir uchun narx/turkumni “Joylar”dan sozlang. Buyurtmali tadbirlar va joylar FK orqali o‘chirishdan himoyalangan.
 
-## 7. To‘lov va ma’lumotlar yaxlitligi
+## Demo karta to‘lovi va avtomatik QR
+
+`supabase/migrations/202611030003_demo_card_payments.sql` ni mavjud bazaga bir marta qo‘llang. Bu migratsiya eski ma’lumotlarni o‘chirmaydi. Faqat `events.is_demo = true` bo‘lgan tadbirlar uchun test karta bilan to‘lov mavjud. Oddiy tadbirlar uchun kassadagi naqd to‘lov saqlanadi.
+
+Mijoz kabinetidagi to‘lanmagan demo buyurtmada “Demo karta bilan to‘lash” tugmasini bosadi. Sinov kartalari:
+
+- `4242 4242 4242 4242` — muvaffaqiyatli test.
+- `4000 0000 0000 0002` — rad etiladigan test.
+
+Haqiqiy pul yechilmaydi. Hech qanday bank/protsessing tizimiga ulanish yo‘q. Boshqa karta raqamlari qabul qilinmaydi; CVV va amal qilish muddati so‘ralmaydi. Serverga faqat test ssenariysi identifikatori yuboriladi, karta raqami saqlanmaydi.
+
+`pay_demo_card` egani, tadbirning demo ekanini, faol bandni va joylarni tranzaksiyada tekshiradi. To‘lov `method=demo_card` sifatida qayd qilinadi va o‘sha tranzaksiyada QR tokenli chiptalar chiqariladi. Takroriy so‘rov ortiqcha chipta chiqarmaydi. Soxta to‘lovlar admin paneldagi haqiqiy tushumga kirmaydi; demo chiptalari aniq belgilanadi.
+
+Demo to‘lov javobi chiptalarni darhol mijoz oynasiga qo‘shadi. Naqd to‘lovni kassir tasdiqlaganda kabinet avtomatik ravishda har 3 soniyada holatni tekshiradi. Qo‘lda refresh kerak emas. Oyna yashirilganda tekshiruv to‘xtatiladi va qayta ochilganda davom etadi. Kechikkan eski javob tasdiqlangan buyurtmani yana pending holatga qaytarmaydi.
+
+## 7. Naqd to‘lov va ma’lumotlar yaxlitligi
 
 Faqat naqd. Mijoz band raqami bilan 10 daqiqada jismoniy kassaga keladi. Admin naqd pulni olgandan so‘ng tasdiqlaydi. O‘sha tranzaksiyada payment `paid`ga o‘tadi va har joy uchun 256 bitli tasodifiy QR tokenli chipta yaratiladi. Takroriy tasdiq qo‘shimcha chipta chiqarmaydi.
 

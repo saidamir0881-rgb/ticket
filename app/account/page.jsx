@@ -9,7 +9,7 @@ export default async function AccountPage() {
   if (!user) redirect('/login');
   const [{ data: profile, error: profileError }, { data: bookings, error }] = await Promise.all([
     db.from('profiles').select('*').eq('id', user.id).single(),
-    db.from('bookings').select('*, event:events(title,starts_at,venue:venues(name,address)), items:booking_seats(*,seat:seats(row_label,seat_number)), tickets(*)').eq('user_id', user.id).order('created_at', { ascending: false }),
+    db.from('bookings').select('*, event:events(title,starts_at,is_demo,venue:venues(name,address)), items:booking_seats(*,seat:seats(row_label,seat_number)), tickets(*),payments(method)').eq('user_id', user.id).order('created_at', { ascending: false }),
   ]);
   return <main className="container page-space"><div className="account-heading"><div><span className="eyebrow">REJALARINGIZ SHU YERDA</span><h1>Salom, {profile?.full_name?.split(' ')[0] || 'do‘st'}<span className="purple">.</span></h1><p className="lead">Siz kutgan lahzalarga bir qadam yaqinroq.</p></div></div>{(error || profileError) && <p role="alert" className="error-message">Ma’lumotlarni yuklab bo‘lmadi. Supabase migratsiyalari o‘rnatilganini tekshiring. {error?.message || profileError?.message}</p>}<Account profile={profile || { id: user.id, full_name: '', phone: '' }} email={user.email} bookings={bookings || []} /></main>;
 }
