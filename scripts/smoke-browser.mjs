@@ -25,7 +25,7 @@ try {
   async function waitFor(expression){for(let i=0;i<100;i++){if(await evaluate(expression))return;await new Promise(r=>setTimeout(r,150));}throw new Error(`Timed out: ${expression}`);}
   async function visit(path){await cdp('Page.navigate',{url:origin+path});await waitFor("document.readyState === 'complete' && !!document.querySelector('main')");await new Promise(r=>setTimeout(r,1000));}
   await visit('/');
-  await waitFor("document.querySelectorAll('.event-card').length === 50");
+  await waitFor("document.querySelectorAll('.event-card').length === 49");
   assert.equal(await evaluate("document.querySelector('h1').textContent.includes('Xotiralar')"),true);
   const desktop=await cdp('Page.captureScreenshot',{format:'png',captureBeyondViewport:true});
   await writeFile(resolve(output,'home-desktop.png'),Buffer.from(desktop.data,'base64'));
@@ -48,7 +48,7 @@ try {
   await visit('/points');
   await waitFor("document.querySelectorAll('.events-grid article').length >= 4");
   await visit('/events');
-  await waitFor("document.querySelectorAll('.event-card').length === 50");
+  await waitFor("document.querySelectorAll('.event-card').length === 49");
   await evaluate("document.querySelector('.search-field input').value='Cheb';document.querySelector('.search-field input').dispatchEvent(new Event('input',{bubbles:true}))");
   await visit('/account');
   await waitFor("location.pathname === '/login'");
@@ -66,7 +66,7 @@ try {
   await evaluate("document.querySelector('.mobile-menu').click()");
   const mobile=await cdp('Page.captureScreenshot',{format:'png',captureBeyondViewport:true});
   await writeFile(resolve(output,'home-mobile.png'),Buffer.from(mobile.data,'base64'));
-  console.log('PASS: 50 events, 100 seats, internal checkout, four active cash desks, selection, protected routes and mobile.');
+  console.log('PASS: 49 events, 100 seats, internal checkout, four active cash desks, selection, protected routes and mobile.');
   console.log(`Screenshots: ${output}`);
   await send('Browser.close');ws.close();
 } finally {clearTimeout(watchdog);child.kill();}

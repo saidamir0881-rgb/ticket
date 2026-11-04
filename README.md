@@ -170,3 +170,5 @@ Operator teatrlar yonida va Mustaqillik maydonida kassalar borligini tasdiqlagac
 
 ### Joy tanlash yordamchilari
 Tadbir boshlanish vaqti o?tgan bo?lsa, interfeys bronni yopadi va keyingi seanslar alohida e?lon qilinishi kerakligini bildiradi. Ko?p kunlik tadbirda sanalar oralig?i ko?rsatiladi; yakuniy sana avtomatik ravishda yangi seans deb olinmaydi. Narx chegarasi va 1?8 ta yonma-yon joyni eng arzon mos qator ichidan topish, tanlangan joyni olib tashlash va tanlovni tozalash qo?shildi. Serverdagi bron/to?lov qoidalari saqlanadi.
+### Tadbirni topish va saqlash
+Katalogda sana oralig‘i, boshlang‘ich narx chegarasi, manzil va narxni ikki yo‘nalishda saralash mavjud. Yurak tugmasi bilan tanlangan tadbirlar shu brauzerning localStorage xotirasida saqlanadi; qurilmalar orasida sinxronlanmaydi. “Sevimlilar” filtri saqlangan faol tadbirlarni chiqaradi. Tadbir sahifasida ulashish (yoki havolani nusxalash), ICS kalendar fayli va Google Maps orqali manzilni topish mavjud. Kalendar eslatmasi chipta o‘rnini bosmaydi.
