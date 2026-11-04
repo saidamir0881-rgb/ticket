@@ -167,3 +167,6 @@ Samarqand Family Park kassasi faol ro?yxatdan chiqarildi (eski buyurtmalar saqla
 
 ### Teatrlar yonidagi punktlar
 Operator teatrlar yonida va Mustaqillik maydonida kassalar borligini tasdiqlagach, 10 ta teatr va Mustaqillik maydoni qo?shildi. Oldingi 4 ta Toshkent kassasi bilan jami 15 ta punkt ?UZTICKET punkt 1???UZTICKET punkt 15? deb nomlandi. Koordinatalar teatr/maydon mo?ljali; yangi kassalarning aniq kirishi, telefoni va ish vaqti berilmagan, shuning uchun jadval va telefon uydirilmagan. Manbalar `lib/data/cash-point-sources.json`da. Bu ro?yxat shahardagi barcha teatrlar inventarizatsiyasi degani emas.
+
+### Joy tanlash yordamchilari
+Tadbir boshlanish vaqti o?tgan bo?lsa, interfeys bronni yopadi va keyingi seanslar alohida e?lon qilinishi kerakligini bildiradi. Ko?p kunlik tadbirda sanalar oralig?i ko?rsatiladi; yakuniy sana avtomatik ravishda yangi seans deb olinmaydi. Narx chegarasi va 1?8 ta yonma-yon joyni eng arzon mos qator ichidan topish, tanlangan joyni olib tashlash va tanlovni tozalash qo?shildi. Serverdagi bron/to?lov qoidalari saqlanadi.
