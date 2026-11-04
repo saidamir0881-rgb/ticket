@@ -25,20 +25,17 @@ try {
   async function waitFor(expression){for(let i=0;i<100;i++){if(await evaluate(expression))return;await new Promise(r=>setTimeout(r,150));}throw new Error(`Timed out: ${expression}`);}
   async function visit(path){await cdp('Page.navigate',{url:origin+path});await waitFor("document.readyState === 'complete' && !!document.querySelector('main')");await new Promise(r=>setTimeout(r,1000));}
   await visit('/');
-  await waitFor("document.querySelectorAll('.event-card').length === 5");
+  await waitFor("document.querySelectorAll('.event-card').length === 50");
   assert.equal(await evaluate("document.querySelector('h1').textContent.includes('Xotiralar')"),true);
   const desktop=await cdp('Page.captureScreenshot',{format:'png',captureBeyondViewport:true});
   await writeFile(resolve(output,'home-desktop.png'),Buffer.from(desktop.data,'base64'));
-  await evaluate("Array.from(document.querySelectorAll('.category-tabs button')).find(b=>b.textContent==='Teatr').click()");
-  await waitFor("document.querySelectorAll('.event-card').length === 1");
-  await evaluate("Array.from(document.querySelectorAll('.category-tabs button')).find(b=>b.textContent==='Barchasi').click()");
-  await waitFor("document.querySelectorAll('.event-card').length === 5");
-  await visit('/events/demo-1');
-  await waitFor("[80,240].includes(document.querySelectorAll('button.seat').length)");
-  await evaluate("document.querySelector('button.seat.available').click()");
-  await waitFor("document.querySelectorAll('button.seat.selected').length === 1");
-  assert.equal(await evaluate("document.querySelector('.summary-total strong').textContent.includes('500')"),true);
-  assert.equal(await evaluate("document.querySelector('.booking-summary button').disabled === document.querySelector('.booking-summary button').textContent.includes('yopiq')"),true);
+  await visit('/events/30000000-0000-4000-8000-000000006263');
+  assert.equal(await evaluate("document.querySelectorAll('button.seat').length"),0);
+  assert.equal(await evaluate("document.querySelector('.panel a.button').href.startsWith('https://iticket.uz/ru/events/')"),true);
+  assert.equal(await evaluate("document.body.textContent.includes('150 000')"),true);
+  await visit('/events');
+  await waitFor("document.querySelectorAll('.event-card').length === 50");
+  await evaluate("document.querySelector('.search-field input').value='Cheb';document.querySelector('.search-field input').dispatchEvent(new Event('input',{bubbles:true}))");
   await visit('/account');
   await waitFor("location.pathname === '/login'");
   await visit('/admin');
@@ -55,7 +52,7 @@ try {
   await evaluate("document.querySelector('.mobile-menu').click()");
   const mobile=await cdp('Page.captureScreenshot',{format:'png',captureBeyondViewport:true});
   await writeFile(resolve(output,'home-mobile.png'),Buffer.from(mobile.data,'base64'));
-  console.log('PASS: homepage, category filter, seat selection and total, protected redirects, mobile overflow and menu.');
+  console.log('PASS: 50 real listings, official purchase link, correct source price, no local seats, protected redirects, mobile overflow and menu.');
   console.log(`Screenshots: ${output}`);
   await send('Browser.close');ws.close();
 } finally {clearTimeout(watchdog);child.kill();}

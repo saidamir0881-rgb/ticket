@@ -38,6 +38,9 @@ export async function POST(request) {
       if(!body.id) throw new Error('Joy ID kerak.');
       result=await db.from('seats').update(values).eq('id',body.id).select('id').single();
     } else if(body.action==='verify') {
+      if(typeof body.data?.token==='string'&&body.data.token.startsWith('https://')) {
+        try { const parsed=new URL(body.data.token);body.data.token=parsed.pathname.match(/^\/tickets\/([a-f0-9]{64})\/?$/i)?.[1]||''; } catch { body.data.token=''; }
+      }
       const values=z.object({ token:z.string().regex(/^[a-f0-9]{64}$/,'QR token 64 belgili bo‘lishi kerak.'),mark_used:z.boolean() }).parse(body.data);
       result=await db.rpc('verify_ticket',{p_token:values.token,p_mark_used:values.mark_used});
     } else {

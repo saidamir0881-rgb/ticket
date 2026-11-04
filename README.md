@@ -130,4 +130,12 @@ DB testlari haqiqiy PostgreSQL dvigateli PGlite’da migratsiyani bajaradi: role
 
 PGlite bitta ulanish bilan ishlaydi; ushbu test real Supabase’dagi ko‘p ulanishli yuk testining o‘rnini bosmaydi. Production ishga tushirishdan oldin ikkita mijoz bilan bitta joyni bir vaqtda band qilish va kassadagi to‘liq jarayonni alohida Supabase test loyihasida sinang.
 
-Tashqi rasmlar Unsplash’dan olinadi. Ularni tashkilotchiga tegishli posterlar bilan admin paneldan almashtirish mumkin. Hech qanday haqiqiy tadbir tasdiqlanmagan yoki rasmiy ravishda reklama qilinmagan.
+## Rasmiy katalog — 4-noyabr 2026
+
+`lib/data/official-events.json` iTicket.uz ochiq katalogidan tekshirilgan 50 ta tadbirni saqlaydi: nom, seans boshlanishi, narx chegaralari, poster, manzil va rasmiy xarid havolasi. Posterlar manbaning CDN havolalari orqali ko‘rsatiladi. Qisqa jadval va narxlar o‘zgarishi mumkin; mavjud chipta soni tekshirish paytidagi holat, zal sig‘imi emas. Xarid rasmiy sotuvchida bajariladi; bu tadbirlar uchun mahalliy joy, band yoki chipta yaratilmaydi. Katalog ishlashi SQL importiga bog‘liq emas.
+
+Supabase SQL Editor’da **faqat yangi** `UZTICKET-official-catalog.sql` faylini bir marta bajaring (ikki yangi migratsiya birlashtirilgan). Oldingi SQL fayllarini qayta bajarmang. Yangi fayl eski namunaviy tadbirlarni draft holatiga o‘tkazadi, buyurtma va chiptalarni saqlaydi, 50 ta tashqi tadbirni joylar yaratmasdan import qiladi va `public_ticket` funksiyasini o‘rnatadi. SQL bu repodan avtomatik bazaga bajarilmaydi.
+
+Kabinetdagi chipta to‘liq PNG rasm va QR bilan beriladi. QR `/tickets/<256-bit-token>` sahifasini ochadi. Sahifani ochish kirishda foydalanish holatini o‘zgartirmaydi; buni admin tekshiruvi bajaradi. Ochiq javobda mijozning shaxsiy ma’lumotlari yo‘q. Arxivdagi namuna chiptalar kirish uchun yaroqsiz deb belgilanadi. Tashqi katalog uchun haqiqiy chiptani sotuvchi chiqaradi.
+
+Yangi migratsiya testi: `node --test tests/official-catalog.test.mjs`.
