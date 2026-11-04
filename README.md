@@ -147,3 +147,9 @@ Egasi har bir tadbir uchun 100 ta joy ajratilganini bildirdi. `UZTICKET-enable-b
 Frontend bazadagi inventory_mode=local holatini o‘qigach joy tanlashni ochadi. SQL bajarilmaguncha tashqi katalog rejimi saqlanadi. To‘lov mavjud karta cheki/admin tasdig‘i yoki faol punktda naqd tartibida. To‘lov tasdiqlangach chipta va QR kabinetda avtomatik chiqadi. Boshlangan tadbirlar uchun yangi buyurtma serverda yopiladi.
 
 **Yangilangan narx talabi:** oldingi yagona 100 ming–1 mln oralig‘i o‘rniga har tadbirning manbadagi min/max narxi ishlatiladi. 4-noyabrda 50 ta narx qayta tekshirildi. 10-qator boshlang‘ich narxda, 1-qator maksimal narxda, oraliq qatorlar chiziqli taqsimlanib ming so‘mgacha yaxlitlanadi. `UZTICKET-enable-booking.sql` endi joylarni ochish va yangi narx migratsiyasini birlashtiradi; avvalgi bandlarning narx snapshotlari o‘zgarmaydi. Import qilingan tadbirlarda tashqi xarid tugmasi olib tashlangan; faqat bazadagi haqiqiy joylar tanlanadi. Bo‘sh inventar holati ochiq xabar bilan ko‘rsatiladi.
+
+### Karta oynasi va kassalar xaritasi
+
+Karta oynasida qolgan band vaqti, nusxalanadigan summa va rekvizitlar, chek rasmi previewsi va o‘tkazma bajarilganini tasdiqlash mavjud. Yuborish xatosidan keyingi takroriy urinish oldin yuklangan chek faylini qayta ishlatadi. Muddat tugaganda yangi chek yuborish yopiladi; server muddatni mustaqil tekshiradi. Bu qo‘lda o‘tkazma jarayoni, bank kartasidan avtomatik pul yechilmaydi.
+
+`/points` sahifasi 4-noyabrda `https://iticket.uz/ru/point-of-sales` manbasidan tekshirilgan 5 ta kassani ko‘rsatadi (4 Toshkent, 1 Samarqand). Tashqi kassalar UZTICKET kassasi deb qayta nomlanmagan va to‘lov punktlariga import qilinmagan. UZTICKET buyurtmalarini qabul qilish bo‘yicha kelishuv tasdiqlanmagan. Checkout API faqat faol, namuna bo‘lmagan `cash_points` yozuvlarini beradi; manba katalogi naqd to‘lov tanloviga qo‘shilmaydi. Ushbu UI yangilanishiga SQL kerak emas.

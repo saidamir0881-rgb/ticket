@@ -1,0 +1,67 @@
+[
+  {
+    "id": "source-3",
+    "name": "iTicket.UZ, Головной офис",
+    "address": "улица Шарафа Рашидова, 16А",
+    "district": "Toshkent",
+    "hours": "10:00-22:00",
+    "phone": "+998 712 071-071 +998 712 072-072",
+    "latitude": 41.328515,
+    "longitude": 69.273529,
+    "is_active": false,
+    "is_demo": false,
+    "source_url": "https://iticket.uz/ru/point-of-sales"
+  },
+  {
+    "id": "source-4",
+    "name": "Дворец «Дружбы народов»",
+    "address": "Чиланзарский р-н, ул. Фурката, 3",
+    "district": "Toshkent",
+    "hours": "10:00-19:00",
+    "phone": "+998 712 071-071 +998 712 072-072",
+    "latitude": 41.3086,
+    "longitude": 69.2417,
+    "is_active": false,
+    "is_demo": false,
+    "source_url": "https://iticket.uz/ru/point-of-sales"
+  },
+  {
+    "id": "source-11",
+    "name": "Humo Arena",
+    "address": "Ташкент, ул Афрасиоб",
+    "district": "Toshkent",
+    "hours": "10:00 - 20:00",
+    "phone": "+998 712 071-071 +998 712 072-072",
+    "latitude": 41.3077545,
+    "longitude": 69.2521083,
+    "is_active": false,
+    "is_demo": false,
+    "source_url": "https://iticket.uz/ru/point-of-sales"
+  },
+  {
+    "id": "source-26",
+    "name": "Family park ТРЦ",
+    "address": "Улица Нарпай, Самарканд",
+    "district": "Samarqand",
+    "hours": "10:00-19:00",
+    "phone": "+998 712 072 072",
+    "latitude": 39.6643871,
+    "longitude": 66.9107273,
+    "is_active": false,
+    "is_demo": false,
+    "source_url": "https://iticket.uz/ru/point-of-sales"
+  },
+  {
+    "id": "source-44",
+    "name": "ECO PARK",
+    "address": "Ташкент, Мирабадский район, улица Шахрисабз",
+    "district": "Toshkent",
+    "hours": "10:00-20:00",
+    "phone": "+998 712 071-071 +998 712 072-072",
+    "latitude": 41.3042328,
+    "longitude": 69.294504,
+    "is_active": false,
+    "is_demo": false,
+    "source_url": "https://iticket.uz/ru/point-of-sales"
+  }
+]

@@ -1,6 +1,7 @@
 import './globals.css';
 import './admin.css';
 import './payments.css';
+import './card-transfer.css';
 import './receipts.css';
 import './payment-decisions.css';
 import 'leaflet/dist/leaflet.css';
