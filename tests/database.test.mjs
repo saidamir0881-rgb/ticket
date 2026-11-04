@@ -180,6 +180,10 @@ test('cash checkout holds one hour; receipts require admin review and allow 24 h
   await asUser(customer);
   const cash=await rpc('reserve_checkout',[event,[seats[7]],'cash',point]);
   const cashSeconds=(new Date(cash.expires_at)-Date.now())/1000;assert.ok(cashSeconds>3590&&cashSeconds<=3605);
+  await asUser(bob);
+  assert.equal((await db.query('select status from public.get_event_seats($1) where id=$2',[event,seats[7]])).rows[0].status,'reserved');
+  await assert.rejects(rpc('reserve_checkout',[event,[seats[7]],'cash',point]),/band/);
+  await asUser(customer);
   assert.equal((await db.query('select * from public.tickets where booking_id=$1',[cash.id])).rows.length,0);
   await asUser(admin);assert.equal((await rpc('confirm_cash_payment',[cash.id])).status,'paid');
   await asUser(customer);
@@ -213,4 +217,14 @@ test('cash checkout holds one hour; receipts require admin review and allow 24 h
   await owner();await db.query("update public.bookings set expires_at=now()-interval '1 second' where id=$1",[expired.id]);
   await asUser(admin);assert.equal((await rpc('review_card_payment',[expired.id,true,'Late'])).status,'expired');
   assert.equal((await db.query('select status from public.payments where booking_id=$1',[expired.id])).rows[0].status,'expired');
+  // An expired cash hold is publicly available even before any cleanup worker runs.
+  await asUser(customer);
+  const cashExpired=await rpc('reserve_checkout',[event,[seats[5]],'cash',point]);
+  await owner();await db.query("update public.bookings set expires_at=clock_timestamp()-interval '1 second' where id=$1",[cashExpired.id]);
+  await asUser(null,'anon');
+  assert.equal((await db.query('select status from public.get_event_seats($1) where id=$2',[event,seats[5]])).rows[0].status,'available');
+  await asUser(bob);
+  const nextBuyer=await rpc('reserve_checkout',[event,[seats[5]],'cash',point]);
+  assert.ok(nextBuyer.id);assert.notEqual(nextBuyer.id,cashExpired.id);
+  await asUser(customer);assert.equal((await db.query('select status from public.bookings where id=$1',[cashExpired.id])).rows[0].status,'expired');
 });

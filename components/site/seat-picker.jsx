@@ -21,7 +21,7 @@ export default function SeatPicker({ eventId, demo, sport, testPayment=false }) 
       setSelected(prev => prev.filter(s => data.some(d => d.id === s.id && d.status === 'available')));
     } catch(e) { setError(e.message); } finally { setLoading(false); }
   }, [demo, eventId]);
-  useEffect(() => { load(); const timer = setInterval(load, 15000); return () => clearInterval(timer); }, [load]);
+  useEffect(() => { load(); const timer = setInterval(load, 3000); const refresh=()=>{if(document.visibilityState==='visible')load();};document.addEventListener('visibilitychange',refresh);return () => {clearInterval(timer);document.removeEventListener('visibilitychange',refresh);}; }, [load]);
   function toggle(seat) { setSelected(prev => prev.some(s => s.id === seat.id) ? prev.filter(s => s.id !== seat.id) : prev.length >= 8 ? (toast.error('Bir buyurtmada ko‘pi bilan 8 ta joy.'), prev) : [...prev, seat]); }
   async function reserve(payment) {
     if (demo) return;

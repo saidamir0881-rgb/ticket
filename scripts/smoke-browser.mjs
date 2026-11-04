@@ -36,7 +36,17 @@ try {
   if(count){
     assert.equal(count,100);await evaluate("document.querySelector('button.seat.available').click()");
     assert.equal(await evaluate("document.querySelectorAll('button.seat.selected').length"),1);
+    await evaluate("document.querySelector('.booking-summary button').click()");
+    await waitFor("!!document.querySelector('.payment-methods') && !document.querySelectorAll('.payment-methods button')[1].disabled");
+    await evaluate("document.querySelectorAll('.payment-methods button')[1].click()");
+    await waitFor("document.querySelectorAll('.cash-point').length >= 5");
+    assert.equal(await evaluate("[...document.querySelectorAll('.cash-point')].every(b=>!b.disabled)"),true);
+    await evaluate("document.querySelector('.cash-point').click()");
+    assert.equal(await evaluate("document.querySelector('.checkout-dialog > .button').disabled"),false);
+    await evaluate("document.querySelector('.checkout-dialog button[aria-label]').click()");
   }
+  await visit('/points');
+  await waitFor("document.querySelectorAll('.events-grid article').length >= 5");
   await visit('/events');
   await waitFor("document.querySelectorAll('.event-card').length === 50");
   await evaluate("document.querySelector('.search-field input').value='Cheb';document.querySelector('.search-field input').dispatchEvent(new Event('input',{bubbles:true}))");
@@ -56,7 +66,7 @@ try {
   await evaluate("document.querySelector('.mobile-menu').click()");
   const mobile=await cdp('Page.captureScreenshot',{format:'png',captureBeyondViewport:true});
   await writeFile(resolve(output,'home-mobile.png'),Buffer.from(mobile.data,'base64'));
-  console.log('PASS: 50 real listings, official purchase link, correct source price, no local seats, protected redirects, mobile overflow and menu.');
+  console.log('PASS: 50 events, 100 seats, internal checkout, five active cash desks, selection, protected routes and mobile.');
   console.log(`Screenshots: ${output}`);
   await send('Browser.close');ws.close();
 } finally {clearTimeout(watchdog);child.kill();}

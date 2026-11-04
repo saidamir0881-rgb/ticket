@@ -153,3 +153,9 @@ Frontend bazadagi inventory_mode=local holatini o‘qigach joy tanlashni ochadi.
 Karta oynasida qolgan band vaqti, nusxalanadigan summa va rekvizitlar, chek rasmi previewsi va o‘tkazma bajarilganini tasdiqlash mavjud. Yuborish xatosidan keyingi takroriy urinish oldin yuklangan chek faylini qayta ishlatadi. Muddat tugaganda yangi chek yuborish yopiladi; server muddatni mustaqil tekshiradi. Bu qo‘lda o‘tkazma jarayoni, bank kartasidan avtomatik pul yechilmaydi.
 
 `/points` sahifasi 4-noyabrda `https://iticket.uz/ru/point-of-sales` manbasidan tekshirilgan 5 ta kassani ko‘rsatadi (4 Toshkent, 1 Samarqand). Tashqi kassalar UZTICKET kassasi deb qayta nomlanmagan va to‘lov punktlariga import qilinmagan. UZTICKET buyurtmalarini qabul qilish bo‘yicha kelishuv tasdiqlanmagan. Checkout API faqat faol, namuna bo‘lmagan `cash_points` yozuvlarini beradi; manba katalogi naqd to‘lov tanloviga qo‘shilmaydi. Ushbu UI yangilanishiga SQL kerak emas.
+
+### Tasdiqlangan hamkor punktlar — keyingi yangilanish
+
+Egasi shu 5 kassa UZTICKET buyurtmalari uchun naqd to‘lov qabul qilishga kelishganini tasdiqladi. Ular `lib/data/partner-points.json` va `202611040005_partner_cash_points.sql` orqali alohida, doimiy UUID bilan qo‘shildi; bazaga admin orqali kiritilib, faolligi tekshirildi. `/points` endi bazadagi faol UZTICKET punktlarini ko‘rsatadi. Dastlabki 30 namuna punkt faol emas.
+
+Naqd band `reserve_checkout`da server vaqti bo‘yicha 1 soat. Boshqa mijoz ayni joyni band qila olmaydi: event lock va unique faol seat claim bilan himoyalangan. `get_event_seats` muddati tugagan bandni cleanup ishidan mustaqil ravishda available ko‘rsatadi; keyingi reservation shu eventdagi eskirgan claimlarni atomik bo‘shatadi. UI har 3 soniyada va tabga qaytganda yangilanadi. Test ikki foydalanuvchi bilan cash hold davrida rad etilishini va expiry’dan keyingi qayta bandni tekshiradi. Karta cheki tasdiqlash tartibi avvalgidek.
