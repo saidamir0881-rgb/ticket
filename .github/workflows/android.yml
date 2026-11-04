@@ -18,7 +18,16 @@ jobs:
       - uses: gradle/actions/setup-gradle@v4
         with:
           gradle-version: '8.11.1'
-      - run: sdkmanager 'platforms;android-35' 'build-tools;35.0.0'
+      - name: Install Android SDK
+        run: |
+          curl --fail --location --retry 3 https://dl.google.com/android/repository/commandlinetools-linux-11076708_latest.zip -o "$RUNNER_TEMP/android-tools.zip"
+          mkdir -p "$RUNNER_TEMP/android-sdk/cmdline-tools"
+          unzip -q "$RUNNER_TEMP/android-tools.zip" -d "$RUNNER_TEMP/android-unpack"
+          mv "$RUNNER_TEMP/android-unpack/cmdline-tools" "$RUNNER_TEMP/android-sdk/cmdline-tools/latest"
+          echo "ANDROID_HOME=$RUNNER_TEMP/android-sdk" >> "$GITHUB_ENV"
+          echo "ANDROID_SDK_ROOT=$RUNNER_TEMP/android-sdk" >> "$GITHUB_ENV"
+          yes | "$RUNNER_TEMP/android-sdk/cmdline-tools/latest/bin/sdkmanager" --sdk_root="$RUNNER_TEMP/android-sdk" --licenses > /dev/null || true
+          "$RUNNER_TEMP/android-sdk/cmdline-tools/latest/bin/sdkmanager" --sdk_root="$RUNNER_TEMP/android-sdk" 'platforms;android-35' 'build-tools;35.0.0'
       - run: gradle -p android assembleDebug --no-daemon
       - uses: actions/upload-artifact@v4
         with:
