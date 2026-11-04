@@ -17,7 +17,7 @@ export default function SeatPicker({ eventId, demo, sport, testPayment=false }) 
     try {
       const { data, error } = await browserClient().rpc('get_event_seats', { p_event_id: eventId });
       if (error) throw error;
-      setSeats(data || []); setError('');
+      setSeats(data || []); setError(data?.length?'':'Bu tadbir uchun joylar bazada hali ochilmagan. Administrator sotuv sozlamalarini yakunlashi kerak.');
       setSelected(prev => prev.filter(s => data.some(d => d.id === s.id && d.status === 'available')));
     } catch(e) { setError(e.message); } finally { setLoading(false); }
   }, [demo, eventId]);

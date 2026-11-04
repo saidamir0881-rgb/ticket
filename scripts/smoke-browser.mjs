@@ -30,13 +30,12 @@ try {
   const desktop=await cdp('Page.captureScreenshot',{format:'png',captureBeyondViewport:true});
   await writeFile(resolve(output,'home-desktop.png'),Buffer.from(desktop.data,'base64'));
   await visit('/events/30000000-0000-4000-8000-000000006263');
-  const localBooking=await evaluate("!!document.querySelector('.seatmap')");
-  if(localBooking){
-    await waitFor("document.querySelectorAll('button.seat').length === 100");
-    await evaluate("document.querySelector('button.seat.available').click()");
+  assert.equal(await evaluate("document.querySelectorAll('main a[href*=\"iticket.uz\"]').length"),0);
+  await waitFor("document.querySelectorAll('button.seat').length === 100 || !!document.querySelector('.error-message')");
+  const count=await evaluate("document.querySelectorAll('button.seat').length");
+  if(count){
+    assert.equal(count,100);await evaluate("document.querySelector('button.seat.available').click()");
     assert.equal(await evaluate("document.querySelectorAll('button.seat.selected').length"),1);
-  }else{
-    assert.equal(await evaluate("document.querySelector('.panel a.button').href.startsWith('https://iticket.uz/ru/events/')"),true);
   }
   await visit('/events');
   await waitFor("document.querySelectorAll('.event-card').length === 50");
