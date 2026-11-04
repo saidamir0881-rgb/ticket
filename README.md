@@ -164,3 +164,6 @@ Punkt xaritasi Yandex Maps iframe widgetiga almashtirildi. Ro‘yxatdan punktni 
 
 ### Kassalar va yaqinlik
 Samarqand Family Park kassasi faol ro?yxatdan chiqarildi (eski buyurtmalar saqlanadi). `202611040006_disable_samarkand_point.sql` boshqa bazalarda ham shu o?zgarishni qo?llaydi. Xarita va checkoutdagi ?Menga eng yaqin punkt? brauzer ruxsati bilan joylashuvni oladi, kassalarni taxminiy to?g?ri chiziq masofasi bo?yicha saralaydi va eng yaqinini tanlaydi. Koordinatalar bazaga saqlanmaydi. Yangi haqiqiy kassalarni admin paneldan qo?shish mumkin.
+
+### Teatrlar yonidagi punktlar
+Operator teatrlar yonida va Mustaqillik maydonida kassalar borligini tasdiqlagach, 10 ta teatr va Mustaqillik maydoni qo?shildi. Oldingi 4 ta Toshkent kassasi bilan jami 15 ta punkt ?UZTICKET punkt 1???UZTICKET punkt 15? deb nomlandi. Koordinatalar teatr/maydon mo?ljali; yangi kassalarning aniq kirishi, telefoni va ish vaqti berilmagan, shuning uchun jadval va telefon uydirilmagan. Manbalar `lib/data/cash-point-sources.json`da. Bu ro?yxat shahardagi barcha teatrlar inventarizatsiyasi degani emas.
