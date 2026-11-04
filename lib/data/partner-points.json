@@ -36,18 +36,6 @@
     "is_demo": false
   },
   {
-    "id": "50000000-0000-4000-8000-000000000026",
-    "name": "UZTICKET - Family park ТРЦ",
-    "address": "Улица Нарпай, Самарканд",
-    "district": "Samarqand",
-    "hours": "10:00-19:00",
-    "phone": "+998 712 072 072",
-    "latitude": 39.6643871,
-    "longitude": 66.9107273,
-    "is_active": true,
-    "is_demo": false
-  },
-  {
     "id": "50000000-0000-4000-8000-000000000044",
     "name": "UZTICKET - ECO PARK",
     "address": "Ташкент, Мирабадский район, улица Шахрисабз",
