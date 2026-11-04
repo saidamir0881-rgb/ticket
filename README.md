@@ -139,3 +139,9 @@ Supabase SQL Editor’da **faqat yangi** `UZTICKET-official-catalog.sql` faylini
 Kabinetdagi chipta to‘liq PNG rasm va QR bilan beriladi. QR `/tickets/<256-bit-token>` sahifasini ochadi. Sahifani ochish kirishda foydalanish holatini o‘zgartirmaydi; buni admin tekshiruvi bajaradi. Ochiq javobda mijozning shaxsiy ma’lumotlari yo‘q. Arxivdagi namuna chiptalar kirish uchun yaroqsiz deb belgilanadi. Tashqi katalog uchun haqiqiy chiptani sotuvchi chiqaradi.
 
 Yangi migratsiya testi: `node --test tests/official-catalog.test.mjs`.
+
+### Ajratilgan joylarni sotuvga chiqarish
+
+Egasi har bir tadbir uchun 100 ta joy ajratilganini bildirdi. `UZTICKET-enable-booking.sql` faylini Supabase SQL Editor’da bajaring: avval import qilingan 50 tadbir mahalliy sotuvga o‘tadi, har biriga 10 qator × 10 joy yaratiladi. 1-qator 1 000 000, 2-qator 900 000, …, 10-qator 100 000 so‘m. Jami 5 000 joy. Bu faylni takror bajarish joylarni ko‘paytirmaydi; avvalgi buyurtma narxlari booking_seats snapshotida saqlanadi. Dastlabki katalog SQL’ini qayta bajarmang: u tadbirlarni yana tashqi katalog holatiga o‘tkazadi.
+
+Frontend bazadagi inventory_mode=local holatini o‘qigach joy tanlashni ochadi. SQL bajarilmaguncha tashqi katalog rejimi saqlanadi. To‘lov mavjud karta cheki/admin tasdig‘i yoki faol punktda naqd tartibida. To‘lov tasdiqlangach chipta va QR kabinetda avtomatik chiqadi. Boshlangan tadbirlar uchun yangi buyurtma serverda yopiladi.

@@ -31,5 +31,17 @@ test('official import preserves history, blocks local inventory and serves priva
  assert.equal(info.invalid,true);assert.equal(info.ticket.qr_token,t.qr_token);assert.ok(!JSON.stringify(info).includes(user));
  assert.equal((await db.query("select public.public_ticket('wrong') v")).rows[0].v,null);
  await db.exec('reset role');assert.equal((await db.query('select used_at from public.tickets')).rows[0].used_at,null);
+ await db.exec(await readFile(new URL('../UZTICKET-enable-booking.sql',import.meta.url),'utf8'));
+ // Repeat application must not duplicate inventory or alter historical tickets.
+ await db.exec(await readFile(new URL('../UZTICKET-enable-booking.sql',import.meta.url),'utf8'));
+ const counts=(await db.query("select event_id,count(*)::int n,min(price)::int low,max(price)::int high from public.seats where event_id in(select id from public.events where source_name='iTicket.uz') group by event_id")).rows;
+ assert.equal(counts.length,50);assert.ok(counts.every(r=>r.n===100&&r.low===100000&&r.high===1000000));
+ assert.equal((await db.query("select price::int p from public.seats where event_id=$1 and row_label='1' and seat_number=1",[ext])).rows[0].p,1000000);
+ assert.equal((await db.query("select price::int p from public.seats where event_id=$1 and row_label='10' and seat_number=10",[ext])).rows[0].p,100000);
+ await db.query("update public.events set starts_at='2099-12-01' where id=$1",[ext]);
+ await db.query("select set_config('request.jwt.claim.sub',$1,false)",[user]);await db.exec('set role authenticated');
+ const selected=(await db.query('select id from public.seats where event_id=$1 limit 1',[ext])).rows[0].id;
+ const result=(await db.query('select public.reserve_seats($1,$2::uuid[]) v',[ext,[selected]])).rows[0].v;
+ assert.ok(result.id);await assert.rejects(db.query('select public.reserve_seats($1,$2::uuid[]) v',[ext,[selected]]));
  }finally{await db.close();}
 });
