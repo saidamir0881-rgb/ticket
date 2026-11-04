@@ -13,3 +13,11 @@ node --env-file=.env.local scripts/telegram-poll.mjs
 Bot long polling orqali ishlaydi, alohida ochiq port yoki Vercel muhiti talab qilinmaydi. Bir vaqtning o‘zida faqat bitta nusxani ishlating. Kompyuter o‘chsa yoki jarayon to‘xtasa bot javob bermaydi; doimiy ishlash uchun Node.js serverida shu buyruqni xizmat sifatida ishga tushirish kerak. Faol webhook bo‘lsa, skript uni o‘zi o‘chirmaydi.
 
 Tekshiruv: `node --test tests/telegram.test.mjs`.
+
+## Yordam boti
+
+`@uzticket_supportbot`: `.env.local` ichida `TELEGRAM_SUPPORT_BOT_TOKEN` belgilanadi. Ishga tushirish: `node --env-file=.env.local scripts/telegram-support-poll.mjs`.
+
+`@Saidagzamov_7` birinchi xabar yuborganda Telegram bergan raqamli ID administrator sifatida saqlanadi. Keyinchalik username o‘zgarishi adminni almashtirmaydi. Mijoz murojaati administratorga nusxalanadi; admin sarlavha yoki nusxalangan xabarga Reply qiladi. Javob mijozga bot nomidan yetkaziladi. Matn, rasm, hujjat va ovozli xabarlar qo‘llanadi.
+
+`.sites-runtime/support-state.json` mahalliy maxfiy holat: admin ID, xabar yo‘nalishlari va polling offset. Uni saqlang, Git’ga qo‘shmang; boshqa serverga ko‘chirganda shu holatni ham xavfsiz ko‘chiring. Jarayonning faqat bitta nusxasi ishlasin. Kompyuter o‘chsa bot to‘xtaydi.

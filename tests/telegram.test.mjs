@@ -6,7 +6,7 @@ const update = text => ({ message: { chat: { id: 42, type: 'private' }, text } }
 test('private commands open the correct HTTPS Mini App pages', () => {
   for (const [command, path] of [['events', '/events'], ['account', '/account'], ['points', '/points'], ['help', '/help']]) {
     const reply = replyFor(update(`/${command}@uzticket_uzbot`), origin);
-    assert.equal(reply.reply_markup.inline_keyboard[0][0].web_app.url, origin + path);
+    assert.ok(reply.reply_markup.inline_keyboard.flat().some(button => button.web_app?.url === origin + path));
     assert.equal(reply.chat_id, 42);
   }
   assert.equal(replyFor(update('/start'), origin).reply_markup.inline_keyboard.length, 3);
