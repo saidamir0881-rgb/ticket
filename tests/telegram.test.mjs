@@ -9,7 +9,8 @@ test('private commands open the correct HTTPS Mini App pages', () => {
     assert.ok(reply.reply_markup.inline_keyboard.flat().some(button => button.web_app?.url === origin + path));
     assert.equal(reply.chat_id, 42);
   }
-  assert.equal(replyFor(update('/start'), origin).reply_markup.inline_keyboard.length, 3);
+  assert.equal(replyFor(update('/start'), origin).reply_markup.inline_keyboard.length, 4);
+  assert.equal(replyFor(update('/start'), origin).reply_markup.inline_keyboard[3][0].url, 'https://t.me/uzticket_supportbot');
 });
 test('ignore group and non-text updates; never reflect user text', () => {
   assert.equal(replyFor({ message: { chat: { id: -42, type: 'group' }, text: '/start' } }, origin), null);
