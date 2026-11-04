@@ -7,7 +7,7 @@
     "ends_at": "2026-11-04T16:00:00.000000Z",
     "min_price": 100000,
     "max_price": 800000,
-    "poster_url": "https://cdn.iticket.uz/event/poster/XZAQ1Yig7wjsYTpTdgdkp5V1Y7oxjJrVpfob9UWY.png",
+    "poster_url": "/posters/30000000-0000-4000-8000-000000006280-art.png",
     "status": "published",
     "is_demo": false,
     "featured": false,
@@ -24,7 +24,8 @@
       "city": "Toshkent",
       "image_url": "https://cdn.iticket.uz/event/poster_wide/6idjpY315EoVFqKsEYlBT15Rd8jS8OAW.png"
     },
-    "description": ""
+    "description": "",
+    "poster_background_url": "/posters/30000000-0000-4000-8000-000000006280-background.jpg"
   },
   {
     "id": "30000000-0000-4000-8000-000000006292",
@@ -34,7 +35,7 @@
     "ends_at": "2026-11-05T17:00:00.000000Z",
     "min_price": 50000,
     "max_price": 600000,
-    "poster_url": "https://cdn.iticket.uz/event/poster/cTVTOiLDhqvTY3Y3pG2UTvorGTxjzjIeeQrhYott.png",
+    "poster_url": "/posters/30000000-0000-4000-8000-000000006292-art.png",
     "status": "published",
     "is_demo": false,
     "featured": false,
@@ -51,7 +52,8 @@
       "city": "Toshkent",
       "image_url": "https://cdn.iticket.uz/event/poster_wide/St9DRCJvVK50GbMNobk866xp7tdiiyS6.png"
     },
-    "description": ""
+    "description": "",
+    "poster_background_url": "/posters/30000000-0000-4000-8000-000000006292-background.jpg"
   },
   {
     "id": "30000000-0000-4000-8000-000000006263",
@@ -61,7 +63,7 @@
     "ends_at": "2026-11-07T17:00:00.000000Z",
     "min_price": 150000,
     "max_price": 2000000,
-    "poster_url": "https://cdn.iticket.uz/event/poster/3sByCPIlfkN9GxwIWTAplFdGYHFVv3lcIgZQiuWH.png",
+    "poster_url": "/posters/30000000-0000-4000-8000-000000006263-art.png",
     "status": "published",
     "is_demo": false,
     "featured": true,
@@ -78,7 +80,8 @@
       "city": "Toshkent",
       "image_url": "https://cdn.iticket.uz/event/poster_wide/9ZAaPQeC4hBuTrqEubaOV5m80Yl0aO2n.png"
     },
-    "description": ""
+    "description": "",
+    "poster_background_url": "/posters/30000000-0000-4000-8000-000000006263-background.jpg"
   },
   {
     "id": "30000000-0000-4000-8000-000000006230",
@@ -88,7 +91,7 @@
     "ends_at": "2026-11-14T17:00:00.000000Z",
     "min_price": 80000,
     "max_price": 500000,
-    "poster_url": "https://cdn.iticket.uz/event/poster/QfpxSuimMiAVaAjwwKQD2G8vob2dpYLoFBNfpSre.png",
+    "poster_url": "/posters/30000000-0000-4000-8000-000000006230-art.png",
     "status": "published",
     "is_demo": false,
     "featured": false,
@@ -105,7 +108,8 @@
       "city": "Toshkent",
       "image_url": "https://cdn.iticket.uz/event/poster_wide/9TfZz86ebngLWaGCx9P1AAGjQOkKhrms.png"
     },
-    "description": ""
+    "description": "",
+    "poster_background_url": "/posters/30000000-0000-4000-8000-000000006230-background.jpg"
   },
   {
     "id": "30000000-0000-4000-8000-000000006388",
@@ -115,7 +119,7 @@
     "ends_at": "2026-11-15T16:00:00.000000Z",
     "min_price": 250000,
     "max_price": 1166000,
-    "poster_url": "https://cdn.iticket.uz/event/poster/zfHavb3kflh0H4kRkceJuOYDjGXewECT2ffTIGgT.png",
+    "poster_url": "/posters/30000000-0000-4000-8000-000000006388-art.png",
     "status": "published",
     "is_demo": false,
     "featured": false,
@@ -132,7 +136,8 @@
       "city": "Toshkent",
       "image_url": "https://cdn.iticket.uz/event/poster_wide/vy0ggSiNyAU381Z2lxhdj2BBNXQS6zbg.png"
     },
-    "description": ""
+    "description": "",
+    "poster_background_url": "/posters/30000000-0000-4000-8000-000000006388-background.jpg"
   },
   {
     "id": "30000000-0000-4000-8000-000000006272",
@@ -142,7 +147,7 @@
     "ends_at": "2026-11-26T17:00:00.000000Z",
     "min_price": 55000,
     "max_price": 440000,
-    "poster_url": "https://cdn.iticket.uz/event/poster/GIm9M6sWluLM8kVRnOy41AhywW2SPUdyb3NVzP5p.png",
+    "poster_url": "/posters/30000000-0000-4000-8000-000000006272-art.png",
     "status": "published",
     "is_demo": false,
     "featured": false,
@@ -159,7 +164,8 @@
       "city": "Toshkent",
       "image_url": "https://cdn.iticket.uz/event/poster_wide/wuS4va7k6jgzHQPROdJKSwC8Yxf44M3l.png"
     },
-    "description": ""
+    "description": "",
+    "poster_background_url": "/posters/30000000-0000-4000-8000-000000006272-background.jpg"
   },
   {
     "id": "30000000-0000-4000-8000-000000006162",
@@ -169,7 +175,7 @@
     "ends_at": "2026-11-20T17:00:00.000000Z",
     "min_price": 60000,
     "max_price": 550000,
-    "poster_url": "https://cdn.iticket.uz/event/poster/rOmsCE2MJqtn94BwtEsqqvE1Ze6lyRPzFoqSJNdt.png",
+    "poster_url": "/posters/30000000-0000-4000-8000-000000006162-art.png",
     "status": "published",
     "is_demo": false,
     "featured": false,
@@ -186,7 +192,8 @@
       "city": "Toshkent",
       "image_url": "https://cdn.iticket.uz/event/poster_wide/waR6WZ1hXPksuA07rv5C1a3kNA6xcehs.png"
     },
-    "description": ""
+    "description": "",
+    "poster_background_url": "/posters/30000000-0000-4000-8000-000000006162-background.jpg"
   },
   {
     "id": "30000000-0000-4000-8000-000000006223",
@@ -196,7 +203,7 @@
     "ends_at": "2026-11-22T17:00:00.000000Z",
     "min_price": 825000,
     "max_price": 1650000,
-    "poster_url": "https://cdn.iticket.uz/event/slide/YlQAuxN6YOBF1j33oayzCQbpiN39TSXiM2VffvHi.jpg",
+    "poster_url": "/posters/30000000-0000-4000-8000-000000006223-art.jpg",
     "status": "published",
     "is_demo": false,
     "featured": false,
@@ -213,7 +220,8 @@
       "city": "Toshkent",
       "image_url": "https://cdn.iticket.uz/event/slide/YlQAuxN6YOBF1j33oayzCQbpiN39TSXiM2VffvHi.jpg"
     },
-    "description": ""
+    "description": "",
+    "poster_background_url": "/posters/30000000-0000-4000-8000-000000006223-art.jpg"
   },
   {
     "id": "30000000-0000-4000-8000-000000006370",
@@ -223,7 +231,7 @@
     "ends_at": "2026-12-09T16:00:00.000000Z",
     "min_price": 150000,
     "max_price": 1500000,
-    "poster_url": "https://cdn.iticket.uz/event/poster/lakILmQiMa0QL9TqmscbL419sJDpheO5U6wI0DrE.png",
+    "poster_url": "/posters/30000000-0000-4000-8000-000000006370-art.png",
     "status": "published",
     "is_demo": false,
     "featured": false,
@@ -240,7 +248,8 @@
       "city": "Toshkent",
       "image_url": "https://cdn.iticket.uz/event/poster_wide/iZAQMw397RN4YYOO5mjFrGXyrOFuPsut.png"
     },
-    "description": ""
+    "description": "",
+    "poster_background_url": "/posters/30000000-0000-4000-8000-000000006370-background.jpg"
   },
   {
     "id": "30000000-0000-4000-8000-000000006214",
@@ -250,7 +259,7 @@
     "ends_at": "2026-12-11T17:00:00.000000Z",
     "min_price": 350000,
     "max_price": 1500000,
-    "poster_url": "https://cdn.iticket.uz/event/poster/uSrzQSDLVb8sppFXPXJIG27k1LDkl8wya4Skd4u6.png",
+    "poster_url": "/posters/30000000-0000-4000-8000-000000006214-art.png",
     "status": "published",
     "is_demo": false,
     "featured": false,
@@ -267,7 +276,8 @@
       "city": "Toshkent",
       "image_url": "https://cdn.iticket.uz/event/poster_wide/KW6E383XYdW95lzp0ypcfRZv4uwZY3jN.png"
     },
-    "description": ""
+    "description": "",
+    "poster_background_url": "/posters/30000000-0000-4000-8000-000000006214-background.jpg"
   },
   {
     "id": "30000000-0000-4000-8000-000000006163",
@@ -277,7 +287,7 @@
     "ends_at": "2026-12-17T17:00:00.000000Z",
     "min_price": 70000,
     "max_price": 800000,
-    "poster_url": "https://cdn.iticket.uz/event/slide/kImJOckTkOps1YA6PmrkHKiCm2hjoyZ4oW6nRcxD.jpg",
+    "poster_url": "/posters/30000000-0000-4000-8000-000000006163-art.jpg",
     "status": "published",
     "is_demo": false,
     "featured": false,
@@ -294,7 +304,8 @@
       "city": "Toshkent",
       "image_url": "https://cdn.iticket.uz/event/slide/kImJOckTkOps1YA6PmrkHKiCm2hjoyZ4oW6nRcxD.jpg"
     },
-    "description": ""
+    "description": "",
+    "poster_background_url": "/posters/30000000-0000-4000-8000-000000006163-art.jpg"
   },
   {
     "id": "30000000-0000-4000-8000-000000005863",
@@ -304,7 +315,7 @@
     "ends_at": "2026-12-20T16:30:00.000000Z",
     "min_price": 200000,
     "max_price": 1200000,
-    "poster_url": "https://cdn.iticket.uz/event/poster/YddtaAuxdmF2OxwdYXIxPC2C9CYqYyJ7Um3aRyCh.png",
+    "poster_url": "/posters/30000000-0000-4000-8000-000000005863-art.png",
     "status": "published",
     "is_demo": false,
     "featured": false,
@@ -321,7 +332,8 @@
       "city": "Toshkent",
       "image_url": "https://cdn.iticket.uz/event/poster_wide/vGSDwO1RHil8upknIu8WXIrlE9O0IAPd.png"
     },
-    "description": ""
+    "description": "",
+    "poster_background_url": "/posters/30000000-0000-4000-8000-000000005863-background.jpg"
   },
   {
     "id": "30000000-0000-4000-8000-000000006156",
@@ -331,7 +343,7 @@
     "ends_at": "2026-12-26T16:00:00.000000Z",
     "min_price": 40000,
     "max_price": 800000,
-    "poster_url": "https://cdn.iticket.uz/event/slide/b9hkIm5RyntKvHphvwaxGhCWrknsohSYcfhaC6tP.jpg",
+    "poster_url": "/posters/30000000-0000-4000-8000-000000006156-art.jpg",
     "status": "published",
     "is_demo": false,
     "featured": false,
@@ -348,7 +360,8 @@
       "city": "Toshkent",
       "image_url": "https://cdn.iticket.uz/event/slide/b9hkIm5RyntKvHphvwaxGhCWrknsohSYcfhaC6tP.jpg"
     },
-    "description": ""
+    "description": "",
+    "poster_background_url": "/posters/30000000-0000-4000-8000-000000006156-art.jpg"
   },
   {
     "id": "30000000-0000-4000-8000-000000006155",
@@ -358,7 +371,7 @@
     "ends_at": "2026-12-27T12:30:00.000000Z",
     "min_price": 40000,
     "max_price": 450000,
-    "poster_url": "https://cdn.iticket.uz/event/slide/SWzvHsElMRoVf9Xt8n7XfwHslrSVCt4bGajakd0s.jpg",
+    "poster_url": "/posters/30000000-0000-4000-8000-000000006155-art.jpg",
     "status": "published",
     "is_demo": false,
     "featured": false,
@@ -375,7 +388,8 @@
       "city": "Toshkent",
       "image_url": "https://cdn.iticket.uz/event/slide/SWzvHsElMRoVf9Xt8n7XfwHslrSVCt4bGajakd0s.jpg"
     },
-    "description": ""
+    "description": "",
+    "poster_background_url": "/posters/30000000-0000-4000-8000-000000006155-art.jpg"
   },
   {
     "id": "30000000-0000-4000-8000-000000006375",
@@ -385,7 +399,7 @@
     "ends_at": "2026-12-27T17:00:00.000000Z",
     "min_price": 100000,
     "max_price": 400000,
-    "poster_url": "https://cdn.iticket.uz/event/poster/XthRqrnIjkKJlW04hb1xkdvrk7oP91Qqas2y7Q4Z.png",
+    "poster_url": "/posters/30000000-0000-4000-8000-000000006375-art.png",
     "status": "published",
     "is_demo": false,
     "featured": false,
@@ -402,7 +416,8 @@
       "city": "Toshkent",
       "image_url": "https://cdn.iticket.uz/event/poster_wide/T1vY2H9fRfErVvsuDUWQf7u2J3N7fcZt.png"
     },
-    "description": ""
+    "description": "",
+    "poster_background_url": "/posters/30000000-0000-4000-8000-000000006375-background.jpg"
   },
   {
     "id": "30000000-0000-4000-8000-000000006417",
@@ -412,7 +427,7 @@
     "ends_at": "2027-03-22T16:30:00.000000Z",
     "min_price": 400000,
     "max_price": 3000000,
-    "poster_url": "https://cdn.iticket.uz/event/poster/nkT0cOUFCeYJYJt9rKtpm7tWviCF5FC0EfVBxNf5.png",
+    "poster_url": "/posters/30000000-0000-4000-8000-000000006417-art.png",
     "status": "published",
     "is_demo": false,
     "featured": false,
@@ -429,7 +444,8 @@
       "city": "Toshkent",
       "image_url": "https://cdn.iticket.uz/event/poster_wide/jahNHQkqPJbQOwWXjEueY2CPnzNiTU2g.png"
     },
-    "description": ""
+    "description": "",
+    "poster_background_url": "/posters/30000000-0000-4000-8000-000000006417-background.jpg"
   },
   {
     "id": "30000000-0000-4000-8000-000000006207",
@@ -439,7 +455,7 @@
     "ends_at": "2026-11-13T16:00:00.000000Z",
     "min_price": 300000,
     "max_price": 1500000,
-    "poster_url": "https://cdn.iticket.uz/event/poster/63AYHTUdTVkCTMixDifiBuqP2n3NjCWR3yC82YML.png",
+    "poster_url": "/posters/30000000-0000-4000-8000-000000006207-art.png",
     "status": "published",
     "is_demo": false,
     "featured": false,
@@ -456,7 +472,8 @@
       "city": "Toshkent",
       "image_url": "https://cdn.iticket.uz/event/poster_wide/AHQ1c87CF1ShqT0ZxczbZqoGsveE1aQI.png"
     },
-    "description": ""
+    "description": "",
+    "poster_background_url": "/posters/30000000-0000-4000-8000-000000006207-background.jpg"
   },
   {
     "id": "30000000-0000-4000-8000-000000006254",
@@ -466,7 +483,7 @@
     "ends_at": "2026-12-06T16:00:00.000000Z",
     "min_price": 60000,
     "max_price": 600000,
-    "poster_url": "https://cdn.iticket.uz/event/poster/f4d4rvNttrWq01djDVsz3OSkfAsvqfNq6j5iGZUf.png",
+    "poster_url": "/posters/30000000-0000-4000-8000-000000006254-art.png",
     "status": "published",
     "is_demo": false,
     "featured": false,
@@ -483,7 +500,8 @@
       "city": "Toshkent",
       "image_url": "https://cdn.iticket.uz/event/poster_wide/81nfURjoJ3Kq7EMG3GsHX7qyzxYQSoxk.png"
     },
-    "description": ""
+    "description": "",
+    "poster_background_url": "/posters/30000000-0000-4000-8000-000000006254-background.jpg"
   },
   {
     "id": "30000000-0000-4000-8000-000000006225",
@@ -493,7 +511,7 @@
     "ends_at": "2026-11-23T16:00:00.000000Z",
     "min_price": 77000,
     "max_price": 132000,
-    "poster_url": "https://cdn.iticket.uz/event/poster/c8OthdSR1A1j0RlYYfrkNMJvVrJf7HYr0yoXv5q6.png",
+    "poster_url": "/posters/30000000-0000-4000-8000-000000006225-art.png",
     "status": "published",
     "is_demo": false,
     "featured": false,
@@ -510,7 +528,8 @@
       "city": "Toshkent",
       "image_url": "https://cdn.iticket.uz/event/poster_wide/LnIWXEOaitKp4QRoz16Nc2qAt9StCXZ4.png"
     },
-    "description": ""
+    "description": "",
+    "poster_background_url": "/posters/30000000-0000-4000-8000-000000006225-background.jpg"
   },
   {
     "id": "30000000-0000-4000-8000-000000006247",
@@ -520,7 +539,7 @@
     "ends_at": "2026-11-27T16:00:00.000000Z",
     "min_price": 88000,
     "max_price": 385000,
-    "poster_url": "https://cdn.iticket.uz/event/poster/y4k4X3hOjiQUM08vcwgDckwFT59ACN2dKS5vHnCD.png",
+    "poster_url": "/posters/30000000-0000-4000-8000-000000006247-art.png",
     "status": "published",
     "is_demo": false,
     "featured": false,
@@ -537,7 +556,8 @@
       "city": "Toshkent",
       "image_url": "https://cdn.iticket.uz/event/poster_wide/CLB4i7oi8bNn4h5cW3C7G7hITmWh5qwH.png"
     },
-    "description": ""
+    "description": "",
+    "poster_background_url": "/posters/30000000-0000-4000-8000-000000006247-background.jpg"
   },
   {
     "id": "30000000-0000-4000-8000-000000006178",
@@ -547,7 +567,7 @@
     "ends_at": "2026-12-06T16:00:00.000000Z",
     "min_price": 250000,
     "max_price": 650000,
-    "poster_url": "https://cdn.iticket.uz/event/poster/6cK4uvITtWZgRaA4w0qLPZUzNtsPGp0veqkbD5jp.png",
+    "poster_url": "/posters/30000000-0000-4000-8000-000000006178-art.png",
     "status": "published",
     "is_demo": false,
     "featured": false,
@@ -564,7 +584,8 @@
       "city": "Toshkent",
       "image_url": "https://cdn.iticket.uz/event/poster_wide/DxufC3gJR3woCf67JgVvoZhT9iutGKHl.png"
     },
-    "description": ""
+    "description": "",
+    "poster_background_url": "/posters/30000000-0000-4000-8000-000000006178-background.jpg"
   },
   {
     "id": "30000000-0000-4000-8000-000000006351",
@@ -574,7 +595,7 @@
     "ends_at": "2026-11-08T17:45:00.000000Z",
     "min_price": 800000,
     "max_price": 2000000,
-    "poster_url": "https://cdn.iticket.uz/event/poster/lcCg8f9j9nsmpFkWLHfSdzZsc2WmdeResluZA0ub.png",
+    "poster_url": "/posters/30000000-0000-4000-8000-000000006351-art.png",
     "status": "published",
     "is_demo": false,
     "featured": false,
@@ -591,7 +612,8 @@
       "city": "Toshkent",
       "image_url": "https://cdn.iticket.uz/event/poster_wide/NWQqEkSQL4WYjXpLEYqpHmc7qTUFae0q.png"
     },
-    "description": ""
+    "description": "",
+    "poster_background_url": "/posters/30000000-0000-4000-8000-000000006351-background.jpg"
   },
   {
     "id": "30000000-0000-4000-8000-000000006438",
@@ -601,7 +623,7 @@
     "ends_at": "2026-11-30T14:00:00.000000Z",
     "min_price": 900000,
     "max_price": 900000,
-    "poster_url": "https://cdn.iticket.uz/event/poster/mZTfhPfDSPcGGtrwIt3dR5Eu7rFUstUNNex8tyhK.png",
+    "poster_url": "/posters/30000000-0000-4000-8000-000000006438-art.png",
     "status": "published",
     "is_demo": false,
     "featured": false,
@@ -618,7 +640,8 @@
       "city": "Toshkent",
       "image_url": "https://cdn.iticket.uz/event/poster_wide/v8DNhdrG1n9CXO06eGNehwtTLM43yM6d.png"
     },
-    "description": ""
+    "description": "",
+    "poster_background_url": "/posters/30000000-0000-4000-8000-000000006438-background.jpg"
   },
   {
     "id": "30000000-0000-4000-8000-000000006392",
@@ -628,7 +651,7 @@
     "ends_at": "2026-11-06T16:00:00.000000Z",
     "min_price": 55000,
     "max_price": 88000,
-    "poster_url": "https://cdn.iticket.uz/event/poster/v3rODT6MyBSU3lZpXta5LOAIhvr3CBJVU8piFUMR.png",
+    "poster_url": "/posters/30000000-0000-4000-8000-000000006392-art.png",
     "status": "published",
     "is_demo": false,
     "featured": false,
@@ -645,7 +668,8 @@
       "city": "Toshkent",
       "image_url": "https://cdn.iticket.uz/event/poster_wide/aXCrLQBC4RFMeaH2uqdh5Pj0Arawj6xA.png"
     },
-    "description": ""
+    "description": "",
+    "poster_background_url": "/posters/30000000-0000-4000-8000-000000006392-background.jpg"
   },
   {
     "id": "30000000-0000-4000-8000-000000004138",
@@ -655,7 +679,7 @@
     "ends_at": "2026-11-07T07:00:00.000000Z",
     "min_price": 44000,
     "max_price": 55000,
-    "poster_url": "https://cdn.iticket.uz/event/poster/IuJAkd7nFw01oNVJXzfwlrxyYQri12GpEJ4INqzF.png",
+    "poster_url": "/posters/30000000-0000-4000-8000-000000004138-art.png",
     "status": "published",
     "is_demo": false,
     "featured": false,
@@ -672,7 +696,8 @@
       "city": "Toshkent",
       "image_url": "https://cdn.iticket.uz/event/poster_wide/DtQ53b5fV0UNIiHhYeZYcoJ5VXSSQd7i.png"
     },
-    "description": ""
+    "description": "",
+    "poster_background_url": "/posters/30000000-0000-4000-8000-000000004138-background.jpg"
   },
   {
     "id": "30000000-0000-4000-8000-000000006278",
@@ -682,7 +707,7 @@
     "ends_at": "2026-11-25T08:00:00.000000Z",
     "min_price": 50000,
     "max_price": 200000,
-    "poster_url": "https://cdn.iticket.uz/event/poster/LvPXUSF68Lw33rYJHCY7sQKPk8RJXB7KSMwv19la.png",
+    "poster_url": "/posters/30000000-0000-4000-8000-000000006278-art.png",
     "status": "published",
     "is_demo": false,
     "featured": false,
@@ -699,7 +724,8 @@
       "city": "Toshkent",
       "image_url": "https://cdn.iticket.uz/event/poster_wide/6maPCaIPGfQgzyzzl279tgsFxeALaahL.png"
     },
-    "description": ""
+    "description": "",
+    "poster_background_url": "/posters/30000000-0000-4000-8000-000000006278-background.jpg"
   },
   {
     "id": "30000000-0000-4000-8000-000000006124",
@@ -709,7 +735,7 @@
     "ends_at": "2026-11-07T08:00:00.000000Z",
     "min_price": 77000,
     "max_price": 220000,
-    "poster_url": "https://cdn.iticket.uz/event/poster/KFA5SEOYeTImvF6zywuq3hv99ZEdflvX5ef3jCH4.png",
+    "poster_url": "/posters/30000000-0000-4000-8000-000000006124-art.png",
     "status": "published",
     "is_demo": false,
     "featured": false,
@@ -726,7 +752,8 @@
       "city": "Toshkent",
       "image_url": "https://cdn.iticket.uz/event/poster_wide/masrk61i3c9ZLaVtDRYALu3I2jEVCAki.png"
     },
-    "description": ""
+    "description": "",
+    "poster_background_url": "/posters/30000000-0000-4000-8000-000000006124-background.jpg"
   },
   {
     "id": "30000000-0000-4000-8000-000000006381",
@@ -736,7 +763,7 @@
     "ends_at": "2026-11-07T13:30:00.000000Z",
     "min_price": 50000,
     "max_price": 150000,
-    "poster_url": "https://cdn.iticket.uz/event/poster/Z1oZ1beRpgMunZP78TrQjnzDOjpTyQKn3q2Z37gz.png",
+    "poster_url": "/posters/30000000-0000-4000-8000-000000006381-art.png",
     "status": "published",
     "is_demo": false,
     "featured": false,
@@ -753,7 +780,8 @@
       "city": "Toshkent",
       "image_url": "https://cdn.iticket.uz/event/poster_wide/peh55N76p5t3cdZxB8gKLIWRMq6U55dY.png"
     },
-    "description": ""
+    "description": "",
+    "poster_background_url": "/posters/30000000-0000-4000-8000-000000006381-background.jpg"
   },
   {
     "id": "30000000-0000-4000-8000-000000006112",
@@ -763,7 +791,7 @@
     "ends_at": "2026-11-07T16:00:00.000000Z",
     "min_price": 77000,
     "max_price": 220000,
-    "poster_url": "https://cdn.iticket.uz/event/poster/PkPRe34sEvwkDhWKxF3s7gQvagMjTSChJ43fpYqR.png",
+    "poster_url": "/posters/30000000-0000-4000-8000-000000006112-art.png",
     "status": "published",
     "is_demo": false,
     "featured": false,
@@ -780,7 +808,8 @@
       "city": "Toshkent",
       "image_url": "https://cdn.iticket.uz/event/poster_wide/cyloQesVId7yokTLgwGEcoSpslSSeNXC.png"
     },
-    "description": ""
+    "description": "",
+    "poster_background_url": "/posters/30000000-0000-4000-8000-000000006112-background.jpg"
   },
   {
     "id": "30000000-0000-4000-8000-000000003794",
@@ -790,7 +819,7 @@
     "ends_at": "2026-11-08T07:00:00.000000Z",
     "min_price": 44000,
     "max_price": 55000,
-    "poster_url": "https://cdn.iticket.uz/event/poster/hLNZe5UkG6iHNMEf0Tq4wrPUMdfi40biBwc9r7hk.png",
+    "poster_url": "/posters/30000000-0000-4000-8000-000000003794-art.png",
     "status": "published",
     "is_demo": false,
     "featured": false,
@@ -807,7 +836,8 @@
       "city": "Toshkent",
       "image_url": "https://cdn.iticket.uz/event/poster_wide/NbfKMZZwJTDwqqkx8bCEXKmPD9AnjsgB.png"
     },
-    "description": ""
+    "description": "",
+    "poster_background_url": "/posters/30000000-0000-4000-8000-000000003794-background.jpg"
   },
   {
     "id": "30000000-0000-4000-8000-000000006111",
@@ -817,7 +847,7 @@
     "ends_at": "2026-11-08T08:00:00.000000Z",
     "min_price": 55000,
     "max_price": 110000,
-    "poster_url": "https://cdn.iticket.uz/event/poster/ymRqHJ7zZhLK2E6aznPdxgo53hGu0TV3ZlwjDfR2.png",
+    "poster_url": "/posters/30000000-0000-4000-8000-000000006111-art.png",
     "status": "published",
     "is_demo": false,
     "featured": false,
@@ -834,7 +864,8 @@
       "city": "Toshkent",
       "image_url": "https://cdn.iticket.uz/event/poster_wide/kCWbOer0Kma8NEOMBK6F37BlNcN7XKg1.png"
     },
-    "description": ""
+    "description": "",
+    "poster_background_url": "/posters/30000000-0000-4000-8000-000000006111-background.jpg"
   },
   {
     "id": "30000000-0000-4000-8000-000000006312",
@@ -844,7 +875,7 @@
     "ends_at": "2026-11-08T13:00:00.000000Z",
     "min_price": 55000,
     "max_price": 55000,
-    "poster_url": "https://cdn.iticket.uz/event/poster/6nbKU5ZqayrXB5skpKQ5GthHX2ef0SA9jmD6nJZX.png",
+    "poster_url": "/posters/30000000-0000-4000-8000-000000006312-art.png",
     "status": "published",
     "is_demo": false,
     "featured": false,
@@ -861,7 +892,8 @@
       "city": "Toshkent",
       "image_url": "https://cdn.iticket.uz/event/poster_wide/v09ofoiEY3TtiUEwX1jWnA2iKbV2guNt.png"
     },
-    "description": ""
+    "description": "",
+    "poster_background_url": "/posters/30000000-0000-4000-8000-000000006312-background.jpg"
   },
   {
     "id": "30000000-0000-4000-8000-000000005592",
@@ -871,7 +903,7 @@
     "ends_at": "2026-11-08T13:40:00.000000Z",
     "min_price": 55000,
     "max_price": 66000,
-    "poster_url": "https://cdn.iticket.uz/event/poster/8g7DZy1PFt08NZ3bjb6tct6rfOfXLwtifGMGqBbc.png",
+    "poster_url": "/posters/30000000-0000-4000-8000-000000005592-art.png",
     "status": "published",
     "is_demo": false,
     "featured": false,
@@ -888,7 +920,8 @@
       "city": "Toshkent",
       "image_url": "https://cdn.iticket.uz/event/poster_wide/ef7h7zd5kXRJlX1w0awjilez5vU8xMD6.png"
     },
-    "description": ""
+    "description": "",
+    "poster_background_url": "/posters/30000000-0000-4000-8000-000000005592-background.jpg"
   },
   {
     "id": "30000000-0000-4000-8000-000000003066",
@@ -898,7 +931,7 @@
     "ends_at": "2026-11-08T14:50:00.000000Z",
     "min_price": 44000,
     "max_price": 66000,
-    "poster_url": "https://cdn.iticket.uz/event/poster/Py3roKYa7tszCZouYWiG69qrFOQ0LiAgeHo377or.png",
+    "poster_url": "/posters/30000000-0000-4000-8000-000000003066-art.png",
     "status": "published",
     "is_demo": false,
     "featured": false,
@@ -915,7 +948,8 @@
       "city": "Toshkent",
       "image_url": "https://cdn.iticket.uz/event/poster_wide/nCqtIMtmTp2nbNDHBuJnr54QR5BrnRfK.png"
     },
-    "description": ""
+    "description": "",
+    "poster_background_url": "/posters/30000000-0000-4000-8000-000000003066-background.jpg"
   },
   {
     "id": "30000000-0000-4000-8000-000000006013",
@@ -925,7 +959,7 @@
     "ends_at": "2026-11-08T16:00:00.000000Z",
     "min_price": 77000,
     "max_price": 440000,
-    "poster_url": "https://cdn.iticket.uz/event/poster/QTt1J9hvMmxDE9boyKuGxJv4TJ2acApD4T8VpvKi.png",
+    "poster_url": "/posters/30000000-0000-4000-8000-000000006013-art.png",
     "status": "published",
     "is_demo": false,
     "featured": false,
@@ -942,7 +976,8 @@
       "city": "Toshkent",
       "image_url": "https://cdn.iticket.uz/event/poster_wide/wzVd8Pjsmhcaejy8niVQpLNLMMnmZaKN.png"
     },
-    "description": ""
+    "description": "",
+    "poster_background_url": "/posters/30000000-0000-4000-8000-000000006013-background.jpg"
   },
   {
     "id": "30000000-0000-4000-8000-000000006335",
@@ -952,7 +987,7 @@
     "ends_at": "2027-01-22T16:30:00.000000Z",
     "min_price": 80000,
     "max_price": 600000,
-    "poster_url": "https://cdn.iticket.uz/event/poster/kh6oZ0snHBtIGMAVgVso6wMijYKxL4BK7U2uAzty.png",
+    "poster_url": "/posters/30000000-0000-4000-8000-000000006335-art.png",
     "status": "published",
     "is_demo": false,
     "featured": false,
@@ -969,7 +1004,8 @@
       "city": "Toshkent",
       "image_url": "https://cdn.iticket.uz/event/poster_wide/1kSIFq6wyqUgG5T85WCOuRJjHtLcMsdT.png"
     },
-    "description": ""
+    "description": "",
+    "poster_background_url": "/posters/30000000-0000-4000-8000-000000006335-background.jpg"
   },
   {
     "id": "30000000-0000-4000-8000-000000006389",
@@ -979,7 +1015,7 @@
     "ends_at": "2026-11-26T16:00:00.000000Z",
     "min_price": 300000,
     "max_price": 450000,
-    "poster_url": "https://cdn.iticket.uz/event/poster/T9aCvZhow1fYAcJjNhmpZRHKyBuipU8alSXtxZ0Q.png",
+    "poster_url": "/posters/30000000-0000-4000-8000-000000006389-art.png",
     "status": "published",
     "is_demo": false,
     "featured": false,
@@ -996,7 +1032,8 @@
       "city": "Toshkent",
       "image_url": "https://cdn.iticket.uz/event/poster_wide/9NJJgALhwvH6mKAIgXJF7FkQRMj6BPWW.png"
     },
-    "description": ""
+    "description": "",
+    "poster_background_url": "/posters/30000000-0000-4000-8000-000000006389-background.jpg"
   },
   {
     "id": "30000000-0000-4000-8000-000000006431",
@@ -1006,7 +1043,7 @@
     "ends_at": "2027-02-14T15:00:00.000000Z",
     "min_price": 150000,
     "max_price": 800000,
-    "poster_url": "https://cdn.iticket.uz/event/poster/cZQeWsZd0SCf8z8iweIC6xFiiyTcjJKTl13NBh17.png",
+    "poster_url": "/posters/30000000-0000-4000-8000-000000006431-art.png",
     "status": "published",
     "is_demo": false,
     "featured": false,
@@ -1023,7 +1060,8 @@
       "city": "Toshkent",
       "image_url": "https://cdn.iticket.uz/event/poster_wide/Re18TUuqSLvZJYTiHysOEHqsjy4IaZ8j.png"
     },
-    "description": ""
+    "description": "",
+    "poster_background_url": "/posters/30000000-0000-4000-8000-000000006431-background.jpg"
   },
   {
     "id": "30000000-0000-4000-8000-000000006376",
@@ -1033,7 +1071,7 @@
     "ends_at": "2027-01-06T13:30:00.000000Z",
     "min_price": 100000,
     "max_price": 175000,
-    "poster_url": "https://cdn.iticket.uz/event/poster/iVsEoe30FyKDasr779LjgjiiuiQjllkOMJiFcIFd.png",
+    "poster_url": "/posters/30000000-0000-4000-8000-000000006376-art.png",
     "status": "published",
     "is_demo": false,
     "featured": false,
@@ -1050,7 +1088,8 @@
       "city": "Toshkent",
       "image_url": "https://cdn.iticket.uz/event/poster_wide/IuwEoc5pWCgd4UR6iiiQsliSZPWhSiXI.png"
     },
-    "description": ""
+    "description": "",
+    "poster_background_url": "/posters/30000000-0000-4000-8000-000000006376-background.jpg"
   },
   {
     "id": "30000000-0000-4000-8000-000000006326",
@@ -1060,7 +1099,7 @@
     "ends_at": "2026-11-14T15:30:00.000000Z",
     "min_price": 100000,
     "max_price": 400000,
-    "poster_url": "https://cdn.iticket.uz/event/poster/oCw4ZXRt2w5O38PJkka2aMtRdK3chncoF8OGgmqJ.png",
+    "poster_url": "/posters/30000000-0000-4000-8000-000000006326-art.png",
     "status": "published",
     "is_demo": false,
     "featured": false,
@@ -1077,7 +1116,8 @@
       "city": "Toshkent",
       "image_url": "https://cdn.iticket.uz/event/poster_wide/poGY5ZohSJrKgcnfh2nyJ5u3TY9j2cBC.png"
     },
-    "description": ""
+    "description": "",
+    "poster_background_url": "/posters/30000000-0000-4000-8000-000000006326-background.jpg"
   },
   {
     "id": "30000000-0000-4000-8000-000000006367",
@@ -1087,7 +1127,7 @@
     "ends_at": "2026-12-28T17:00:00.000000Z",
     "min_price": 50000,
     "max_price": 450000,
-    "poster_url": "https://cdn.iticket.uz/event/poster/Qu1PQ1koWqZI5t61GjHbKHjGmuoXzzIW72nw0Ftb.png",
+    "poster_url": "/posters/30000000-0000-4000-8000-000000006367-art.png",
     "status": "published",
     "is_demo": false,
     "featured": false,
@@ -1104,7 +1144,8 @@
       "city": "Toshkent",
       "image_url": "https://cdn.iticket.uz/event/poster_wide/8kTq9VKmQQO6mSmxdTG3Whf8QtDoqW9T.png"
     },
-    "description": ""
+    "description": "",
+    "poster_background_url": "/posters/30000000-0000-4000-8000-000000006367-background.jpg"
   },
   {
     "id": "30000000-0000-4000-8000-000000006276",
@@ -1114,7 +1155,7 @@
     "ends_at": "2026-11-30T16:30:00.000000Z",
     "min_price": 70000,
     "max_price": 500000,
-    "poster_url": "https://cdn.iticket.uz/event/poster/aF835sA6VxC0FVrPl0NIiRuojPoCHjzs0nI3QmsV.png",
+    "poster_url": "/posters/30000000-0000-4000-8000-000000006276-art.png",
     "status": "published",
     "is_demo": false,
     "featured": false,
@@ -1131,7 +1172,8 @@
       "city": "Toshkent",
       "image_url": "https://cdn.iticket.uz/event/poster_wide/Sjg68QCL99WWyrqJFYqiGrWnYAitaOrI.png"
     },
-    "description": ""
+    "description": "",
+    "poster_background_url": "/posters/30000000-0000-4000-8000-000000006276-background.jpg"
   },
   {
     "id": "30000000-0000-4000-8000-000000006319",
@@ -1141,7 +1183,7 @@
     "ends_at": "2026-12-12T11:00:00.000000Z",
     "min_price": 100000,
     "max_price": 350000,
-    "poster_url": "https://cdn.iticket.uz/event/poster/4eUdCyGzwJJodpUwSsVHV5tcJaXNSL2IqBdz3cCD.png",
+    "poster_url": "/posters/30000000-0000-4000-8000-000000006319-art.png",
     "status": "published",
     "is_demo": false,
     "featured": false,
@@ -1158,7 +1200,8 @@
       "city": "Toshkent",
       "image_url": "https://cdn.iticket.uz/event/poster_wide/FHrclDWX0dJco7iHtJgmtDF0jvqcXcxC.png"
     },
-    "description": ""
+    "description": "",
+    "poster_background_url": "/posters/30000000-0000-4000-8000-000000006319-background.jpg"
   },
   {
     "id": "30000000-0000-4000-8000-000000006320",
@@ -1168,7 +1211,7 @@
     "ends_at": "2026-12-13T08:00:00.000000Z",
     "min_price": 100000,
     "max_price": 350000,
-    "poster_url": "https://cdn.iticket.uz/event/poster/W8EuL5gbRVOuuyK1fNc6HFNVdiGJN0rGMpECiZzR.png",
+    "poster_url": "/posters/30000000-0000-4000-8000-000000006320-art.png",
     "status": "published",
     "is_demo": false,
     "featured": false,
@@ -1185,7 +1228,8 @@
       "city": "Toshkent",
       "image_url": "https://cdn.iticket.uz/event/poster_wide/ij2JwLhAXCJ9DENRwM3hmVlEQFfhoENl.png"
     },
-    "description": ""
+    "description": "",
+    "poster_background_url": "/posters/30000000-0000-4000-8000-000000006320-background.jpg"
   },
   {
     "id": "30000000-0000-4000-8000-000000006309",
@@ -1195,7 +1239,7 @@
     "ends_at": "2026-12-16T17:00:00.000000Z",
     "min_price": 50000,
     "max_price": 400000,
-    "poster_url": "https://cdn.iticket.uz/event/poster/REnBLqJnJduQLxbnZx3VRpAsSloIsYsKXRQfMXs9.png",
+    "poster_url": "/posters/30000000-0000-4000-8000-000000006309-art.png",
     "status": "published",
     "is_demo": false,
     "featured": false,
@@ -1212,7 +1256,8 @@
       "city": "Toshkent",
       "image_url": "https://cdn.iticket.uz/event/poster_wide/rxf75SiornWqJ0jN4917eljmS5POYlaz.png"
     },
-    "description": ""
+    "description": "",
+    "poster_background_url": "/posters/30000000-0000-4000-8000-000000006309-background.jpg"
   },
   {
     "id": "30000000-0000-4000-8000-000000006352",
@@ -1222,7 +1267,7 @@
     "ends_at": "2026-12-30T12:00:00.000000Z",
     "min_price": 40000,
     "max_price": 120000,
-    "poster_url": "https://cdn.iticket.uz/event/poster/VNxWP57B46gBecAhZRZFHa2Fd6UfH5uqRd8txvee.png",
+    "poster_url": "/posters/30000000-0000-4000-8000-000000006352-art.png",
     "status": "published",
     "is_demo": false,
     "featured": false,
@@ -1239,7 +1284,8 @@
       "city": "Toshkent",
       "image_url": "https://cdn.iticket.uz/event/poster_wide/07YdAI8zjs7nuSizeMxoETKbrsMRMNxl.png"
     },
-    "description": ""
+    "description": "",
+    "poster_background_url": "/posters/30000000-0000-4000-8000-000000006352-background.jpg"
   },
   {
     "id": "30000000-0000-4000-8000-000000006345",
@@ -1249,7 +1295,7 @@
     "ends_at": "2026-12-23T16:30:00.000000Z",
     "min_price": 70000,
     "max_price": 500000,
-    "poster_url": "https://cdn.iticket.uz/event/poster/dvva9Ng0zLGV4kH33DnTwry7dN7qyBrbzwvPI5yk.png",
+    "poster_url": "/posters/30000000-0000-4000-8000-000000006345-art.png",
     "status": "published",
     "is_demo": false,
     "featured": false,
@@ -1266,7 +1312,8 @@
       "city": "Toshkent",
       "image_url": "https://cdn.iticket.uz/event/poster_wide/7jCwoGZBu9WdPevxpdetRANDXVCu1CLS.png"
     },
-    "description": ""
+    "description": "",
+    "poster_background_url": "/posters/30000000-0000-4000-8000-000000006345-background.jpg"
   },
   {
     "id": "30000000-0000-4000-8000-000000005890",
@@ -1276,7 +1323,7 @@
     "ends_at": "2027-02-05T16:30:00.000000Z",
     "min_price": 50000,
     "max_price": 300000,
-    "poster_url": "https://cdn.iticket.uz/event/poster/xrcctStnHWzzllTtYYhhRSUwYFiBOQQXGPTeOSfc.png",
+    "poster_url": "/posters/30000000-0000-4000-8000-000000005890-art.png",
     "status": "published",
     "is_demo": false,
     "featured": false,
@@ -1293,7 +1340,8 @@
       "city": "Toshkent",
       "image_url": "https://cdn.iticket.uz/event/poster_wide/nnLR1BRGHS6Bplt0xyRRa00ckYiXRZcN.png"
     },
-    "description": ""
+    "description": "",
+    "poster_background_url": "/posters/30000000-0000-4000-8000-000000005890-background.jpg"
   },
   {
     "id": "30000000-0000-4000-8000-000000006394",
@@ -1303,7 +1351,7 @@
     "ends_at": "2027-03-28T16:30:00.000000Z",
     "min_price": 60000,
     "max_price": 600000,
-    "poster_url": "https://cdn.iticket.uz/event/poster/m1xPZeAWGpSXMvNbAqmwypMMEFDq267zHE1sor0a.png",
+    "poster_url": "/posters/30000000-0000-4000-8000-000000006394-art.png",
     "status": "published",
     "is_demo": false,
     "featured": false,
@@ -1320,7 +1368,8 @@
       "city": "Toshkent",
       "image_url": "https://cdn.iticket.uz/event/poster_wide/ePwVlFPFXrdZHMZOymfkKBR5NXkWp9vA.png"
     },
-    "description": ""
+    "description": "",
+    "poster_background_url": "/posters/30000000-0000-4000-8000-000000006394-background.jpg"
   },
   {
     "id": "30000000-0000-4000-8000-000000006405",
@@ -1330,7 +1379,7 @@
     "ends_at": "2026-12-30T09:30:00.000000Z",
     "min_price": 100000,
     "max_price": 160000,
-    "poster_url": "https://cdn.iticket.uz/event/poster/PLaPrrrnDs0jSqvsT2EnzaX25C8Khj2Vf8y9fOSK.png",
+    "poster_url": "/posters/30000000-0000-4000-8000-000000006405-art.png",
     "status": "published",
     "is_demo": false,
     "featured": false,
@@ -1347,6 +1396,7 @@
       "city": "Toshkent",
       "image_url": "https://cdn.iticket.uz/event/poster_wide/GH1InkEcUYurIHlIAgSuKbgNHWhyh9q5.png"
     },
-    "description": ""
+    "description": "",
+    "poster_background_url": "/posters/30000000-0000-4000-8000-000000006405-background.jpg"
   }
 ]
