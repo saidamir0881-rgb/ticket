@@ -1,7 +1,7 @@
 import {z} from 'zod';
 import {checkOrigin,failure} from '@/lib/api';
 import {getTelegramOtpStore} from '@/lib/telegram-otp';
-import {findVerifiedPhoneUser} from '@/lib/supabase/auth-users';
+import {findVerifiedPhoneUser,phoneLoginEmail} from '@/lib/supabase/auth-users';
 import {serviceClient} from '@/lib/supabase/service';
 import {encryptTelegramAuthLink} from '@/lib/telegram-auth-link';
 
@@ -24,7 +24,7 @@ export async function POST(request){
   const {error:linkError}=await admin.auth.admin.updateUserById(userId,{app_metadata:appMetadata});
   if(linkError)throw Object.assign(new Error('Telegram akkauntini xavfsiz bog‘lab bo‘lmadi.'),{status:503});
   await store.finishRegistration(sessionId);completed=true;
-  return Response.json({linked:true},{headers:{'Cache-Control':'no-store'}});
+  return Response.json({linked:true,loginEmail:userData.user.email||phoneLoginEmail(claim.phone)},{headers:{'Cache-Control':'no-store'}});
  }catch(error){
   if(store&&sessionId&&!completed)await store.releaseRegistration(sessionId);
   return failure(error);

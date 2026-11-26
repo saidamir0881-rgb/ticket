@@ -52,7 +52,7 @@ export default function AuthForm(){
    if(!response.ok||data.status!=='verified')throw new Error(data.error||'Kod tasdiqlanmadi.');
    response=await fetch('/api/auth/login/complete',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({sessionId,phone:normalizeUzPhone(phoneInput)})});data=await response.json();
    if(!response.ok)throw new Error(data.error||'Telegram tasdiqlash yakunlanmadi.');
-   const {error:loginError}=await browserClient().auth.signInWithPassword({phone:normalizeUzPhone(phoneInput),password});
+   const {error:loginError}=await browserClient().auth.signInWithPassword({email:data.loginEmail,password});
    if(loginError)throw loginError;
    const destinationResponse=await fetch('/api/auth/destination',{cache:'no-store'}),destination=await destinationResponse.json();
    router.replace(destinationResponse.ok?destination.next:'/account');router.refresh();
