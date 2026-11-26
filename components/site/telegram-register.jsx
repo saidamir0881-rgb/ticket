@@ -8,10 +8,14 @@ import {browserClient} from '@/lib/supabase/browser';
 import {normalizeUzPhone} from '@/lib/phone';
 
 const formatTime=seconds=>`${Math.floor(seconds/60)}:${String(seconds%60).padStart(2,'0')}`;
+function formatPhoneInput(value){
+ const digits=String(value||'').replace(/\D/g,'').replace(/^998/,'').slice(0,9);
+ return [digits.slice(0,2),digits.slice(2,5),digits.slice(5,7),digits.slice(7,9)].filter(Boolean).join(' ');
+}
 
 export default function TelegramRegister(){
  const router=useRouter();
- const [phone,setPhone]=useState('+998 '),[sessionId,setSessionId]=useState(''),[telegramUrl,setTelegramUrl]=useState(''),[expiresAt,setExpiresAt]=useState(0),[now,setNow]=useState(0);
+ const [phone,setPhone]=useState(''),[sessionId,setSessionId]=useState(''),[telegramUrl,setTelegramUrl]=useState(''),[expiresAt,setExpiresAt]=useState(0),[now,setNow]=useState(0);
  const [step,setStep]=useState('phone'),[code,setCode]=useState(''),[verified,setVerified]=useState(false),[created,setCreated]=useState(false),[busy,setBusy]=useState(false),[error,setError]=useState(''),[success,setSuccess]=useState('');
  const remaining=expiresAt?Math.max(0,Math.ceil((expiresAt-now)/1000)):0;
 
@@ -38,7 +42,7 @@ export default function TelegramRegister(){
   e?.preventDefault();setBusy(true);setError('');setSuccess('');
   try{
    const normalized=normalizeUzPhone(phone);if(!normalized)throw new Error('Telefon raqamni +998 formatida to‘g‘ri kiriting.');
-   setPhone(normalized);
+   setPhone(normalized.slice(4));
    const response=await fetch('/api/auth/telegram/start',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({phone:normalized})}),data=await response.json();
    if(!response.ok)throw new Error(data.error||'Tasdiqlash havolasi yaratilmadi.');
    setSessionId(data.sessionId);setTelegramUrl(data.telegramUrl);setExpiresAt(data.expiresAt);setNow(Date.now());setCode('');setStep('telegram');
@@ -73,7 +77,7 @@ export default function TelegramRegister(){
  return <main className="auth-wrap telegram-auth-wrap"><span className="eyebrow"><ShieldCheck size={14}/> TELEGRAM ORQALI TASDIQLASH</span><h1>Akkaunt yarating<span className="purple">.</span></h1><p className="lead">Telefon raqamingizni Telegram orqali tasdiqlab, chiptalaringizni bitta joyda saqlang.</p><div className="panel telegram-register-panel"><div className="auth-tabs"><Link href="/login">Kirish</Link><Link className="active" href="/register">Ro‘yxatdan o‘tish</Link></div>
   <div className="telegram-step-indicator" aria-label="Ro‘yxatdan o‘tish bosqichi"><span className={step==='phone'||step==='telegram'||step==='otp'?'current':''}><i>1</i>Telefon</span><b/><span className={verified?'current':''}><i>{verified?'✓':'2'}</i>Akkaunt</span></div>
   {error&&<p role="alert" className="error-message">{error}{error==='Bu telefon raqam orqali oldin akkaunt yaratilgan.'&&<> <Link href="/login">Kirish</Link></>}</p>}{success&&<p role="status" className="success-message">{success} <Link href="/login">Kirish sahifasi</Link></p>}
-  {!verified&&<form onSubmit={step==='otp'?verify:startVerification}><label className="field">Telefon raqamingiz<input type="tel" name="phone" value={phone} onChange={e=>setPhone(e.target.value)} required autoComplete="tel" placeholder="+998 90 123 45 67" disabled={step!=='phone'}/><small>Telegram’da shu raqamga tegishli akkaunt bo‘lishi kerak.</small></label>
+  {!verified&&<form onSubmit={step==='otp'?verify:startVerification}><label className="field">Telefon raqamingiz<div className="phone-login-control"><span className="phone-login-prefix" aria-label="O‘zbekiston telefon kodi"><span aria-hidden="true">🇺🇿</span><b>+998</b></span><input type="tel" name="phone" inputMode="numeric" value={formatPhoneInput(phone)} onChange={e=>setPhone(e.target.value.replace(/\D/g,'').replace(/^998/,'').slice(0,9))} required autoComplete="tel" placeholder="90 123 45 67" disabled={step!=='phone'}/></div><small>Telegram’da shu raqamga tegishli akkaunt bo‘lishi kerak.</small></label>
    {step==='phone'?<button className="button" disabled={busy}>{busy?'Tayyorlanmoqda...':'Telefon raqamni tekshirish'}<ArrowRight size={17}/></button>:<>
     {step==='telegram'&&<div className="telegram-verification-card"><span className="telegram-verification-icon"><MessageCircle size={21}/></span><div><strong>Telegram’da davom eting</strong><p>Botni ochib Start bosing, keyin telefon raqamingizni ulashing.</p></div><a className="button button-small" href={telegramUrl} target="_blank" rel="noopener noreferrer">Botni ochish <ExternalLink size={14}/></a></div>}
     {step==='otp'&&<div className="otp-entry"><label className="field">6 xonali tasdiqlash kodi<input type="text" inputMode="numeric" autoComplete="one-time-code" maxLength={6} pattern="[0-9]{6}" value={code} onChange={e=>setCode(e.target.value.replace(/\D/g,'').slice(0,6))} placeholder="000000" disabled={expired}/></label><div className="otp-timer" role="timer">{expired?'Kod muddati tugadi':`Kod amal qilishiga ${formatTime(remaining)}`}</div><button type="submit" className="button" disabled={busy||code.length!==6||expired}>{busy?'Tekshirilmoqda...':'Kodni tasdiqlash'}<CheckCircle2 size={17}/></button></div>}
