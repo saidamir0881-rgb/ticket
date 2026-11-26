@@ -1,4 +1,5 @@
 import './globals.css';
+import './catalog.css';
 import './support.css';
 import './admin.css';
 import './payments.css';
