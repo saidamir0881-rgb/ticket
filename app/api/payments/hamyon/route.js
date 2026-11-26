@@ -1,3 +1,4 @@
+import {randomInt} from 'node:crypto';
 import {z} from 'zod';
 import {authenticatedClient} from '@/lib/supabase/server';
 import {checkOrigin,failure} from '@/lib/api';
@@ -18,7 +19,11 @@ export async function POST(request){
     if(activeError)throw activeError;
     const occupied=new Set((active||[]).map(p=>Number(p.hamyon_amount)));
     let result,chargedAmount;
-    for(let offset=0;offset<100;offset++){
+    // Always add a small unique suffix, even for the first open payment.
+    // Randomize the first choice; on collision, walk the remaining 1–99 range.
+    const firstOffset=randomInt(1,100);
+    for(let attempt=0;attempt<99;attempt++){
+      const offset=((firstOffset-1+attempt)%99)+1;
       const amount=Number(booking.total)+offset;
       if(occupied.has(amount))continue;
       const form=new URLSearchParams({shop_id:shopId,shop_key:shopKey,amount:String(amount),order_id:booking.id});
