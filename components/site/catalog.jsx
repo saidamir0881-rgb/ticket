@@ -8,8 +8,8 @@ import EventCard from './event-card';
 const icons={Sparkles,Music2,Drama,Trophy,Mic2,PartyPopper};
 const localDay=value=>{const parts=new Intl.DateTimeFormat('en-GB',{timeZone:'Asia/Tashkent',year:'numeric',month:'2-digit',day:'2-digit'}).formatToParts(new Date(value));return ['year','month','day'].map(k=>parts.find(p=>p.type===k).value).join('-');};
 
-export default function Catalog({events,initialCategory='all',compact=false}){
- const [category,setCategory]=useState(initialCategory),[query,setQuery]=useState(''),[sort,setSort]=useState('date'),[from,setFrom]=useState(''),[until,setUntil]=useState(''),[budget,setBudget]=useState(''),[venue,setVenue]=useState(''),[savedOnly,setSavedOnly]=useState(false),[searchFocused,setSearchFocused]=useState(false);
+export default function Catalog({events,initialCategory='all',initialQuery='',compact=false}){
+ const [category,setCategory]=useState(initialCategory),[query,setQuery]=useState(initialQuery),[sort,setSort]=useState('date'),[from,setFrom]=useState(''),[until,setUntil]=useState(''),[budget,setBudget]=useState(''),[venue,setVenue]=useState(''),[savedOnly,setSavedOnly]=useState(false),[searchFocused,setSearchFocused]=useState(false);
  const {ids}=useFavorites();
  const venues=[...new Set(events.map(e=>e.venue?.name).filter(Boolean))].sort();
  const normalizedQuery=query.trim().toLocaleLowerCase();

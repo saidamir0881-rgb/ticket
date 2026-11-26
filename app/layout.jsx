@@ -1,5 +1,6 @@
 import './globals.css';
 import './catalog.css';
+import './home-landing.css';
 import './support.css';
 import './admin.css';
 import './payments.css';
