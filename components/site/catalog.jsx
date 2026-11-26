@@ -1,6 +1,6 @@
 'use client';
 import {useMemo,useState} from 'react';
-import {Search,SlidersHorizontal,Sparkles,Music2,Drama,Trophy,Mic2,PartyPopper,Heart,X,ArrowUpRight,CalendarDays} from 'lucide-react';
+import {Search,SlidersHorizontal,Sparkles,Music2,Drama,Trophy,Mic2,PartyPopper,Heart,X,ArrowUpRight} from 'lucide-react';
 import {categories,money,date} from '@/lib/format';
 import {useFavorites} from './favorites';
 import EventCard from './event-card';
@@ -38,7 +38,7 @@ export default function Catalog({events,initialCategory='all',initialQuery='',co
    </div>
    <div className="catalog-search-wrap">
     <label className={`catalog-search ${searchFocused?'focused':''}`}>
-     <Search size={19}/><input aria-label="San’atkor yoki tadbir qidirish" aria-autocomplete="list" aria-expanded={searchFocused&&suggestions.length>0} placeholder="San’atkor yoki tadbirni qidiring" value={query} onFocus={()=>setSearchFocused(true)} onBlur={()=>setTimeout(()=>setSearchFocused(false),150)} onChange={e=>setQuery(e.target.value)} onKeyDown={e=>{if(e.key==='Enter'&&suggestions[0]){e.preventDefault();chooseSuggestion(suggestions[0]);}if(e.key==='Escape')setSearchFocused(false);}}/>
+     <Search size={19}/><input aria-label="San’atkor yoki tadbir qidirish" aria-autocomplete="list" placeholder="San’atkor yoki tadbirni qidiring" value={query} onFocus={()=>setSearchFocused(true)} onBlur={()=>setTimeout(()=>setSearchFocused(false),150)} onChange={e=>setQuery(e.target.value)} onKeyDown={e=>{if(e.key==='Enter'&&suggestions[0]){e.preventDefault();chooseSuggestion(suggestions[0]);}if(e.key==='Escape')setSearchFocused(false);}}/>
      {query&&<button type="button" className="search-clear" aria-label="Qidiruvni tozalash" onMouseDown={e=>e.preventDefault()} onClick={()=>setQuery('')}><X size={16}/></button>}
     </label>
     {searchFocused&&suggestions.length>0&&<div className="search-suggestions" role="listbox" aria-label="Mos san’atkorlar va tadbirlar"><span className="suggestions-heading">MOS SAN’ATKORLAR VA TADBIRLAR</span>{suggestions.map(event=><button type="button" role="option" aria-selected="false" key={event.id} onMouseDown={e=>e.preventDefault()} onClick={()=>chooseSuggestion(event)}><span className="suggestion-icon"><Music2 size={16}/></span><span className="suggestion-copy"><strong>{event.title}</strong><small>{date(event.starts_at)} · {event.venue?.name||'Toshkent'}</small></span><ArrowUpRight size={15}/></button>)}</div>}

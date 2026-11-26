@@ -1,3 +1,3 @@
-import AuthForm from '@/components/site/auth-form';
+import TelegramRegister from '@/components/site/telegram-register';
 export const metadata = { title: 'Ro‘yxatdan o‘tish' };
-export default function Register() { return <AuthForm register />; }
+export default function Register(){return <TelegramRegister/>;}

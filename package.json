@@ -7,6 +7,8 @@
   },
   "scripts": {
     "bot:support": "node scripts/telegram-support-poll.mjs",
+    "bot:otp:webhook": "node scripts/set-telegram-otp-webhook.mjs",
+    "test:telegram-otp": "node --test tests/telegram-otp.test.mjs",
     "install:ci": "node scripts/install-ci.mjs",
     "dev": "node scripts/run-framework.mjs dev",
     "build": "node scripts/run-framework.mjs build",

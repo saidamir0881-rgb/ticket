@@ -5,26 +5,26 @@ import { useRouter } from 'next/navigation';
 import { z } from 'zod';
 import { ArrowRight } from 'lucide-react';
 import { browserClient } from '@/lib/supabase/browser';
-const schema = z.object({ email: z.string().email('To‘g‘ri email kiriting.'), password: z.string().min(8, 'Parol kamida 8 belgidan iborat bo‘lsin.') });
-export default function AuthForm({ register = false }) {
-  const [busy, setBusy] = useState(false), [error, setError] = useState(''), [success, setSuccess] = useState('');
+import {normalizeUzPhone} from '@/lib/phone';
+const loginSchema=z.object({identifier:z.string().trim().min(3,'Telefon yoki email kiriting.'),password:z.string().min(1,'Parolni kiriting.')});
+export default function AuthForm() {
+  const [busy,setBusy]=useState(false),[error,setError]=useState('');
   const router = useRouter();
   async function submit(e) {
-    e.preventDefault(); setError(''); setSuccess(''); setBusy(true);
+    e.preventDefault();setError('');setBusy(true);
     const fields = Object.fromEntries(new FormData(e.currentTarget));
     try {
-      const values = (register ? schema : schema.extend({ password:z.string().min(1) })).parse(fields), db = browserClient();
-      const result = register ? await db.auth.signUp({ ...values, options: { data: { full_name: fields.full_name }, emailRedirectTo: `${location.origin}/auth/callback` } }) : await db.auth.signInWithPassword(values);
+      const values=loginSchema.parse({identifier:fields.identifier,password:fields.password}),db=browserClient();
+      const identifier=values.identifier;
+      const credentials=identifier.includes('@')?{email:identifier,password:values.password}:{phone:normalizeUzPhone(identifier),password:values.password};
+      if(!credentials.email&&!credentials.phone)throw new Error('Telefon raqamni +998 formatida kiriting.');
+      const result=await db.auth.signInWithPassword(credentials);
       if (result.error) throw result.error;
-      if (register && !result.data.session) setSuccess('Tasdiqlash xati yuborildi. Emaildagi havolani oching, keyin hisobingizga kiring.');
-      else {
-        const response = await fetch('/api/auth/destination', { cache: 'no-store' });
-        const destination = await response.json();
-        if (!response.ok) throw new Error(destination.error || 'Hisob vakolatini tekshirib bo‘lmadi.');
-        router.replace(destination.next); router.refresh();
-      }
-    } catch (e) { setError(e instanceof z.ZodError ? e.errors[0].message : e.message === 'Invalid login credentials' ? 'Email yoki parol noto‘g‘ri.' : e.message); }
+      const response=await fetch('/api/auth/destination',{cache:'no-store'}),destination=await response.json();
+      if(!response.ok)throw new Error(destination.error||'Hisob vakolatini tekshirib bo‘lmadi.');
+      router.replace(destination.next);router.refresh();
+    } catch (e) { setError(e instanceof z.ZodError?e.errors[0].message:e.message==='Invalid login credentials'?'Telefon/email yoki parol noto‘g‘ri.':e.message); }
     finally { setBusy(false); }
   }
-  return <main className="auth-wrap"><span className="eyebrow">SIZNING SHAXSIY MAYDONINGIZ</span><h1>{register ? 'Xush kelibsiz.' : 'Qaytganingizdan xursandmiz.'}</h1><p className="lead">Barcha rejalaringiz va chiptalaringiz bir joyda.</p><div className="panel"><div className="auth-tabs"><Link className={!register ? 'active' : ''} href="/login">Kirish</Link><Link className={register ? 'active' : ''} href="/register">Ro‘yxatdan o‘tish</Link></div>{error && <p role="alert" className="error-message">{error}</p>}{success && <p role="status" className="success-message">{success}</p>}<form onSubmit={submit}>{register && <label className="field">Ismingiz<input name="full_name" required maxLength={100} autoComplete="name" placeholder="Ism Familiya" /></label>}<label className="field">Elektron pochta<input type="email" name="email" required autoComplete="email" placeholder="siz@example.com" /></label><label className="field">Parol<input type="password" name="password" required minLength={register ? 8 : 1} autoComplete={register ? 'new-password' : 'current-password'} placeholder="Kamida 8 ta belgi" /></label><button className="button" disabled={busy}>{busy ? 'Kutilmoqda...' : register ? 'Hisob ochish' : 'Hisobga kirish'}<ArrowRight size={17} /></button></form><p className="auth-note">Davom etish orqali <Link href="/help#privacy" className="purple">foydalanish shartlari va maxfiylik qoidalariga</Link> rozilik bildirasiz.</p>{!register && <Link className="text-link" href="/reset-password">Parolni unutdingizmi?</Link>}</div></main>;
+  return <main className="auth-wrap"><span className="eyebrow">SIZNING SHAXSIY MAYDONINGIZ</span><h1>Qaytganingizdan xursandmiz.</h1><p className="lead">Barcha rejalaringiz va chiptalaringiz bir joyda.</p><div className="panel"><div className="auth-tabs"><Link className="active" href="/login">Kirish</Link><Link href="/register">Ro‘yxatdan o‘tish</Link></div>{error&&<p role="alert" className="error-message">{error}</p>}<form onSubmit={submit}><label className="field">Telefon raqam yoki email<input type="text" name="identifier" required autoComplete="username" placeholder="+998 90 123 45 67 yoki email"/></label><label className="field">Parol<input type="password" name="password" required autoComplete="current-password" placeholder="Parolingiz"/></label><button className="button" disabled={busy}>{busy?'Kutilmoqda...':'Hisobga kirish'}<ArrowRight size={17}/></button></form><p className="auth-note">Davom etish orqali <Link href="/help#privacy" className="purple">foydalanish shartlari va maxfiylik qoidalariga</Link> rozilik bildirasiz.</p><Link className="text-link" href="/reset-password">Parolni unutdingizmi?</Link></div></main>;
 }
