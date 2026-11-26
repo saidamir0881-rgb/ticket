@@ -52,13 +52,12 @@ test('Telegram OTP flow accepts only the owner contact and single-use start toke
  assert.equal(store.getStatus(session.sessionId),null);
 });
 
-test('plain Telegram /start shows password reset and registration choices',async()=>{
+test('plain Telegram /start offers website registration',async()=>{
  const store=createTelegramOtpStore({secret}),sent=[],fetcher=telegramMock(sent);
  const result=await handleTelegramOtpUpdate(store,{message:{chat:{id:777,type:'private'},from:{id:777,is_bot:false},text:'/start account'}},{token:'fake',fetcher});
  assert.equal(result.menu,true);
- assert.deepEqual(sent[0].body.reply_markup.inline_keyboard.flat().map(button=>button.text),['🔐 Parolni tiklash','🎟 Ro‘yxatdan o‘tish']);
- assert.equal(sent[0].body.reply_markup.inline_keyboard[0][0].url.endsWith('/reset-password'),true);
- assert.equal(sent[0].body.reply_markup.inline_keyboard[1][0].url.endsWith('/register'),true);
+ assert.deepEqual(sent[0].body.reply_markup.inline_keyboard.flat().map(button=>button.text),['🎟 Ro‘yxatdan o‘tish']);
+ assert.equal(sent[0].body.reply_markup.inline_keyboard[0][0].url.endsWith('/register'),true);
 });
 
 test('verified existing-phone session can be claimed once for password reset',()=>{

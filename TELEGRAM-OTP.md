@@ -24,7 +24,7 @@ Webhook secret va hash secret alohida bo‘lsin. Bot username’ni `@` belgisiz 
 3. `TELEGRAM_OTP_WEBHOOK_URL`ni `https://<sayt-domeni>/api/telegram/otp-webhook` qilib qo‘ying va env o‘zgargach Production’ni qayta deploy qiling.
 4. `.env.local`dagi mos qiymatlar bilan `npm.cmd run bot:otp:webhook`ni ishga tushirib bot webhook’ini ulang.
 
-Botga `/start account` yuborilganda `Parolni tiklash` va `Ro‘yxatdan o‘tish` tugmalari chiqadi. Kirish sahifasidagi parolni unutish havolasi botni ochadi. Kirish va parol tiklash telefon hamda Telegram OTP orqali ishlaydi, email talab qilinmaydi.
+Botga `/start account` yuborilganda ro‘yxatdan o‘tish tugmasi chiqadi. Parolni tiklash saytdagi telefon raqami orqali boshlanadi; kod bog‘langan Telegram chatiga avtomatik yuboriladi. Kirish va tiklash email talab qilmaydi.
 
 Ro‘yxatdan o‘tishda Telegram chat identifikatori xavfsiz saqlanadi. Keyingi kirishda telefon va parol to‘g‘ri bo‘lsa OTP shu bot chatiga bevosita yuboriladi. Avvaldan ochilgan akkauntlarda bog‘lanish bo‘lmasa, ilk kirishda bot orqali kontaktni bir marta ulash so‘raladi; muvaffaqiyatli tasdiqdan keyin keyingi kodlar avtomatik yuboriladi.
 

@@ -1,7 +1,7 @@
 'use client';
 import {useEffect,useState} from 'react';
 import Link from 'next/link';
-import {ArrowRight,CheckCircle2,ExternalLink,MessageCircle,RefreshCw,ShieldCheck} from 'lucide-react';
+import {AlertTriangle,ArrowRight,CheckCircle2,ExternalLink,MessageCircle,RefreshCw,ShieldCheck} from 'lucide-react';
 
 const formatTime=s=>`${Math.floor(s/60)}:${String(s%60).padStart(2,'0')}`;
 export default function TelegramPasswordReset(){
@@ -27,9 +27,9 @@ export default function TelegramPasswordReset(){
   try{
    const digits=phone.replace(/\D/g,'');const normalized=digits.length===9?`+998${digits}`:digits.length===12&&digits.startsWith('998')?`+${digits}`:null;
    if(!normalized)throw new Error('Telefon raqamni +998 formatida to‘g‘ri kiriting.');setPhone(normalized);
-   const response=await fetch('/api/auth/telegram/start',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({phone:normalized})}),data=await response.json();
+   const response=await fetch('/api/auth/password/reset/start',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({phone:normalized})}),data=await response.json();
    if(!response.ok)throw new Error(data.error||'Tasdiqlash havolasi yaratilmadi.');
-   setSessionId(data.sessionId);setTelegramUrl(data.telegramUrl);setExpiresAt(data.expiresAt);setNow(Date.now());setCode('');setStep('telegram');
+   setSessionId(data.sessionId);setTelegramUrl(data.telegramUrl||'');setExpiresAt(data.expiresAt);setNow(Date.now());setCode('');setStep(data.needsLink?'telegram':'otp');
   }catch(e){setError(e.message);}finally{setBusy(false);}
  }
  async function verify(e){
@@ -46,9 +46,9 @@ export default function TelegramPasswordReset(){
  const canResend=step==='telegram'||(step==='otp'&&(expired||error.includes('Urinishlar tugadi')));
  return <main className="auth-wrap telegram-auth-wrap"><span className="eyebrow"><ShieldCheck size={14}/> TELEGRAM ORQALI PAROLNI TIKLASH</span><h1>Parolni tiklash<span className="purple">.</span></h1><p className="lead">Telefon raqamingizni Telegram orqali tasdiqlang va yangi parol o‘rnating.</p><div className="panel telegram-register-panel"><div className="auth-tabs"><Link href="/login">Kirish</Link><Link href="/register">Ro‘yxatdan o‘tish</Link></div>
   {error&&<p role="alert" className="error-message">{error}</p>}{success&&<p role="status" className="success-message">{success} <Link href="/login">Kirish</Link></p>}
-  {step==='phone'&&<form onSubmit={startVerification}><label className="field">Telefon raqamingiz<input type="tel" value={phone} onChange={e=>setPhone(e.target.value)} required autoComplete="tel" placeholder="+998 90 123 45 67"/><small>Raqam sizning Telegram akkauntingizga tegishli bo‘lishi kerak.</small></label><button className="button" disabled={busy}>{busy?'Tayyorlanmoqda...':'Telegram orqali tasdiqlash'}<ArrowRight size={17}/></button></form>}
+  {step==='phone'&&<form onSubmit={startVerification}><label className="field">Telefon raqamingiz<input type="tel" value={phone} onChange={e=>setPhone(e.target.value)} required autoComplete="tel" placeholder="+998 90 123 45 67"/><small>Kod shu raqamga bog‘langan Telegram bot chatiga yuboriladi.</small></label><button className="button" disabled={busy}>{busy?'Yuborilmoqda...':'Telegram kodini yuborish'}<ArrowRight size={17}/></button></form>}
   {step==='telegram'&&<><p className="verified-note"><MessageCircle size={16}/>Botga kirib Start bosing, so‘ng o‘z telefon raqamingizni ulashing.</p><a className="button" href={telegramUrl} target="_blank" rel="noopener noreferrer">Telegram botni ochish <ExternalLink size={15}/></a>{canResend&&<button type="button" className="button button-outline telegram-resend" onClick={startVerification} disabled={busy}><RefreshCw size={15}/>Havolani yangilash</button>}</>}
-  {step==='otp'&&<form onSubmit={verify}><label className="field">6 xonali tasdiqlash kodi<input type="text" inputMode="numeric" autoComplete="one-time-code" maxLength={6} pattern="[0-9]{6}" value={code} onChange={e=>setCode(e.target.value.replace(/\D/g,'').slice(0,6))} placeholder="000000" disabled={expired}/></label><div className="otp-timer" role="timer">{expired?'Kod muddati tugadi':`Kod amal qilishiga ${formatTime(remaining)}`}</div><button className="button" disabled={busy||code.length!==6||expired}>{busy?'Tekshirilmoqda...':'Kodni tasdiqlash'}<CheckCircle2 size={17}/></button>{canResend&&<button type="button" className="button button-outline telegram-resend" onClick={startVerification} disabled={busy}><RefreshCw size={15}/>Yangi kod olish</button>}</form>}
+  {step==='otp'&&<form onSubmit={verify}><label className="field">6 xonali tasdiqlash kodi<input type="text" inputMode="numeric" autoComplete="one-time-code" maxLength={6} pattern="[0-9]{6}" value={code} onChange={e=>setCode(e.target.value.replace(/\D/g,'').slice(0,6))} placeholder="000000" disabled={expired}/></label><p className="otp-security-warning"><AlertTriangle size={16}/>Kodni hech kimga bermang. Firibgarlar uni so‘rashi mumkin.</p><div className="otp-timer" role="timer">{expired?'Kod muddati tugadi':`Kod amal qilishiga ${formatTime(remaining)}`}</div><button className="button" disabled={busy||code.length!==6||expired}>{busy?'Tekshirilmoqda...':'Kodni tasdiqlash'}<CheckCircle2 size={17}/></button>{canResend&&<button type="button" className="button button-outline telegram-resend" onClick={startVerification} disabled={busy}><RefreshCw size={15}/>Yangi kod olish</button>}</form>}
   {step==='password'&&<form onSubmit={reset}><p className="verified-note"><CheckCircle2 size={16}/>Telefon raqamingiz tasdiqlandi.</p><label className="field">Yangi parol<input type="password" name="password" required minLength={8} maxLength={72} autoComplete="new-password" placeholder="Kamida 8 ta belgi"/></label><label className="field">Parolni takrorlang<input type="password" name="passwordConfirm" required minLength={8} maxLength={72} autoComplete="new-password" placeholder="Parolni qayta kiriting"/></label><button className="button" disabled={busy}>{busy?'Saqlanmoqda...':'Yangi parolni saqlash'}<ArrowRight size={17}/></button></form>}
   {step==='done'&&<p className="verified-note"><CheckCircle2 size={16}/>Tiklash yakunlandi. <Link href="/login">Kirish sahifasiga o‘tish</Link></p>}
   <p className="auth-note">Akkauntingiz yo‘qmi? <Link href="/register" className="purple">Ro‘yxatdan o‘ting</Link></p>
