@@ -22,8 +22,12 @@ export async function POST(request){
    try{
     const admin=serviceClient(),userId=await findVerifiedPhoneUser(admin,phone);
     if(userId){
-     const {data:userData}=await admin.auth.admin.getUserById(userId),storedPhone=userData?.user?.phone;
+     const {data:userData}=await admin.auth.admin.getUserById(userId),account=userData?.user,storedPhone=account?.phone;
      if(storedPhone&&storedPhone!==phone){const retry=await auth.auth.signInWithPassword({phone:storedPhone,password:body.password});authData=retry.data;authError=retry.error;}
+     // Older accounts may have been created with email as their Auth identity
+     // while the same phone is attached to the account. Keep the UI phone-only,
+     // but verify their password against that linked identity as a migration path.
+     if((authError||!authData?.user)&&account?.email){const retry=await auth.auth.signInWithPassword({email:account.email,password:body.password});authData=retry.data;authError=retry.error;}
     }
    }catch{}
   }
