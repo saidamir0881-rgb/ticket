@@ -36,4 +36,4 @@ npm.cmd run lint
 
 `/register` sahifasida telefonni yuboring, bot havolasini ochib Start bosing, o‘z raqamingizni Contact Sharing orqali ulashing va bot yuborgan kodni kiriting. Keyin ism, familiya va parol bilan akkaunt yarating.
 
-Vercel’da sessiyalar va rate limit mavjud Supabase’da saqlanadi. Jadval RLS bilan yopiq, faqat `service_role` foydalanadi. Lokal testda migration kerak emas; xotira store’i ishlaydi. Supabase Auth’da telefon/parol orqali kirish yoqilgan bo‘lishi lozim.
+Vercel’da sessiyalar va rate limit mavjud Supabase’da saqlanadi. Jadval RLS bilan yopiq, faqat `service_role` foydalanadi. Lokal testda migration kerak emas; xotira store’i ishlaydi. Supabase Auth’da telefon/parol orqali kirish yoqilgan bo‘lishi lozim.Bot /start account command displays password reset and registration buttons. Password reset verifies the phone using Telegram contact sharing and OTP before setting a new password. Login and password reset do not use email.

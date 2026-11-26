@@ -44,6 +44,26 @@ test('Telegram OTP flow accepts only the owner contact and single-use start toke
  assert.equal(store.getStatus(session.sessionId),null);
 });
 
+test('plain Telegram /start shows password reset and registration choices',async()=>{
+ const store=createTelegramOtpStore({secret}),sent=[],fetcher=telegramMock(sent);
+ const result=await handleTelegramOtpUpdate(store,{message:{chat:{id:777,type:'private'},from:{id:777,is_bot:false},text:'/start account'}},{token:'fake',fetcher});
+ assert.equal(result.menu,true);
+ assert.deepEqual(sent[0].body.reply_markup.inline_keyboard.flat().map(button=>button.text),['🔐 Parolni tiklash','🎟 Ro‘yxatdan o‘tish']);
+ assert.equal(sent[0].body.reply_markup.inline_keyboard[0][0].url.endsWith('/reset-password'),true);
+ assert.equal(sent[0].body.reply_markup.inline_keyboard[1][0].url.endsWith('/register'),true);
+});
+
+test('verified existing-phone session can be claimed once for password reset',()=>{
+ const store=createTelegramOtpStore({secret}),session=store.startSession({phone:'901234567',ip:'reset'});
+ store.bindStartToken(session.startToken,123,123);const {otp}=store.acceptContact(123,{phone_number:'+998901234567',user_id:123});
+ store.verifyOtp(session.sessionId,otp);
+ assert.deepEqual(store.claimPasswordReset(session.sessionId,'+998901234567'),{sessionId:session.sessionId,phone:'+998901234567'});
+ assert.throws(()=>store.claimPasswordReset(session.sessionId,'+998901234567'),{status:403});
+ store.releaseRegistration(session.sessionId);
+ assert.deepEqual(store.claimPasswordReset(session.sessionId,'+998901234567'),{sessionId:session.sessionId,phone:'+998901234567'});
+ store.finishRegistration(session.sessionId);assert.equal(store.getStatus(session.sessionId),null);
+});
+
 test('five wrong OTP attempts block a session and phone starts are rate limited',()=>{
  const store=createTelegramOtpStore({secret}),session=store.startSession({phone:'901234567',ip:'one'});
  store.bindStartToken(session.startToken,123,123);
