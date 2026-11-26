@@ -23,7 +23,13 @@ export async function POST(request){
   const claim=await store.claimRegistration(sessionId,body.phone);
   const admin=serviceClient();
   const {data,error}=await admin.auth.admin.createUser({phone:claim.phone,password:body.password,phone_confirm:true,user_metadata:{full_name:fullName}});
-  if(error||!data?.user)throw Object.assign(new Error('Akkaunt yaratilmadi. Bu raqam bilan akkaunt bor-yo‘qligini tekshiring.'),{status:409});
+  if(error){
+   const authError=`${error.code||''} ${error.message||''} ${error.details||''}`.toLowerCase();
+   if(error.code==='23505'||/phone_exists|user_already_exists|already registered|already exists|phone.{0,30}already|already.{0,30}phone/.test(authError))
+    throw Object.assign(new Error('Bu telefon raqam orqali oldin akkaunt yaratilgan.'),{status:409});
+   throw Object.assign(new Error('Akkaunt yaratilmadi. Ma’lumotlarni tekshirib, qayta urinib ko‘ring.'),{status:409});
+  }
+  if(!data?.user)throw Object.assign(new Error('Akkaunt yaratilmadi. Qayta urinib ko‘ring.'),{status:409});
   userId=data.user.id;
   const {error:profileError}=await admin.from('profiles').upsert({id:userId,full_name:fullName,phone:claim.phone},{onConflict:'id'});
   if(profileError){
