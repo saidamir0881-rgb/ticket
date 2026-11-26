@@ -2,20 +2,11 @@ import {z} from 'zod';
 import {checkOrigin,failure} from '@/lib/api';
 import {getTelegramOtpStore} from '@/lib/telegram-otp';
 import {serviceClient} from '@/lib/supabase/service';
+import {findVerifiedPhoneUser} from '@/lib/supabase/auth-users';
+import {encryptTelegramAuthLink} from '@/lib/telegram-auth-link';
 
 export const runtime='nodejs';
 export const dynamic='force-dynamic';
-
-async function findVerifiedPhoneUser(admin,phone){
- for(let page=1;page<=100;page++){
-  const {data,error}=await admin.auth.admin.listUsers({page,perPage:1000});
-  if(error)throw Object.assign(new Error('Akkauntni tekshirib bo‘lmadi. Qayta urinib ko‘ring.'),{status:503});
-  const user=data.users.find(item=>item.phone===phone&&item.phone_confirmed_at);
-  if(user)return user.id;
-  if(data.users.length<1000)return null;
- }
- throw Object.assign(new Error('Akkauntlar ro‘yxati juda katta. Yordam xizmatiga murojaat qiling.'),{status:503});
-}
 
 export async function POST(request){
  let store,sessionId,completed=false;
@@ -26,6 +17,11 @@ export async function POST(request){
   const claim=await store.claimPasswordReset(sessionId,body.phone),admin=serviceClient();
   const userId=await findVerifiedPhoneUser(admin,claim.phone);
   if(!userId)throw Object.assign(new Error('Bu raqam bilan ro‘yxatdan o‘tgan akkaunt topilmadi.'),{status:404});
+  const {data:userData,error:userError}=await admin.auth.admin.getUserById(userId);
+  if(userError||!userData?.user)throw Object.assign(new Error('Akkauntni tekshirib bo‘lmadi.'),{status:503});
+  const appMetadata={...(userData.user.app_metadata||{}),telegram_otp_link:encryptTelegramAuthLink(claim.telegramUserId,claim.chatId)};
+  const {error:linkError}=await admin.auth.admin.updateUserById(userId,{app_metadata:appMetadata});
+  if(linkError)throw Object.assign(new Error('Telegram akkauntini xavfsiz bog‘lab bo‘lmadi.'),{status:503});
   const {error:updateError}=await admin.auth.admin.updateUserById(userId,{password:body.password});
   if(updateError)throw Object.assign(new Error('Parolni yangilab bo‘lmadi. Qayta urinib ko‘ring.'),{status:503});
   await store.finishRegistration(sessionId);completed=true;

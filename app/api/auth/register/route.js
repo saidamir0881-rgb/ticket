@@ -2,6 +2,7 @@ import {z} from 'zod';
 import {checkOrigin,failure} from '@/lib/api';
 import {getTelegramOtpStore} from '@/lib/telegram-otp';
 import {serviceClient} from '@/lib/supabase/service';
+import {encryptTelegramAuthLink} from '@/lib/telegram-auth-link';
 
 export const runtime='nodejs';
 export const dynamic='force-dynamic';
@@ -35,6 +36,12 @@ export async function POST(request){
   if(profileError){
    await admin.auth.admin.deleteUser(userId).catch(()=>{});userId=null;
    throw new Error('Profilni saqlab bo‘lmadi. Qayta urinib ko‘ring.');
+  }
+  const appMetadata={...(data.user.app_metadata||{}),telegram_otp_link:encryptTelegramAuthLink(claim.telegramUserId,claim.chatId)};
+  const {error:telegramError}=await admin.auth.admin.updateUserById(userId,{app_metadata:appMetadata});
+  if(telegramError){
+   await admin.auth.admin.deleteUser(userId).catch(()=>{});userId=null;
+   throw new Error('Telegram akkauntini profilga bog‘lab bo‘lmadi. Qayta urinib ko‘ring.');
   }
   await store.finishRegistration(sessionId);
   return Response.json({created:true,phone:claim.phone},{status:201,headers:{'Cache-Control':'no-store'}});

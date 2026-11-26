@@ -1,11 +1,10 @@
 # UzTicket Telegram OTP
 
-Telefon Telegram bot orqali tasdiqlanadi. Lokal testda OTP sessiyalari process xotirasida saqlanadi; Vercel’da esa mavjud Supabase loyihadagi vaqtinchalik `telegram_otp_sessions` jadvali ishlatiladi. OTP va Start tokenining HMAC-SHA256 xeshi saqlanadi. OTP 5 daqiqada eskiradi. Akkaunt Supabase Auth’da, profil `profiles` jadvalida yoziladi. Yangi database yaratilmaydi.
+Telefon raqami Telegram bot orqali tasdiqlanadi. Lokal testda OTP sessiyasi process xotirasida, Vercel’da esa mavjud Supabase’dagi `telegram_otp_sessions` jadvalida saqlanadi. OTP va Start tokenining HMAC-SHA256 xeshi yoziladi, OTP 5 daqiqada eskiradi. Akkaunt Supabase Auth’da saqlanadi. Telegram chat identifikatori `app_metadata` ichida AES-GCM bilan shifrlanadi; yangi jadval yoki database kerak emas.
 
 ## Sozlash
 
-1. BotFather’da alohida OTP bot yarating. Mavjud yordam botining tokenini ishlatmang.
-2. `.env.local`da quyidagi qiymatlar bo‘lsin. `SUPABASE_SERVICE_ROLE_KEY` server kalitidir; uni GitHub’ga qo‘shmang.
+`.env.local`da quyidagi kalitlar bo‘lsin. `SUPABASE_SERVICE_ROLE_KEY` faqat serverda ishlatiladi, repoga yoki brauzerga qo‘shilmaydi.
 
 ```dotenv
 TELEGRAM_OTP_BOT_TOKEN=BotFather_tokeni
@@ -16,16 +15,20 @@ TELEGRAM_OTP_WEBHOOK_URL=https://sayt-domeni/api/telegram/otp-webhook
 SUPABASE_SERVICE_ROLE_KEY=Supabase_server_kaliti
 ```
 
-Secret’larni takror ishlatmang. Bot username’ni `@` belgisiz yozing.
+Webhook secret va hash secret alohida bo‘lsin. Bot username’ni `@` belgisiz yozing.
 
-## Vercel deploy va ulash
+## Deploy va bot menyusi
 
 1. Supabase SQL Editor’da `supabase/migrations/202611260001_telegram_otp.sql` faylini bir marta ishga tushiring.
-2. Vercel Project → Settings → Environment Variables → Production’da `TELEGRAM_OTP_BOT_TOKEN`, `TELEGRAM_OTP_BOT_USERNAME`, `TELEGRAM_OTP_WEBHOOK_SECRET`, `TELEGRAM_OTP_HASH_SECRET`, `TELEGRAM_OTP_WEBHOOK_URL` va `SUPABASE_SERVICE_ROLE_KEY` kiriting. Webhook URL `https://<sayt-domeni>/api/telegram/otp-webhook` ko‘rinishida bo‘lsin.
-3. Env’lar o‘zgargach Production’ni qayta deploy qiling.
-4. `.env.local`dagi mos qiymatlar va URL tayyor bo‘lgach `npm.cmd run bot:otp:webhook` buyrug‘ini ishga tushiring. Skript bot tokenini tekshiradi, `setWebhook` chaqiradi va natijani tasdiqlaydi. Botda polling ishlatmang.
+2. Vercel Production env’da yuqoridagi Telegram kalitlarini hamda `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY` va `SUPABASE_SERVICE_ROLE_KEY` borligini tekshiring.
+3. `TELEGRAM_OTP_WEBHOOK_URL`ni `https://<sayt-domeni>/api/telegram/otp-webhook` qilib qo‘ying va env o‘zgargach Production’ni qayta deploy qiling.
+4. `.env.local`dagi mos qiymatlar bilan `npm.cmd run bot:otp:webhook`ni ishga tushirib bot webhook’ini ulang.
 
-Lokal HTTPS tunnel bilan sinash mumkin. Tunnel lokal Next.js ilovasining barcha yo‘llarini internetga ochishini yodda tuting.
+Botga `/start account` yuborilganda `Parolni tiklash` va `Ro‘yxatdan o‘tish` tugmalari chiqadi. Kirish sahifasidagi parolni unutish havolasi botni ochadi. Kirish va parol tiklash telefon hamda Telegram OTP orqali ishlaydi, email talab qilinmaydi.
+
+Ro‘yxatdan o‘tishda Telegram chat identifikatori xavfsiz saqlanadi. Keyingi kirishda telefon va parol to‘g‘ri bo‘lsa OTP shu bot chatiga bevosita yuboriladi. Avvaldan ochilgan akkauntlarda bog‘lanish bo‘lmasa, ilk kirishda bot orqali kontaktni bir marta ulash so‘raladi; muvaffaqiyatli tasdiqdan keyin keyingi kodlar avtomatik yuboriladi.
+
+Parol tiklashda raqam Telegram Contact Sharing va OTP bilan tasdiqlangach, yangi parol o‘rnatiladi.
 
 ## Tekshirish
 
@@ -33,7 +36,3 @@ Lokal HTTPS tunnel bilan sinash mumkin. Tunnel lokal Next.js ilovasining barcha 
 npm.cmd run test:telegram-otp
 npm.cmd run lint
 ```
-
-`/register` sahifasida telefonni yuboring, bot havolasini ochib Start bosing, o‘z raqamingizni Contact Sharing orqali ulashing va bot yuborgan kodni kiriting. Keyin ism, familiya va parol bilan akkaunt yarating.
-
-Vercel’da sessiyalar va rate limit mavjud Supabase’da saqlanadi. Jadval RLS bilan yopiq, faqat `service_role` foydalanadi. Lokal testda migration kerak emas; xotira store’i ishlaydi. Supabase Auth’da telefon/parol orqali kirish yoqilgan bo‘lishi lozim.Bot /start account command displays password reset and registration buttons. Password reset verifies the phone using Telegram contact sharing and OTP before setting a new password. Login and password reset do not use email.

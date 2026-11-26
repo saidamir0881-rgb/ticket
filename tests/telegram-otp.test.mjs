@@ -1,6 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {createTelegramOtpStore,handleTelegramOtpUpdate,normalizeUzPhone,verifyTelegramWebhookSecret} from '../lib/telegram-otp.js';
+import {decryptTelegramAuthLink,encryptTelegramAuthLink} from '../lib/telegram-auth-link.js';
 
 const secret='0123456789abcdef0123456789abcdef0123456789abcdef';
 function telegramMock(sent){
@@ -15,6 +16,13 @@ test('Uzbek phone numbers normalize to E.164',()=>{
  assert.equal(normalizeUzPhone('90-123-45-67'),'+998901234567');
  assert.equal(normalizeUzPhone('998901234567'),'+998901234567');
  assert.equal(normalizeUzPhone('12345'),null);
+});
+
+test('Telegram chat links are encrypted and reject tampered values',()=>{
+ const encrypted=encryptTelegramAuthLink(123456,123456,secret);
+ assert.deepEqual(decryptTelegramAuthLink(encrypted,secret),{telegramUserId:123456,chatId:123456});
+ assert.equal(decryptTelegramAuthLink(encrypted,secret+'wrong'),null);
+ assert.equal(decryptTelegramAuthLink(encrypted.slice(0,-2)+'aa',secret),null);
 });
 
 test('Telegram OTP flow accepts only the owner contact and single-use start token',async()=>{
@@ -37,9 +45,9 @@ test('Telegram OTP flow accepts only the owner contact and single-use start toke
  const duplicateContact=await handleTelegramOtpUpdate(store,update({contact:{phone_number:'+998901234567',user_id:777}}),{token:'fake',fetcher});
  assert.equal(duplicateContact.reason,'already_sent');
  assert.deepEqual(store.verifyOtp(session.sessionId,code),{status:'verified'});
- assert.deepEqual(store.claimRegistration(session.sessionId,'+998901234567'),{sessionId:session.sessionId,phone:'+998901234567'});
+ assert.deepEqual(store.claimRegistration(session.sessionId,'+998901234567'),{sessionId:session.sessionId,phone:'+998901234567',telegramUserId:777,chatId:777});
  store.releaseRegistration(session.sessionId);
- assert.deepEqual(store.claimRegistration(session.sessionId,'+998901234567'),{sessionId:session.sessionId,phone:'+998901234567'});
+ assert.deepEqual(store.claimRegistration(session.sessionId,'+998901234567'),{sessionId:session.sessionId,phone:'+998901234567',telegramUserId:777,chatId:777});
  store.finishRegistration(session.sessionId);
  assert.equal(store.getStatus(session.sessionId),null);
 });
@@ -57,10 +65,18 @@ test('verified existing-phone session can be claimed once for password reset',()
  const store=createTelegramOtpStore({secret}),session=store.startSession({phone:'901234567',ip:'reset'});
  store.bindStartToken(session.startToken,123,123);const {otp}=store.acceptContact(123,{phone_number:'+998901234567',user_id:123});
  store.verifyOtp(session.sessionId,otp);
- assert.deepEqual(store.claimPasswordReset(session.sessionId,'+998901234567'),{sessionId:session.sessionId,phone:'+998901234567'});
+ assert.deepEqual(store.claimPasswordReset(session.sessionId,'+998901234567'),{sessionId:session.sessionId,phone:'+998901234567',telegramUserId:123,chatId:123});
  assert.throws(()=>store.claimPasswordReset(session.sessionId,'+998901234567'),{status:403});
  store.releaseRegistration(session.sessionId);
- assert.deepEqual(store.claimPasswordReset(session.sessionId,'+998901234567'),{sessionId:session.sessionId,phone:'+998901234567'});
+ assert.deepEqual(store.claimPasswordReset(session.sessionId,'+998901234567'),{sessionId:session.sessionId,phone:'+998901234567',telegramUserId:123,chatId:123});
+ store.finishRegistration(session.sessionId);assert.equal(store.getStatus(session.sessionId),null);
+});
+
+test('verified OTP exposes the linked Telegram identity only to the server login completion step',()=>{
+ const store=createTelegramOtpStore({secret}),session=store.startSession({phone:'901234567',ip:'login'});
+ store.bindStartToken(session.startToken,456,456);const {otp}=store.acceptContact(456,{phone_number:'+998901234567',user_id:456});
+ store.verifyOtp(session.sessionId,otp);
+ assert.deepEqual(store.claimLoginCompletion(session.sessionId,'+998901234567'),{sessionId:session.sessionId,phone:'+998901234567',telegramUserId:456,chatId:456});
  store.finishRegistration(session.sessionId);assert.equal(store.getStatus(session.sessionId),null);
 });
 
