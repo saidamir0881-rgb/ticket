@@ -3,6 +3,7 @@ import {checkOrigin,failure} from '@/lib/api';
 import {getTelegramOtpStore} from '@/lib/telegram-otp';
 import {serviceClient} from '@/lib/supabase/service';
 import {encryptTelegramAuthLink} from '@/lib/telegram-auth-link';
+import {phoneLoginEmail} from '@/lib/supabase/auth-users';
 
 export const runtime='nodejs';
 export const dynamic='force-dynamic';
@@ -23,7 +24,8 @@ export async function POST(request){
   store=getTelegramOtpStore();sessionId=body.sessionId;
   const claim=await store.claimRegistration(sessionId,body.phone);
   const admin=serviceClient();
-  const {data,error}=await admin.auth.admin.createUser({phone:claim.phone,password:body.password,phone_confirm:true,user_metadata:{full_name:fullName}});
+  const loginEmail=phoneLoginEmail(claim.phone);
+  const {data,error}=await admin.auth.admin.createUser({phone:claim.phone,email:loginEmail,email_confirm:true,password:body.password,phone_confirm:true,user_metadata:{full_name:fullName}});
   if(error){
    const authError=`${error.code||''} ${error.message||''} ${error.details||''}`.toLowerCase();
    if(error.code==='23505'||/phone_exists|user_already_exists|already registered|already exists|phone.{0,30}already|already.{0,30}phone/.test(authError))
@@ -44,7 +46,7 @@ export async function POST(request){
    throw new Error('Telegram akkauntini profilga bog‘lab bo‘lmadi. Qayta urinib ko‘ring.');
   }
   await store.finishRegistration(sessionId);
-  return Response.json({created:true,phone:claim.phone},{status:201,headers:{'Cache-Control':'no-store'}});
+  return Response.json({created:true,phone:claim.phone,loginEmail},{status:201,headers:{'Cache-Control':'no-store'}});
  }catch(error){
   if(store&&sessionId&&!userId)await store.releaseRegistration(sessionId);
   return failure(error);

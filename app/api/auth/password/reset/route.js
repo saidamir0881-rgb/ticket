@@ -2,7 +2,7 @@ import {z} from 'zod';
 import {checkOrigin,failure} from '@/lib/api';
 import {getTelegramOtpStore} from '@/lib/telegram-otp';
 import {serviceClient} from '@/lib/supabase/service';
-import {findVerifiedPhoneUser} from '@/lib/supabase/auth-users';
+import {findVerifiedPhoneUser,phoneLoginEmail} from '@/lib/supabase/auth-users';
 import {encryptTelegramAuthLink} from '@/lib/telegram-auth-link';
 
 export const runtime='nodejs';
@@ -22,7 +22,9 @@ export async function POST(request){
   const appMetadata={...(userData.user.app_metadata||{}),telegram_otp_link:encryptTelegramAuthLink(claim.telegramUserId,claim.chatId)};
   const {error:linkError}=await admin.auth.admin.updateUserById(userId,{app_metadata:appMetadata});
   if(linkError)throw Object.assign(new Error('Telegram akkauntini xavfsiz bog‘lab bo‘lmadi.'),{status:503});
-  const {error:updateError}=await admin.auth.admin.updateUserById(userId,{password:body.password});
+  const update={password:body.password};
+  if(!userData.user.email){update.email=phoneLoginEmail(claim.phone);update.email_confirm=true;}
+  const {error:updateError}=await admin.auth.admin.updateUserById(userId,update);
   if(updateError)throw Object.assign(new Error('Parolni yangilab bo‘lmadi. Qayta urinib ko‘ring.'),{status:503});
   await store.finishRegistration(sessionId);completed=true;
   return Response.json({updated:true},{headers:{'Cache-Control':'no-store'}});

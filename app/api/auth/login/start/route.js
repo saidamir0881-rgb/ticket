@@ -2,7 +2,7 @@ import {z} from 'zod';
 import {checkOrigin,failure} from '@/lib/api';
 import {getTelegramOtpStore,sendTelegramOtpCode} from '@/lib/telegram-otp';
 import {normalizeUzPhone} from '@/lib/phone';
-import {findVerifiedPhoneUser} from '@/lib/supabase/auth-users';
+import {findVerifiedPhoneUser,phoneLoginEmail} from '@/lib/supabase/auth-users';
 import {publicAuthClient,serviceClient} from '@/lib/supabase/service';
 import {decryptTelegramAuthLink} from '@/lib/telegram-auth-link';
 
@@ -28,6 +28,7 @@ export async function POST(request){
      // while the same phone is attached to the account. Keep the UI phone-only,
      // but verify their password against that linked identity as a migration path.
      if((authError||!authData?.user)&&account?.email){const retry=await auth.auth.signInWithPassword({email:account.email,password:body.password});authData=retry.data;authError=retry.error;}
+     if((authError||!authData?.user)&&!account?.email){const loginEmail=phoneLoginEmail(phone);if(loginEmail){const retry=await auth.auth.signInWithPassword({email:loginEmail,password:body.password});authData=retry.data;authError=retry.error;}}
     }
    }catch{}
   }

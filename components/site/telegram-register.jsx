@@ -66,7 +66,7 @@ export default function TelegramRegister(){
   try{
    const response=await fetch('/api/auth/register',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({sessionId,phone:normalizeUzPhone(phone),firstName:fields.firstName,lastName:fields.lastName,password:fields.password})}),data=await response.json();
    if(!response.ok)throw new Error(data.error||'Akkaunt yaratilmadi.');
-   const {error:loginError}=await browserClient().auth.signInWithPassword({phone:data.phone,password:fields.password});
+   const {error:loginError}=await browserClient().auth.signInWithPassword({email:data.loginEmail,password:fields.password});
    if(loginError){setCreated(true);setSuccess('Akkaunt yaratildi. Endi telefon raqamingiz va parolingiz bilan kiring.');return;}
    setCreated(true);setSuccess('Akkaunt yaratildi. Shaxsiy kabinetingiz ochilmoqda...');
    router.replace('/account');router.refresh();
