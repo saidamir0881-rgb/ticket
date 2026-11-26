@@ -61,7 +61,13 @@ export default function Account({profile,email,bookings}) {
   async function cancel(id) {
     if(cancelBusy||!confirm('Band qilishni bekor qilasizmi?'))return;
     setCancelBusy(true);
-    try {const response=await fetch(`/api/bookings/${id}`,{method:'DELETE'});const result=await response.json();if(!response.ok)throw new Error(result.error);setRecords(prev=>prev.map(b=>b.id===id?{...b,status:'cancelled'}:b));toast.success('Band bekor qilindi.');}catch(e){toast.error(e.message);}finally{setCancelBusy(false);}
+    try {
+      const {data,error}=await browserClient().rpc('cancel_booking',{p_booking_id:id});
+      if(error)throw error;
+      if(data?.status!=='cancelled')throw new Error(data?.error||'Bandni bekor qilib bo‘lmadi. Sahifani yangilab, qayta urinib ko‘ring.');
+      setRecords(prev=>prev.map(b=>b.id===id?{...b,status:'cancelled'}:b));
+      toast.success('Band bekor qilindi.');
+    }catch(e){toast.error(e.message||'Bandni bekor qilib bo‘lmadi.');}finally{setCancelBusy(false);}
   }
   async function createHamyonPayment(booking){setCancelBusy(true);try{const r=await fetch('/api/payments/hamyon',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({booking_id:booking.id})});const d=await r.json();if(!r.ok)throw new Error(d.error);router.refresh();toast.success('To‘lov ma’lumotlari tayyor.');}catch(e){toast.error(e.message);}finally{setCancelBusy(false);}}
   async function logout(){const {error}=await browserClient().auth.signOut();if(error)toast.error(error.message);else{router.push('/');router.refresh();}}
