@@ -1,7 +1,33 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { handleSupport } from '../lib/telegram-support.js';
+import { supportAnswer, supportMenu } from '../lib/support-faq.js';
 const message = (id, text, extra = {}) => ({ message: { chat: { type: 'private', id }, from: { id }, message_id: 7, text, ...extra } });
+test('menu questions receive automatic guidance and unclear text asks for clarification', async () => {
+  for (const button of supportMenu.keyboard.flat().slice(0, 4)) assert.ok(supportAnswer(button.text));
+  const state = { adminId: 1, routes: {}, deliveries: {} };
+  const calls = [];
+  const api = async (method, body) => { calls.push({ method, body }); return { message_id: calls.length }; };
+  await handleSupport(message(2, 'Karta orqali to‘lov'), state, api, () => {});
+  assert.match(calls[0].body.text, /10 daqiqalik/);
+  await handleSupport(message(2, 'asdjkl'), state, api, () => {});
+  assert.match(calls[1].body.text, /Gapingizni tushunmadim/);
+  assert.ok(calls.every(c => c.body.chat_id === 2));
+});
+test('explicit handoff and media reach admin; follow-ups survive restart; start resets automation', async () => {
+  let state = { adminId: 1, routes: {}, deliveries: {} };
+  const calls = []; let n = 20;
+  const api = async (method, body) => { calls.push({ method, body }); return { message_id: ++n }; };
+  await handleSupport(message(2, 'Administratorga yozish'), state, api, () => {});
+  state = JSON.parse(JSON.stringify(state));
+  await handleSupport(message(2, 'salom', { message_id: 8 }), state, api, () => {});
+  assert.equal(calls.filter(c => c.method === 'copyMessage').length, 2);
+  await handleSupport(message(2, '/start'), state, api, () => {});
+  await handleSupport(message(2, 'salom'), state, api, () => {});
+  assert.match(calls.at(-1).body.text, /avtomatik yordamchisiman/);
+  await handleSupport(message(3, undefined, { photo: [{ file_id: 'test' }] }), state, api, () => {});
+  assert.equal(calls.filter(c => c.method === 'copyMessage').length, 3);
+});
 test('pins intended admin and rejects username takeover after enrollment', async () => {
   const state = { routes: {}, deliveries: {} };
   const api = async () => ({ message_id: 10 });
@@ -14,7 +40,7 @@ test('routes replies using stored message IDs, including after restart', async (
   let state = { adminId: 1, routes: {}, deliveries: {} };
   const calls = []; let n = 10;
   const api = async (method, body) => { calls.push({ method, body }); return { message_id: ++n }; };
-  await handleSupport(message(2, 'Muammo'), state, api, () => {});
+  await handleSupport(message(2, 'Admin, muammo bor'), state, api, () => {});
   const replyId = Number(Object.keys(state.routes)[1]);
   state = JSON.parse(JSON.stringify(state));
   await handleSupport(message(1, 'Javob', { reply_to_message: { message_id: replyId } }), state, api, () => {});

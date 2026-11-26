@@ -1,9 +1,13 @@
 'use client';
-import { useEffect, useState } from 'react';
+import { Suspense, useState } from 'react';
+import { useSearchParams } from 'next/navigation';
 import { browserClient } from '@/lib/supabase/browser';
 export default function ResetPassword() {
-  const [recovery, setRecovery] = useState(false), [message, setMessage] = useState(''), [error, setError] = useState(''), [busy, setBusy] = useState(false);
-  useEffect(() => { setRecovery(new URLSearchParams(location.search).get('update') === '1'); }, []);
+  return <Suspense fallback={<p role="status">Yuklanmoqda...</p>}><ResetPasswordForm /></Suspense>;
+}
+function ResetPasswordForm() {
+  const recovery = useSearchParams().get('update') === '1';
+  const [message, setMessage] = useState(''), [error, setError] = useState(''), [busy, setBusy] = useState(false);
   async function submit(e) {
     e.preventDefault(); setBusy(true); setError(''); setMessage('');
     try {

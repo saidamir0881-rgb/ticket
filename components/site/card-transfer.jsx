@@ -5,11 +5,11 @@ import {browserClient} from '@/lib/supabase/browser';
 import {money} from '@/lib/format';
 export default function CardTransfer({booking,userId,onClose,onSubmitted}) {
   const dialog=useRef(null),uploaded=useRef(null);
-  const [settings,setSettings]=useState(null),[error,setError]=useState(''),[busy,setBusy]=useState(false),[file,setFile]=useState(null),[copied,setCopied]=useState(''),[preview,setPreview]=useState(''),[confirmed,setConfirmed]=useState(false),[now,setNow]=useState(Date.now());
+  const [settings,setSettings]=useState(null),[error,setError]=useState(''),[busy,setBusy]=useState(false),[file,setFile]=useState(null),[copied,setCopied]=useState(''),[preview,setPreview]=useState(''),[confirmed,setConfirmed]=useState(false),[now,setNow]=useState(Date.now);
   const seconds=Math.max(0,Math.ceil((new Date(booking.expires_at).getTime()-now)/1000));
   useEffect(()=>{dialog.current.showModal();let active=true;fetch('/api/checkout-options',{cache:'no-store'}).then(async r=>{const data=await r.json();if(!r.ok)throw new Error(data.error);if(!data.settings)throw new Error('Qabul qiluvchi karta hali sozlanmagan.');if(active)setSettings(data.settings);}).catch(e=>{if(active)setError(e.message);});const timer=setInterval(()=>setNow(Date.now()),1000);return()=>{active=false;clearInterval(timer);};},[]);
-  useEffect(()=>{if(!file||!file.type.startsWith('image/')){setPreview('');return;}const url=URL.createObjectURL(file);setPreview(url);return()=>URL.revokeObjectURL(url);},[file]);
-  function chooseFile(e){const next=e.target.files?.[0];setError('');uploaded.current=null;if(!next){setFile(null);return;}if(!['image/jpeg','image/png','application/pdf'].includes(next.type)||next.size>5242880){setError('JPG, PNG yoki PDF chek tanlang. Hajmi 5 MB gacha.');setFile(null);e.target.value='';return;}setFile(next);}
+  useEffect(()=>()=>{if(preview)URL.revokeObjectURL(preview);},[preview]);
+  function chooseFile(e){const next=e.target.files?.[0];setPreview('');setError('');uploaded.current=null;if(!next){setFile(null);return;}if(!['image/jpeg','image/png','application/pdf'].includes(next.type)||next.size>5242880){setError('JPG, PNG yoki PDF chek tanlang. Hajmi 5 MB gacha.');setFile(null);e.target.value='';return;}setFile(next);if(next.type.startsWith('image/'))setPreview(URL.createObjectURL(next));}
   async function submit(e){
     e.preventDefault();setError('');
     if(!file||!confirmed||!settings||!seconds||busy)return;

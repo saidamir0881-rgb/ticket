@@ -1,5 +1,5 @@
 'use client';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { bookingStatus, nextRowLabel, tashkentInput, tashkentTimestamp } from '@/lib/admin-format';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
@@ -7,7 +7,7 @@ import { toast } from 'sonner';
 import { Plus, X, Upload, CheckCircle2, ShieldCheck } from 'lucide-react';
 import { browserClient } from '@/lib/supabase/browser';
 import ReceiptReview from './receipt-review';
-import { money, date, time, statusName, categoryName } from '@/lib/format';
+import { money, date, time, statusName } from '@/lib/format';
 async function action(action, id, data) {
   const response=await fetch('/api/admin',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action,id,data})});
   const result=await response.json();
@@ -42,8 +42,10 @@ function VenueForm({record,onDone}) {
 }
 function SeatsEditor({event,onClose}) {
   const [seats,setSeats]=useState([]),[error,setError]=useState(''),[loaded,setLoaded]=useState(false),[busy,setBusy]=useState(false),[row,setRow]=useState('all');
-  async function load(){setError('');try{const{data,error}=await browserClient().from('seats').select('*').eq('event_id',event.id).order('row_order').order('seat_number');if(error)throw error;setSeats(data||[]);setLoaded(true);}catch(e){setError(e.message);}}
-  useEffect(()=>{load();},[event.id]);
+  const load=useCallback(async () => {try{const{data,error}=await browserClient().from('seats').select('*').eq('event_id',event.id).order('row_order').order('seat_number');if(error)throw error;setSeats(data||[]);setLoaded(true);setError('');}catch(e){setError(e.message);}},[event.id]);
+  // Fetching seats on mount synchronizes this editor with the database.
+  // eslint-disable-next-line react-hooks/set-state-in-effect
+  useEffect(()=>{load();},[load]);
   async function save(s){setBusy(true);try{await action('save_seat',s.id,{price:Number(s.price),category:s.category});toast.success('Joy saqlandi.');}catch(e){toast.error(e.message);}finally{setBusy(false);}}
   return <div className="panel admin-form"><div className="admin-section-title"><h2>{event.title} — joylar</h2><button className="icon-button" onClick={onClose} aria-label="Yopish"><X /></button></div>{!loaded&&!error&&<p role="status">Joylar yuklanmoqda...</p>}{error&&<div className="error-message" role="alert">{error}<button className="button button-outline" onClick={load}>Qayta urinish</button></div>}{loaded&&<><label className="field" style={{maxWidth:230}}>Qator bo‘yicha ko‘rish<select value={row} onChange={e=>setRow(e.target.value)}><option value="all">Barcha qatorlar ({seats.length} ta joy)</option>{[...new Set(seats.map(s=>s.row_label))].map(r=><option value={r} key={r}>{r}-qator</option>)}</select></label><div className="table-wrap"><table><thead><tr><th>Qator / joy</th><th>Narx</th><th>Turkum</th><th /></tr></thead><tbody>{seats.filter(s=>row==='all'||s.row_label===row).map(s=><tr key={s.id}><td>{s.row_label} / {s.seat_number}</td><td><input aria-label="Joy narxi" type="number" min={0} value={s.price} onChange={e=>setSeats(seats.map(x=>x.id===s.id?{...x,price:e.target.value}:x))} style={{width:110}} /></td><td><input aria-label="Joy turkumi" value={s.category} maxLength={50} onChange={e=>setSeats(seats.map(x=>x.id===s.id?{...x,category:e.target.value}:x))} style={{width:100}} /></td><td><button className="button button-outline" onClick={()=>save(s)} disabled={busy||s.price===''||!s.category.trim()||!Number.isInteger(Number(s.price))||Number(s.price)<0}>Saqlash</button></td></tr>)}</tbody></table></div></>}<p className="fine-print">Oldingi buyurtmalardagi narxlar o‘zgarmaydi. VIP uchun turkumni “VIP” deb belgilang. Qatorlar yangi tadbir yaratilishidan oldin manzil shablonida sozlanadi.</p></div>;
 }
@@ -58,7 +60,7 @@ export default function AdminWorkspace({section,records,venues,createNew=false})
   function done(){setEditing(null);setSeatEvent(null);router.refresh();}
   async function run(kind,id){if(!confirm(kind==='confirm'?'Naqd pul to‘liq qabul qilindimi? To‘lovni tasdiqlaysizmi?':kind==='cancel'?'Bu bandni bekor qilasizmi?':'O‘chirishni tasdiqlaysizmi? Buyurtmali tadbirlar o‘chirilmaydi.'))return;setBusy(true);try{await action(kind,id);toast.success('Bajarildi.');router.refresh();}catch(e){toast.error(e.message);}finally{setBusy(false);}}
   const titles={events:'Tadbirlar',venues:'Manzillar',bookings:'Buyurtmalar',tickets:'Chiptalar'};
-  const [now,setNow]=useState(Date.now());
+  const [now,setNow]=useState(Date.now);
   useEffect(()=>{const timer=setInterval(()=>setNow(Date.now()),1000);return()=>clearInterval(timer);},[]);
   useEffect(()=>{const timer=setInterval(()=>router.refresh(),30000);return()=>clearInterval(timer);},[router]);
   const displayRecords=section==='bookings'?records.map(r=>({...r,status:bookingStatus(r,now)})):records;

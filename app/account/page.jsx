@@ -9,7 +9,7 @@ export default async function AccountPage() {
   if (!user) redirect('/login');
   let [{ data: profile, error: profileError }, { data: bookings, error }] = await Promise.all([
     db.from('profiles').select('*').eq('id', user.id).single(),
-    db.from('bookings').select('*, event:events(title,starts_at,is_demo,venue:venues(name,address)), items:booking_seats(*,seat:seats(row_label,seat_number)), tickets(*),payments(method,status,review_note),pickup:cash_points(*)').eq('user_id', user.id).order('created_at', { ascending: false }),
+    db.from('bookings').select('*, event:events(title,starts_at,is_demo,venue:venues(name,address)), items:booking_seats(*,seat:seats(row_label,seat_number)), tickets(*),payments(method,status,review_note,hamyon_payment_id,hamyon_amount,hamyon_card),pickup:cash_points(*)').eq('user_id', user.id).order('created_at', { ascending: false }),
   ]);
   if(error&&['PGRST200','PGRST204','PGRST205','42703'].includes(error.code)) {
     const legacy=await db.from('bookings').select('*,event:events(title,starts_at,is_demo,venue:venues(name,address)),items:booking_seats(*,seat:seats(row_label,seat_number)),tickets(*),payments(method,status)').eq('user_id',user.id).order('created_at',{ascending:false});

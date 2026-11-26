@@ -7,12 +7,14 @@ export default async function AdminSection({ params, searchParams }) {
   const { section } = await params;
   if (!['events','venues','bookings','tickets','points'].includes(section)) notFound();
   if(section==='points') {
+    let points,settings,error;
     try {
       const {db}=await authenticatedClient(true);
-      const [points,settings]=await Promise.all([db.from('cash_points').select('*').order('name'),db.from('payment_settings').select('*').eq('id',1).single()]);
+      [points,settings]=await Promise.all([db.from('cash_points').select('*').order('name'),db.from('payment_settings').select('*').eq('id',1).single()]);
       if(points.error||settings.error)throw new Error('Punkt va karta migratsiyalarini o‘rnating.');
-      return <PaymentAdmin points={points.data||[]} settings={settings.data}/>;
-    }catch(e){return <p className="error-message">{e.message}</p>;}
+    }catch(e){error=e;}
+    if(error)return <p className="error-message">{error.message}</p>;
+    return <PaymentAdmin points={points.data||[]} settings={settings.data}/>;
   }
   const query=await searchParams;
   const page=Math.max(1,Math.min(100000,Number.parseInt(query.page || '1',10) || 1));

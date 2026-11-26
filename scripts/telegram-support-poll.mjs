@@ -1,6 +1,8 @@
 import fs from 'node:fs';
 import { telegramApi } from '../lib/telegram-bot.js';
 import { handleSupport } from '../lib/telegram-support.js';
+// Load local credentials when started directly or by a background service.
+if (fs.existsSync('.env.local')) process.loadEnvFile('.env.local');
 const token = process.env.TELEGRAM_SUPPORT_BOT_TOKEN;
 if (!token) throw new Error('TELEGRAM_SUPPORT_BOT_TOKEN kerak.');
 fs.mkdirSync('.sites-runtime', { recursive: true });
@@ -21,5 +23,5 @@ while (true) {
       state.offset = update.update_id + 1;
       save();
     }
-  } catch { console.error('Support: vaqtinchalik xato, qayta uriniladi.'); await new Promise(resolve => setTimeout(resolve, 5000)); }
+  } catch (error) { console.error(new Date().toISOString(), error.message); await new Promise(resolve => setTimeout(resolve, 5000)); }
 }

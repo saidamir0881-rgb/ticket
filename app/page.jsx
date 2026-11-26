@@ -5,7 +5,7 @@ import { date, time } from '@/lib/format';
 import Catalog from '@/components/site/catalog';
 export const dynamic = 'force-dynamic';
 export default async function Home() {
-  const {events,setup}=await listEvents();
+  const {events}=await listEvents();
   const venues=groupVenues(events);
   const hero = events.find(e => e.featured) || events[0];
   return <main><section className="container intro"><div><span className="eyebrow"><span className="live-dot" /> SHAHAR RITMINI HIS QILING</span><h1>Rejalar ko‘p.<br className="mobile-only" /> <span>Xotiralar undan ham ko‘p.</span></h1><p>Sevimli san’atkorlar, katta sahnalar va siz kutgan lahzalar.</p></div><Link className="text-link intro-link" href="/events">Barcha tadbirlar <ArrowUpRight size={20} /></Link></section>

@@ -35,7 +35,7 @@ test('official import preserves history, blocks local inventory and serves priva
  // Repeat application must not duplicate inventory or alter historical tickets.
  await db.exec(await readFile(new URL('../UZTICKET-enable-booking.sql',import.meta.url),'utf8'));
  const counts=(await db.query("select event_id,count(*)::int n,min(price)::int low,max(price)::int high from public.seats where event_id in(select id from public.events where source_name='iTicket.uz') group by event_id")).rows;
- const catalog=JSON.parse(await readFile(new URL('../lib/data/official-events.json',import.meta.url),'utf8'));
+ const catalog=[...JSON.parse(await readFile(new URL('../lib/data/official-events.json',import.meta.url),'utf8')),...JSON.parse(await readFile(new URL('../lib/data/archived-events.json',import.meta.url),'utf8'))];
  assert.equal(counts.length,50);assert.ok(counts.every(r=>{const expected=catalog.find(e=>e.id===r.event_id);return r.n===100&&r.low===expected.min_price&&r.high===expected.max_price;}));
  assert.equal((await db.query("select price::int p from public.seats where event_id=$1 and row_label='1' and seat_number=1",[ext])).rows[0].p,catalog.find(e=>e.id===ext).max_price);
  assert.equal((await db.query("select price::int p from public.seats where event_id=$1 and row_label='10' and seat_number=10",[ext])).rows[0].p,catalog.find(e=>e.id===ext).min_price);

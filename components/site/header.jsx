@@ -6,7 +6,8 @@ import { supportUrl } from '@/lib/support';
 import { browserClient } from '@/lib/supabase/browser';
 export default function Header() {
   const [user, setUser] = useState(null);
-  const [admin, setAdmin] = useState(false);
+  const [adminId, setAdminId] = useState(null);
+  const admin = !!user?.id && adminId === user.id;
   const [open, setOpen] = useState(false);
   useEffect(() => {
     const db = browserClient();
@@ -16,9 +17,8 @@ export default function Header() {
   }, []);
   useEffect(() => {
     let active=true;
-    setAdmin(false);
     if(user?.id) browserClient().from('profiles').select('role').eq('id',user.id).single()
-      .then(({data})=>{if(active)setAdmin(data?.role==='admin');});
+      .then(({data})=>{if(active)setAdminId(data?.role==='admin'?user.id:null);});
     return ()=>{active=false;};
   }, [user?.id]);
   return <><div className="topline"><div className="container"><span>Yaxshi xotiralar bir chiptadan boshlanadi.</span><Link href="/help">Chiptani qanday olaman? <ArrowUpRight size={12} /></Link></div></div>

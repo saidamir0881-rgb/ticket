@@ -1,5 +1,6 @@
 'use client';
 import { useCallback, useEffect, useState } from 'react';
+import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
 import { ArrowRight, RefreshCw } from 'lucide-react';
@@ -11,10 +12,9 @@ export default function SeatPicker({ eventId, startsAt, demo, sport, testPayment
   const instructions=demo?'Bu namuna xaritasi. Buyurtma yaratilmaydi.':'Karta yoki naqd usulini tanlang. Naqd tolov uchun punktda 1 soat ichida tolang.';
   const [seats, setSeats] = useState(demo ? demoSeats : []), [selected, setSelected] = useState([]), [loading, setLoading] = useState(!demo), [busy, setBusy] = useState(false), [error, setError] = useState('');
   const router = useRouter();
-  const [now,setNow]=useState(Date.now()),[priceLimit,setPriceLimit]=useState('all'),[quantity,setQuantity]=useState(2);
+  const [now,setNow]=useState(Date.now),[priceLimit,setPriceLimit]=useState('all'),[quantity,setQuantity]=useState(2);
   const closed=!!startsAt&&new Date(startsAt).getTime()<=now;
   useEffect(()=>{const timer=setInterval(()=>setNow(Date.now()),1000);return()=>clearInterval(timer);},[]);
-  useEffect(()=>{if(closed){setCheckout(false);setSelected([]);}},[closed]);
   const [checkout,setCheckout]=useState(false);
   const load = useCallback(async () => {
     if (demo) return;
@@ -25,6 +25,8 @@ export default function SeatPicker({ eventId, startsAt, demo, sport, testPayment
       setSelected(prev => prev.map(s=>(data||[]).find(d=>d.id===s.id&&d.status==='available')).filter(Boolean));
     } catch(e) { setError(e.message); } finally { setLoading(false); }
   }, [demo, eventId]);
+  // Initial loading and polling synchronize the remote seat inventory.
+  // eslint-disable-next-line react-hooks/set-state-in-effect
   useEffect(() => { load(); const timer = setInterval(load, 3000); const refresh=()=>{if(document.visibilityState==='visible')load();};document.addEventListener('visibilitychange',refresh);return () => {clearInterval(timer);document.removeEventListener('visibilitychange',refresh);}; }, [load]);
   function toggle(seat) { setSelected(prev => prev.some(s => s.id === seat.id) ? prev.filter(s => s.id !== seat.id) : prev.length >= 8 ? (toast.error('Bir buyurtmada ko‘pi bilan 8 ta joy.'), prev) : [...prev, seat]); }
   async function reserve(payment) {
@@ -35,7 +37,11 @@ export default function SeatPicker({ eventId, startsAt, demo, sport, testPayment
       const result = await response.json();
       if (response.status === 401) { router.push('/login'); return; }
       if (!response.ok) throw new Error(result.error);
-      setCheckout(false);toast.success(payment.payment_method==='cash'?'Joylar 1 soatga band qilindi.':'Buyurtma yaratildi. Kartaga o‘tkazib, chek yuboring.');router.push('/account');router.refresh();
+      if(payment.payment_method==='card'){
+        const pay=await fetch('/api/payments/hamyon',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({booking_id:result.id})});
+        const paymentInfo=await pay.json();if(!pay.ok)throw new Error(paymentInfo.error||'Hamyon to‘lovi yaratilmadi.');
+      }
+      setCheckout(false);toast.success(payment.payment_method==='cash'?'Joylar 1 soatga band qilindi.':'To‘lov yaratildi. Karta ma’lumotlari kabinetda ko‘rinadi.');router.push('/account');router.refresh();
     } catch(e) { toast.error(e.message); await load(); } finally { setBusy(false); }
   }
   const affordable=s=>priceLimit==='all'||Number(s.price)<=Number(priceLimit);
@@ -51,6 +57,6 @@ export default function SeatPicker({ eventId, startsAt, demo, sport, testPayment
     setSelected(candidates[0]);
   }
   const rows = [...new Set(seats.map(s => s.row_label))];
-  if(closed)return <div className="notice" role="status"><strong>Bu ko‘rsatuv uchun band qilish yopilgan.</strong><p>Boshlanish vaqti o‘tgan. Ko‘p kunlik tadbirning keyingi seanslari alohida e’lon qilingach, ularni band qilish mumkin bo‘ladi.</p><a className="button button-outline" href="/events">Boshqa tadbirlarni ko‘rish</a></div>;
+  if(closed)return <div className="notice" role="status"><strong>Bu ko‘rsatuv uchun band qilish yopilgan.</strong><p>Boshlanish vaqti o‘tgan. Ko‘p kunlik tadbirning keyingi seanslari alohida e’lon qilingach, ularni band qilish mumkin bo‘ladi.</p><Link className="button button-outline" href="/events">Boshqa tadbirlarni ko‘rish</Link></div>;
   return <>{demo && <p className="notice">Namuna xaritasi: joy tanlashni sinab ko‘rishingiz mumkin, buyurtma yaratilmaydi.</p>}{error && <p role="alert" className="error-message">Joylarni yuklab bo‘lmadi: {error} <button className="icon-button" onClick={load} aria-label="Qayta yuklash"><RefreshCw size={15} /></button></p>}<div className="seat-tools"><label>Narx chegarasi<select value={priceLimit} onChange={e=>{const limit=e.target.value;setPriceLimit(limit);setSelected(prev=>prev.filter(s=>limit==='all'||Number(s.price)<=Number(limit)));}}><option value="all">Barcha narxlar</option>{prices.map(p=><option key={p} value={p}>{money(p)} gacha</option>)}</select></label><label>Yonma-yon joylar<select value={quantity} onChange={e=>setQuantity(Number(e.target.value))}>{[1,2,3,4,5,6,7,8].map(n=><option key={n} value={n}>{n} ta joy</option>)}</select></label><button className="button button-outline" disabled={loading||busy||!seats.length} onClick={selectAdjacent}>Joylarni topish</button><span className="fine-print" role="status">{seats.filter(s=>s.status==='available'&&affordable(s)).length} ta mos bo‘sh joy</span></div><div className="booking-layout"><div className="seatmap" aria-busy={loading}><div className="stage">{sport ? 'FUTBOL MAYDONI' : 'SAHNA'}</div>{loading ? <p className="empty-state">Joylar yuklanmoqda...</p> : !seats.length ? <p className="empty-state">Bu tadbir uchun joylar hali tayyorlanmagan.</p> : rows.map(row => <div className="seat-row" key={row}><span className="row-label">{row}</span>{seats.filter(s => s.row_label === row).sort((a,b) => a.seat_number - b.seat_number).map(s => { const active = selected.some(x => x.id === s.id); return <button key={s.id} className={`seat ${active ? 'selected' : s.status}${!affordable(s)?' over-budget':''}`} title={`${s.category} · ${row}-qator, ${s.seat_number}-joy · ${money(s.price)}`} aria-label={`${row}-qator, ${s.seat_number}-joy, ${money(s.price)}, ${s.status}`} aria-pressed={active} disabled={s.status !== 'available' || busy || !affordable(s)} onClick={() => toggle(s)}>{s.seat_number}</button>; })}<span className="row-label">{row}</span></div>)}<div className="seat-legend"><span><i />Bo‘sh</span><span><i className="selected" />Tanlangan</span><span><i className="reserved" />Band</span><span><i className="sold" />Sotilgan</span></div></div><aside className="panel booking-summary"><h3>Sizning tanlovingiz</h3>{selected.length>0&&<button className="text-link clear-selection" disabled={busy} onClick={()=>setSelected([])}>Tanlovni tozalash</button>}{selected.length ? selected.map(s => <div className="selected-seat" key={s.id}><span>{s.row_label}-qator, {s.seat_number}-joy <button className="remove-seat" disabled={busy} aria-label={`${s.row_label}-qator ${s.seat_number}-joyni olib tashlash`} onClick={()=>toggle(s)}>?</button></span><strong>{money(s.price)}</strong></div>) : <p className="fine-print">Xaritadan bo‘sh joylarni tanlang.</p>}<div className="summary-total"><span>Jami</span><strong>{money(selected.reduce((sum,s) => sum + Number(s.price),0))}</strong></div><button className="button" disabled={demo || !selected.length || busy} onClick={()=>setCheckout(true)}>{busy ? 'Band qilinmoqda...' : demo ? 'Band qilish hozircha yopiq' : 'Band qilish'}<ArrowRight size={16} /></button><p className="fine-print">{instructions}</p></aside></div>{checkout&&<CheckoutChoice onClose={()=>setCheckout(false)} onConfirm={reserve} busy={busy} testMode={testPayment}/>}</>;
 }

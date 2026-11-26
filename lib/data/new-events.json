@@ -1,0 +1,53 @@
+[
+  {
+    "category": "concert",
+    "status": "published",
+    "is_demo": false,
+    "featured": false,
+    "source_name": "iTicket.uz",
+    "source_checked_at": "2026-11-16T00:00:00+05:00",
+    "inventory_mode": "external",
+    "id": "30000000-0000-4000-8000-000000056560",
+    "title": "Lida",
+    "starts_at": "2026-12-10T14:00:00Z",
+    "ends_at": "2026-12-10T16:00:00Z",
+    "min_price": 270000,
+    "max_price": 700000,
+    "age_limit": "16+",
+    "source_url": "https://iticket.uz/en/events/concerts/lida/56560",
+    "poster_url": "https://cdn.iticket.uz/event/poster_square/goBX6z3aZD44H8G5H4MfDa0HHwy53YrwnSCgRmDy.jpg",
+    "description": "Lida konserti. Kirish va boshlanish vaqti tadbir oldidan tashkilotchi tomonidan aniqlashtiriladi.",
+    "venue": {
+      "id": "40000000-0000-4000-8000-000000056560",
+      "name": "VM-BAR",
+      "address": "Sodiq Azimov ko?chasi, 50",
+      "city": "Toshkent"
+    }
+  },
+  {
+    "category": "concert",
+    "status": "published",
+    "is_demo": false,
+    "featured": false,
+    "source_name": "iTicket.uz",
+    "source_checked_at": "2026-11-16T00:00:00+05:00",
+    "inventory_mode": "external",
+    "id": "30000000-0000-4000-8000-000000059093",
+    "title": "?????????? ???????",
+    "starts_at": "2026-12-12T14:00:00Z",
+    "ends_at": "2026-12-12T15:30:00Z",
+    "min_price": 150000,
+    "max_price": null,
+    "age_limit": "5+",
+    "source_url": "https://iticket.uz/events/concerts/novogodnij-koncert2026/59093",
+    "poster_url": "https://cdn.iticket.uz/event/poster_square/2kdSTuVqjMJGhk7Vj225IQM057YLW6zKxmeHK8MV.jpg",
+    "description": "Tynda Music kamer orkestrining yangi yil konserti. Dasturda mashhur bayram kuylarining orkestr ijrosi.",
+    "venue": {
+      "id": "40000000-0000-4000-8000-000000000018",
+      "name": "Дворец Нац. киноискусства Узбекистана (Панорама)",
+      "address": "Ташкент, Ул. Алишер Навоий 15 дом",
+      "city": "Toshkent",
+      "image_url": "https://cdn.iticket.uz/event/poster_wide/KW6E383XYdW95lzp0ypcfRZv4uwZY3jN.png"
+    }
+  }
+]
