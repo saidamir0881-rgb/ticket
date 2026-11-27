@@ -27,7 +27,7 @@ export async function POST(request){
   const {error:updateError}=await admin.auth.admin.updateUserById(userId,update);
   if(updateError)throw Object.assign(new Error('Parolni yangilab bo‘lmadi. Qayta urinib ko‘ring.'),{status:503});
   await store.finishRegistration(sessionId);completed=true;
-  return Response.json({updated:true},{headers:{'Cache-Control':'no-store'}});
+  return Response.json({updated:true,loginEmail:userData.user.email||phoneLoginEmail(claim.phone)},{headers:{'Cache-Control':'no-store'}});
  }catch(error){
   if(store&&sessionId&&!completed)await store.releaseRegistration(sessionId);
   return failure(error);

@@ -29,7 +29,7 @@ export async function POST(request){
   const bound=await store.bindStartToken(session.startToken,link.telegramUserId,link.chatId);
   const issued=bound&&await store.acceptContact(link.telegramUserId,{phone_number:phone,user_id:link.telegramUserId},session.sessionId);
   if(!issued?.ok)throw Object.assign(new Error('Telegram tasdiqlash sessiyasini yaratib bo‘lmadi.'),{status:503});
-  try{await sendTelegramOtpCode(token,link.chatId,issued.otp);}
+  try{await sendTelegramOtpCode(token,link.chatId,issued.otp,fetch,'password_reset');}
   catch(error){await store.finishRegistration(session.sessionId);throw error;}
   return Response.json({sessionId:session.sessionId,status:'otp_sent',expiresAt:issued.expiresAt},{status:201,headers:{'Cache-Control':'no-store'}});
  }catch(error){return failure(error);}

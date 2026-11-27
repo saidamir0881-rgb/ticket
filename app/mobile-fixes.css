@@ -1,0 +1,24 @@
+@media(max-width:600px){
+  html,body{max-width:100%;overflow-x:clip}
+  .telegram-auth-wrap{width:100%;max-width:560px;margin:20px auto 38px;padding-inline:14px}
+  .telegram-auth-wrap>.eyebrow{font-size:9px;letter-spacing:1.2px;line-height:1.5}
+  .telegram-auth-wrap>h1{font-size:clamp(26px,8vw,30px);line-height:1.15;overflow-wrap:anywhere}
+  .telegram-auth-wrap>.lead{font-size:13px;line-height:1.65}
+  .telegram-register-panel{min-width:0;padding:clamp(15px,4.8vw,20px);border-radius:16px}
+  .telegram-register-panel .auth-tabs{gap:8px}
+  .telegram-register-panel .auth-tabs a{min-width:0;padding:12px 4px;font-size:12px;text-align:center}
+  .telegram-register-panel .field,.telegram-register-panel form{min-width:0}
+  .telegram-register-panel .field input{width:100%;min-width:0}
+  .telegram-register-panel .phone-login-control{min-width:0;gap:7px;padding-left:9px}
+  .telegram-register-panel .phone-login-prefix{flex:0 0 auto;gap:5px;font-size:12px}
+  .telegram-register-panel .phone-login-control input{min-width:0;font-size:14px}
+  .telegram-register-panel .button{min-height:46px;padding:12px 14px;white-space:normal;text-align:center}
+  .telegram-register-panel .otp-security-warning{align-items:flex-start;gap:8px;font-size:11px;line-height:1.55}
+  .telegram-register-panel .otp-security-warning svg{flex:0 0 16px;margin-top:1px}
+  .telegram-register-panel .otp-timer{margin-top:0;line-height:1.5}
+}
+@media(max-width:360px){
+  .telegram-auth-wrap{padding-inline:10px}
+  .telegram-register-panel{padding:14px}
+  .telegram-register-panel .auth-tabs a{font-size:11px}
+}

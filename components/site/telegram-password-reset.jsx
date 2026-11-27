@@ -1,7 +1,9 @@
 'use client';
 import {useEffect,useState} from 'react';
 import Link from 'next/link';
+import {useRouter} from 'next/navigation';
 import {AlertTriangle,ArrowRight,CheckCircle2,ExternalLink,MessageCircle,RefreshCw,ShieldCheck} from 'lucide-react';
+import {browserClient} from '@/lib/supabase/browser';
 
 const formatTime=s=>`${Math.floor(s/60)}:${String(s%60).padStart(2,'0')}`;
 function formatPhoneInput(value){
@@ -9,6 +11,7 @@ function formatPhoneInput(value){
  return [digits.slice(0,2),digits.slice(2,5),digits.slice(5,7),digits.slice(7,9)].filter(Boolean).join(' ');
 }
 export default function TelegramPasswordReset(){
+ const router=useRouter();
  const [phone,setPhone]=useState(''),[sessionId,setSessionId]=useState(''),[telegramUrl,setTelegramUrl]=useState(''),[expiresAt,setExpiresAt]=useState(0),[now,setNow]=useState(0);
  const [step,setStep]=useState('phone'),[code,setCode]=useState(''),[busy,setBusy]=useState(false),[error,setError]=useState(''),[success,setSuccess]=useState('');
  const remaining=expiresAt?Math.max(0,Math.ceil((expiresAt-now)/1000)):0,expired=step==='otp'&&remaining===0;
@@ -44,7 +47,7 @@ export default function TelegramPasswordReset(){
  async function reset(e){
   e.preventDefault();setBusy(true);setError('');setSuccess('');const fields=Object.fromEntries(new FormData(e.currentTarget));
   if(fields.password!==fields.passwordConfirm){setError('Parollar bir xil emas.');setBusy(false);return;}
-  try{const response=await fetch('/api/auth/password/reset',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({sessionId,phone,password:fields.password})}),data=await response.json();if(!response.ok)throw new Error(data.error||'Parolni yangilab bo‘lmadi.');if(!data.updated)throw new Error('Parol yangilanmadi.');setStep('done');setSuccess('Parolingiz yangilandi. Endi yangi parol bilan kiring.');}
+  try{const response=await fetch('/api/auth/password/reset',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({sessionId,phone,password:fields.password})}),data=await response.json();if(!response.ok)throw new Error(data.error||'Parolni yangilab bo‘lmadi.');if(!data.updated)throw new Error('Parol yangilanmadi.');const {error:loginError}=await browserClient().auth.signInWithPassword({email:data.loginEmail,password:fields.password});if(loginError){setStep('done');setSuccess('Parol yangilandi. Avtomatik kirish bo‘lmadi — yangi parol bilan qayta kiring.');return;}router.replace('/account');router.refresh();}
   catch(e){setError(e.message);}finally{setBusy(false);}
  }
  const canResend=step==='telegram'||(step==='otp'&&(expired||error.includes('Urinishlar tugadi')));
