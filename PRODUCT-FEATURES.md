@@ -2,7 +2,7 @@
 
 ## Database setup
 
-Apply `supabase/migrations/202611270001_product_features.sql` in the Supabase SQL Editor after the existing migrations. It adds account favorites and notification preferences, promo codes, referral tracking, refund requests, and organization membership. Apply it before deploying the code, or the feature endpoints will return a schema error.
+Apply `supabase/migrations/202611270001_product_features.sql` and then `supabase/migrations/202611270002_referral_summary.sql` in the Supabase SQL Editor after the existing migrations. The first adds account favorites and notification preferences, promo codes, referral tracking, refund requests, and organization membership. The second adds the RLS-safe referral count function. Apply both before deploying the code, or the feature endpoints will return a schema error.
 
 ## Telegram reminders
 

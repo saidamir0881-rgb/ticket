@@ -169,6 +169,7 @@ test('cash checkout holds one hour; receipts require admin review and allow 24 h
   await owner();
   for(const name of ['202611030004_checkout_points.sql','202611030005_card_receipt_review.sql'])await db.exec(await readFile(new URL('../supabase/migrations/'+name,import.meta.url),'utf8'));
   await db.exec(await readFile(new URL('../supabase/migrations/202611270001_product_features.sql',import.meta.url),'utf8'));
+  await db.exec(await readFile(new URL('../supabase/migrations/202611270002_referral_summary.sql',import.meta.url),'utf8'));
   const customer='00000000-0000-4000-8000-000000000004';
   assert.equal((await db.query('select count(*)::int n from public.cash_points')).rows[0].n,30);
   assert.equal((await db.query('select count(*)::int n from public.cash_points where is_active')).rows[0].n,0);
@@ -237,6 +238,10 @@ test('product features migration supports protected promo redemption and refund 
   const featureEvent=await rpc('create_event_with_seats',[{title:'Feature event',venue_id:venue,category:'concert',starts_at:'2099-12-12T19:00:00+05:00',status:'published'}]);
   const featureSeats=(await db.query('select id from public.seats where event_id=$1 order by seat_number',[featureEvent])).rows.map(r=>r.id);
   await owner();await db.query("insert into public.promo_codes(code,discount_type,discount_value) values('TEST10','percent',10)");
+  await db.query("insert into public.referrals(user_id,code) values($1,'ALICE01')",[alice]);
+  await db.query("insert into public.referrals(user_id,code,referred_by) values($1,'BOB0001',$2)",[bob,alice]);
+  await asUser(alice);assert.equal(await rpc('count_my_referrals'),1);
+  await asUser(bob);assert.equal(await rpc('count_my_referrals'),0);
   await asUser(alice);
   const discounted=await rpc('reserve_checkout',[featureEvent,[featureSeats[0]],'card',null]);
   const applied=await rpc('apply_booking_promo',[discounted.id,'TEST10']);
