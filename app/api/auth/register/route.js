@@ -1,4 +1,5 @@
 import {z} from 'zod';
+import {randomBytes} from 'node:crypto';
 import {checkOrigin,failure} from '@/lib/api';
 import {getTelegramOtpStore} from '@/lib/telegram-otp';
 import {serviceClient} from '@/lib/supabase/service';
@@ -18,6 +19,7 @@ export async function POST(request){
    firstName:z.string().trim().min(1,'Ismni kiriting.').max(50),
    lastName:z.string().trim().min(1,'Familiyani kiriting.').max(50),
    password:z.string().min(8,'Parol kamida 8 belgidan iborat bo‘lsin.').max(72,'Parol 72 belgidan oshmasin.'),
+   referralCode:z.string().trim().max(16).optional().nullable(),
   }).parse(await request.json());
   const fullName=`${body.firstName} ${body.lastName}`.trim();
   if(fullName.length>100)throw Object.assign(new Error('Ism va familiya jami 100 belgidan oshmasin.'),{status:400});
@@ -45,6 +47,11 @@ export async function POST(request){
    await admin.auth.admin.deleteUser(userId).catch(()=>{});userId=null;
    throw new Error('Telegram akkauntini profilga bog‘lab bo‘lmadi. Qayta urinib ko‘ring.');
   }
+  try{
+   const {data:inviter}=body.referralCode?await admin.from('referrals').select('user_id').eq('code',body.referralCode.toUpperCase()).maybeSingle():{data:null};
+   const {error:referralError}=await admin.from('referrals').insert({user_id:userId,code:randomBytes(5).toString('hex').toUpperCase(),referred_by:inviter?.user_id&&inviter.user_id!==userId?inviter.user_id:null});
+   if(referralError&&referralError.code!=='42P01'&&referralError.code!=='PGRST205')throw referralError;
+  }catch(error){if(!['42P01','PGRST205'].includes(error.code)){await admin.auth.admin.deleteUser(userId).catch(()=>{});userId=null;throw new Error('Referral ma’lumotini saqlab bo‘lmadi.');}}
   await store.finishRegistration(sessionId);
   return Response.json({created:true,phone:claim.phone,loginEmail},{status:201,headers:{'Cache-Control':'no-store'}});
  }catch(error){

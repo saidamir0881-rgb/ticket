@@ -64,7 +64,8 @@ export default function TelegramRegister(){
   const fields=Object.fromEntries(new FormData(e.currentTarget));
   if(fields.password!==fields.passwordConfirm){setError('Parollar bir xil emas.');setBusy(false);return;}
   try{
-   const response=await fetch('/api/auth/register',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({sessionId,phone:normalizeUzPhone(phone),firstName:fields.firstName,lastName:fields.lastName,password:fields.password})}),data=await response.json();
+   const referralCode=typeof window!=='undefined'?new URLSearchParams(window.location.search).get('ref'):null;
+   const response=await fetch('/api/auth/register',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({sessionId,phone:normalizeUzPhone(phone),firstName:fields.firstName,lastName:fields.lastName,password:fields.password,referralCode})}),data=await response.json();
    if(!response.ok)throw new Error(data.error||'Akkaunt yaratilmadi.');
    const {error:loginError}=await browserClient().auth.signInWithPassword({email:data.loginEmail,password:fields.password});
    if(loginError){setCreated(true);setSuccess('Akkaunt yaratildi. Endi telefon raqamingiz va parolingiz bilan kiring.');return;}

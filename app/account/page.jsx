@@ -1,6 +1,8 @@
 import { redirect } from 'next/navigation';
 import { serverClient } from '@/lib/supabase/server';
 import Account from '@/components/site/account';
+import AccountFeatures from '@/components/site/account-features';
+import RefundRequests from '@/components/site/refund-requests';
 export const dynamic = 'force-dynamic';
 export const metadata = { title: 'Shaxsiy kabinet' };
 export default async function AccountPage() {
@@ -15,5 +17,6 @@ export default async function AccountPage() {
     const legacy=await db.from('bookings').select('*,event:events(title,starts_at,is_demo,venue:venues(name,address)),items:booking_seats(*,seat:seats(row_label,seat_number)),tickets(*),payments(method,status)').eq('user_id',user.id).order('created_at',{ascending:false});
     bookings=legacy.data;error=legacy.error;
   }
-  return <main className="container page-space"><div className="account-heading"><div><span className="eyebrow">REJALARINGIZ SHU YERDA</span><h1>Salom, {profile?.full_name?.split(' ')[0] || 'do‘st'}<span className="purple">.</span></h1><p className="lead">Siz kutgan lahzalarga bir qadam yaqinroq.</p></div></div>{(error || profileError) && <p role="alert" className="error-message">Ma’lumotlarni yuklab bo‘lmadi. Supabase migratsiyalari o‘rnatilganini tekshiring. {error?.message || profileError?.message}</p>}<Account profile={profile || { id: user.id, full_name: '', phone: '' }} email={user.email} bookings={bookings || []} /></main>;
+  const {data:refunds}=await db.from('refund_requests').select('id,booking_id,status,admin_note').eq('user_id',user.id);
+  return <main className="container page-space"><div className="account-heading"><div><span className="eyebrow">REJALARINGIZ SHU YERDA</span><h1>Salom, {profile?.full_name?.split(' ')[0] || 'do‘st'}<span className="purple">.</span></h1><p className="lead">Siz kutgan lahzalarga bir qadam yaqinroq.</p></div></div>{(error || profileError) && <p role="alert" className="error-message">Ma’lumotlarni yuklab bo‘lmadi. Supabase migratsiyalari o‘rnatilganini tekshiring. {error?.message || profileError?.message}</p>}<AccountFeatures/><Account profile={profile || { id: user.id, full_name: '', phone: '',role:'customer' }} email={user.email} bookings={bookings || []} refunds={refunds||[]} /><RefundRequests bookings={bookings||[]} refunds={refunds||[]}/></main>;
 }

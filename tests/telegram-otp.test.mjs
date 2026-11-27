@@ -41,7 +41,8 @@ test('Telegram OTP flow accepts only the owner contact and single-use start toke
  const accepted=await handleTelegramOtpUpdate(store,update({contact:{phone_number:'+998901234567',user_id:777}}),{token:'fake',fetcher});
  assert.equal(accepted.accepted,true);
  assert.equal(store.getStatus(session.sessionId).status,'otp_sent');
- const code=sent.at(-1).body.text.match(/\n\n(\d{6})\n\n/)[1];
+ const code=sent.at(-1).body.reply_markup.inline_keyboard[0][0].copy_text.text;
+ assert.match(code,/^\d{6}$/);
  const duplicateContact=await handleTelegramOtpUpdate(store,update({contact:{phone_number:'+998901234567',user_id:777}}),{token:'fake',fetcher});
  assert.equal(duplicateContact.reason,'already_sent');
  assert.deepEqual(store.verifyOtp(session.sessionId,code),{status:'verified'});

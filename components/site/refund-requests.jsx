@@ -1,0 +1,7 @@
+'use client';
+import {useState} from 'react';
+import {toast} from 'sonner';
+import {RefreshCw} from 'lucide-react';
+
+export default function RefundRequests({bookings,refunds=[]}){const[busy,setBusy]=useState(''),[items,setItems]=useState(refunds);const paid=bookings.filter(item=>item.status==='paid'&&!item.event?.is_demo&&!items.some(ref=>ref.booking_id===item.id));if(!paid.length&&!items.length)return null;async function requestRefund(booking){const reason=prompt('Refund so‘rovining sababini yozing (kamida 5 belgi):');if(!reason)return;setBusy(booking.id);try{const r=await fetch('/api/bookings/refund',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({booking_id:booking.id,reason})}),d=await r.json();if(!r.ok)throw new Error(d.error);setItems(prev=>[{id:d.id,booking_id:booking.id,status:d.status},...prev]);toast.success('Refund so‘rovi yuborildi. Admin ko‘rib chiqadi.');}catch(e){toast.error(e.message);}finally{setBusy('');}}
+ return <section className="refund-request-list"><h2>Refund so‘rovlari</h2>{items.map(item=><article className="notice" key={item.id}>Buyurtma {bookings.find(b=>b.id===item.booking_id)?.reference||''} · Holati: {item.status}{item.admin_note?` · ${item.admin_note}`:''}</article>)}{paid.map(booking=><article className="refund-request-item" key={booking.id}><span>{booking.reference} · {booking.event?.title}</span><button className="button button-outline button-small" disabled={!!busy} onClick={()=>requestRefund(booking)}><RefreshCw size={14}/>Refund so‘rash</button></article>)}</section>;}

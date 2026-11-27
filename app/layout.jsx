@@ -11,6 +11,7 @@ import './payment-decisions.css';
 import './telegram-auth.css';
 import './dark-theme.css';
 import './mobile-fixes.css';
+import './product-features.css';
 import 'leaflet/dist/leaflet.css';
 import { Toaster } from 'sonner';
 import Header from '@/components/site/header';

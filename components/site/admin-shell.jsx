@@ -1,7 +1,7 @@
 'use client';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
-import { LayoutDashboard, CalendarDays, MapPin, ShoppingBag, ScanLine, ArrowUpRight, ShieldCheck, LogOut } from 'lucide-react';
+import { LayoutDashboard, CalendarDays, MapPin, ShoppingBag, ScanLine, ArrowUpRight, ShieldCheck, LogOut, RefreshCw, TicketPercent, Building2 } from 'lucide-react';
 import { toast } from 'sonner';
 import { browserClient } from '@/lib/supabase/browser';
 const links = [
@@ -11,6 +11,9 @@ const links = [
   ['/admin/bookings','Buyurtmalar',ShoppingBag],
   ['/admin/tickets','Chiptalar va QR',ScanLine],
   ['/admin/points','Punktlar va karta',MapPin],
+  ['/admin/refunds','Refund so‘rovlari',RefreshCw],
+  ['/admin/promos','Promokodlar',TicketPercent],
+  ['/admin/organizers','Tashkilotchilar',Building2],
 ];
 export default function AdminShell({ children, name, email }) {
   const path = usePathname(), router = useRouter();

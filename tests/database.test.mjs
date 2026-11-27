@@ -168,6 +168,7 @@ test('demo payment is owner-only, atomic, idempotent, and excluded from real rev
 test('cash checkout holds one hour; receipts require admin review and allow 24 hours',async()=>{
   await owner();
   for(const name of ['202611030004_checkout_points.sql','202611030005_card_receipt_review.sql'])await db.exec(await readFile(new URL('../supabase/migrations/'+name,import.meta.url),'utf8'));
+  await db.exec(await readFile(new URL('../supabase/migrations/202611270001_product_features.sql',import.meta.url),'utf8'));
   const customer='00000000-0000-4000-8000-000000000004';
   assert.equal((await db.query('select count(*)::int n from public.cash_points')).rows[0].n,30);
   assert.equal((await db.query('select count(*)::int n from public.cash_points where is_active')).rows[0].n,0);
@@ -227,4 +228,25 @@ test('cash checkout holds one hour; receipts require admin review and allow 24 h
   const nextBuyer=await rpc('reserve_checkout',[event,[seats[5]],'cash',point]);
   assert.ok(nextBuyer.id);assert.notEqual(nextBuyer.id,cashExpired.id);
   await asUser(customer);assert.equal((await db.query('select status from public.bookings where id=$1',[cashExpired.id])).rows[0].status,'expired');
+});
+
+test('product features migration supports protected promo redemption and refund requests',async()=>{
+  await owner();
+  const venue=(await db.query(`insert into public.venues(name,address,layout) values('Feature Hall','Test address','[{"label":"A","count":4,"price":100000,"category":"Standard"}]') returning id`)).rows[0].id;
+  await asUser(admin);
+  const featureEvent=await rpc('create_event_with_seats',[{title:'Feature event',venue_id:venue,category:'concert',starts_at:'2099-12-12T19:00:00+05:00',status:'published'}]);
+  const featureSeats=(await db.query('select id from public.seats where event_id=$1 order by seat_number',[featureEvent])).rows.map(r=>r.id);
+  await owner();await db.query("insert into public.promo_codes(code,discount_type,discount_value) values('TEST10','percent',10)");
+  await asUser(alice);
+  const discounted=await rpc('reserve_checkout',[featureEvent,[featureSeats[0]],'card',null]);
+  const applied=await rpc('apply_booking_promo',[discounted.id,'TEST10']);
+  assert.equal(Number(applied.total),90000);
+  assert.equal(Number((await db.query('select total from public.bookings where id=$1',[discounted.id])).rows[0].total),90000);
+  await assert.rejects(rpc('apply_booking_promo',[discounted.id,'TEST10']),/avval/);
+  const point=(await db.query('select id from public.cash_points where is_active limit 1')).rows[0].id;
+  const refundable=await rpc('reserve_checkout',[featureEvent,[featureSeats[1]],'cash',point]);
+  await asUser(admin);assert.equal((await rpc('confirm_cash_payment',[refundable.id])).status,'paid');
+  await asUser(alice);const refund=await rpc('request_booking_refund',[refundable.id,'Tadbirga bora olmayman']);
+  assert.equal(refund.status,'pending');
+  assert.equal((await db.query('select status from public.refund_requests where id=$1',[refund.id])).rows[0].status,'pending');
 });

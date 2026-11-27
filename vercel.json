@@ -4,6 +4,9 @@
   "buildCommand": "npm run build:next",
   "installCommand": "npm ci",
   "outputDirectory": ".next",
+  "crons": [
+    { "path": "/api/cron/event-reminders", "schedule": "0 3 * * *" }
+  ],
   "headers": [
     {
       "source": "/downloads/UZTICKET.apk",
